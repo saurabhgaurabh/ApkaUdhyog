@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import NavigationStrings from '../constants/NavigationStrings';
 import Login from '../screens/Login/Login';
 import TabRoutes from './TabRoutes';
+import Registration from '../screens/Registration/Registration';
 
 const splashRoutes = () => {
 
@@ -11,7 +12,8 @@ const splashRoutes = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="Registration">
+        <Stack.Screen name="Registration" component={Registration} options={{ headerShown: false }} />
         <Stack.Screen name={NavigationStrings.LOGIN} component={Login} options={{ headerShown: false }} />
         <Stack.Screen name={NavigationStrings.TABROUTES} component={TabRoutes} options={{ headerShown: true }} />
       </Stack.Navigator>

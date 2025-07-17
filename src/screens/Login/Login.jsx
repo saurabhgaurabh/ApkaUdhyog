@@ -8,7 +8,7 @@ const Login = () => {
     return (
         <View>
             <Text>Login</Text>
-            <Button title="go to tab bar" onPress={() => navigation.navigate('TabRoutes')} />
+            
         </View>
     )
 }
