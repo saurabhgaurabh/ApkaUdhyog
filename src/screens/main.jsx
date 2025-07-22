@@ -1,13 +1,15 @@
-import react from 'react';
-import { View, Text, StyleSheet, Platform, StatusBar } from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import React from 'react';
+import { View } from 'react-native';
 import SplashRoutes from '../navigation/SplashRoutes';
+import ErrorBoundary from '../components/ErrorBoundary';
 
 function MainComponent() {
     return (
-        <View style={{ flex: 1 }}>
-            <SplashRoutes />
-        </View>
+        <ErrorBoundary>
+            <View style={{ flex: 1 }}>
+                <SplashRoutes />
+            </View>
+        </ErrorBoundary>
     );
 }
 

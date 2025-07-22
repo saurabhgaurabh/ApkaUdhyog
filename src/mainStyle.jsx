@@ -1,11 +1,11 @@
-import { StyleSheet } from "react-native";
+import { StatusBar, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     loginContainer: {
     flex: 1,
     padding: 24,
     justifyContent: 'center',
-    backgroundColor: '#f2f2f2',
+    backgroundColor: 'transparent',
   },
   loginHeading: {
     fontSize: 28,
@@ -23,7 +23,17 @@ const styles = StyleSheet.create({
   },
   LoginButton: {
     marginVertical: 10,
+    backgroundColor: '#4d67a1ff',
+    paddingVertical: 12,
+    borderRadius: 5,
+    borderWidth: 1,
   },
+  LoginButtonText: {
+  color: '#fff',
+  fontSize: 16,
+  fontWeight: 'bold',
+  textAlign: 'center'
+},
   LoginGoogleButton: {
     borderColor: '#db4437',
     marginTop: 10,
@@ -42,6 +52,18 @@ const styles = StyleSheet.create({
     color: '#2e6ef7',
     fontWeight: '600',
   },
+  scrollContainer: {
+    flexGrow: 1,
+    paddingTop: StatusBar.currentHeight || 40,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
+    backgroundColor: '#fff' // Or use from your MainStyle
+  },
+  GradientText: {
+    fontSize : 30,
+    color: '#fff'
+
+  }
 })
 
 export default styles;
