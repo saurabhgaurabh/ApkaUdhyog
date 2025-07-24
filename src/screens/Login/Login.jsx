@@ -7,29 +7,29 @@ import { ServerUrl } from '../../services/ServerUrl';
 
 const Login = () => {
   const navigation = useNavigation();
-  const [state, setState] = useState({ registration_email: "", password: "" });
-  const handleEmail = (text) => { setState({ ...state, registration_email: text }); };
+  const [state, setState] = useState({ email: "", password: "" });
+  const handleEmail = (text) => { setState({ ...state, email: text }); };
   const handlePassword = (text) => { setState({ ...state, password: text }); };
-  const hasEmailError = () => !state.registration_email.includes('@') && state.registration_email.length > 0;
+  const hasEmailError = () => !state.email.includes('@') && state.email.length > 0;
   const hasPasswordError = () => state.password.length > 0 && state.password.length < 6;
 
   const handleLogin = async () => {
     console.log("object ------")
-    const { registration_email, password } = state;
-    console.log(registration_email, password, 'registration_email, password')
-    if (!registration_email || !password) {
+    const { email, password } = state;
+    console.log(email, password, 'email, password')
+    if (!email || !password) {
       Alert.alert('Validation Error', 'Please enter email and password');
       return;
     }
     try {
       console.log('Sending request to API...');
-      let response = await fetch(`${ServerUrl()}v1/user-login`, {
+      let response = await fetch(`https://ce5b4bd87000.ngrok-free.app/api/users/v1/user-login`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ registration_email, password }),
+        body: JSON.stringify({ email, password }),
       });
       console.log('Response status:', response);
       const data = await response.json();
@@ -71,7 +71,7 @@ const Login = () => {
         <TextInput
           label="Email"
           placeholder='Enter Your Email'
-          value={state.registration_email} // Fixed: was state.email
+          value={state.email}
           onChangeText={handleEmail}
           mode="outlined"
           keyboardType="email-address"
@@ -89,8 +89,8 @@ const Login = () => {
           value={state.password}
           onChangeText={handlePassword}
           mode="outlined"
-          secureTextEntry={false} // Fixed: uncommented
-          keyboardType='default' // Fixed: was numeric
+          secureTextEntry={false}
+          keyboardType='default'
           returnKeyLabel='next'
           style={styles.loginInput}
         />

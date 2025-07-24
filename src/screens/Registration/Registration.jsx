@@ -1,40 +1,3 @@
-// import { View, Text, ScrollView, StatusBar } from 'react-native'
-// import React from 'react'
-// import styles from '../../MainStyle'
-// import MaskedView from '@react-native-masked-view/masked-view';
-// import LinearGradient from 'react-native-linear-gradient';
-
-
-// const GradientText = ({ text }) =>{
-//   return (
-//       <LinearGradient
-//         colors={['#56ab2f', '#a8e063']} // Replace with your gradient colors
-//         start={{ x: 0, y: 0 }}
-//         end={{ x: 1, y: 0 }}
-//       >
-//         <Text style={[styles.GradientText]}>{text}</Text>
-//       </LinearGradient>
-//   )
-// }
-// const Registration = () => {
-//   return (
-//     <>
-//       <StatusBar translucent backgroundColor="transparent" />
-//       <ScrollView
-//         contentContainerStyle={styles.scrollContainer}
-//         showsVerticalScrollIndicator={false}
-//         keyboardShouldPersistTaps="handled"
-//       >
-//         <View style={{ flex: 1, paddingVertical: 0, width: '100%', backgroundColor: '#4c612cff'}}>
-          
-//         </View>
-//       </ScrollView>
-//     </>
-//   )
-// }
-
-// export default Registration
-
 import React, { useState } from 'react';
 import {
   View,
@@ -48,19 +11,96 @@ import {
   SafeAreaView,
   Platform,
 } from 'react-native';
+import { ServerUrl } from '../../services/ServerUrl';
 
 const RegistrationScreen = () => {
   const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
+    company_name: '',
+    owner_name: '',
+    industry_type: '',
+    GST_number: '',
+    registration_email: '',
+    mobile_number: '',
     password: '',
-    confirmPassword: '',
+    confirm_password: '',
+    country: '',
+    state: '',
+    city: '',
+    address: '',
+    postal_code: '',
+    website: '',
   });
 
   const handleChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  const handleRegister = async () => {
+    const {
+      company_name,
+      owner_name,
+      industry_type,
+      GST_number,
+      registration_email,
+      mobile_number,
+      password,
+      confirm_password,
+      country,
+      state,
+      city,
+      address,
+      postal_code,
+      website,
+    } = formData;
+
+    if (
+      !company_name ||
+      !owner_name ||
+      !industry_type ||
+      !GST_number ||
+      !registration_email ||
+      !mobile_number ||
+      !password ||
+      !confirm_password ||
+      !country ||
+      !state ||
+      !city ||
+      !address ||
+      !postal_code ||
+      !website
+    ) {
+      Alert.alert('Validation Error', 'All fields are required');
+      return;
+    }
+
+    if (password !== confirm_password) {
+      Alert.alert('Error', 'Passwords do not match');
+      return;
+    }
+
+    try {
+      const response = await fetch(`https://ce5b4bd87000.ngrok-free.app/api/users/v1/motion-user-registration`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+      console.log('API response:', data);
+
+      if (data.status) {
+        Alert.alert('Success', data.message);
+        // navigate or clear form
+      } else {
+        Alert.alert('Error', data.message || 'Registration failed');
+      }
+    } catch (error) {
+      console.log('Fetch error:', error.message);
+      Alert.alert('Error', 'Something went wrong. Try again.');
+    }
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -74,9 +114,30 @@ const RegistrationScreen = () => {
 
         <TextInput
           style={styles.input}
-          placeholder="Full Name"
-          value={formData.fullName}
-          onChangeText={(text) => handleChange('fullName', text)}
+          placeholder="Company Name"
+          value={formData.company_name}
+          onChangeText={(text) => handleChange('company_name', text)}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Owner Name"
+          value={formData.owner_name}
+          onChangeText={(text) => handleChange('owner_name', text)}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Industry Type"
+          value={formData.industry_type}
+          onChangeText={(text) => handleChange('industry_type', text)}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="GST Number"
+          value={formData.GST_number}
+          onChangeText={(text) => handleChange('GST_number', text)}
         />
 
         <TextInput
@@ -84,14 +145,22 @@ const RegistrationScreen = () => {
           placeholder="Email"
           keyboardType="email-address"
           autoCapitalize="none"
-          value={formData.email}
-          onChangeText={(text) => handleChange('email', text)}
+          value={formData.registration_email}
+          onChangeText={(text) => handleChange('registration_email', text)}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Mobile Number"
+          keyboardType="phone-pad"
+          value={formData.mobile_number}
+          onChangeText={(text) => handleChange('mobile_number', text)}
         />
 
         <TextInput
           style={styles.input}
           placeholder="Password"
-          secureTextEntry
+          secureTextEntry={true}
           value={formData.password}
           onChangeText={(text) => handleChange('password', text)}
         />
@@ -99,12 +168,54 @@ const RegistrationScreen = () => {
         <TextInput
           style={styles.input}
           placeholder="Confirm Password"
-          secureTextEntry
-          value={formData.confirmPassword}
-          onChangeText={(text) => handleChange('confirmPassword', text)}
+          secureTextEntry={true}
+          value={formData.confirm_password}
+          onChangeText={(text) => handleChange('confirm_password', text)}
         />
 
-        <TouchableOpacity style={styles.button} onPress={{}}>
+        <TextInput
+          style={styles.input}
+          placeholder="Country"
+          value={formData.country}
+          onChangeText={(text) => handleChange('country', text)}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="State"
+          value={formData.state}
+          onChangeText={(text) => handleChange('state', text)}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="City"
+          value={formData.city}
+          onChangeText={(text) => handleChange('city', text)}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Address"
+          value={formData.address}
+          onChangeText={(text) => handleChange('address', text)}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Postal Code"
+          value={formData.postal_code}
+          onChangeText={(text) => handleChange('postal_code', text)}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Website"
+          value={formData.website}
+          onChangeText={(text) => handleChange('website', text)}
+        />
+
+        <TouchableOpacity style={styles.button} onPress={handleRegister}>
           <Text style={styles.buttonText}>Register</Text>
         </TouchableOpacity>
       </ScrollView>
@@ -153,6 +264,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
-
 
 export default RegistrationScreen;
