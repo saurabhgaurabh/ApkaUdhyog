@@ -79,7 +79,10 @@ const RegistrationScreen = () => {
     }
 
     try {
-      const response = await fetch(`https://ce5b4bd87000.ngrok-free.app/api/users/v1/motion-user-registration`, {
+      const baseUrl = ServerUrl();
+      const apiUrl = baseUrl + 'api/users/v1/motion-user-registration';
+
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -87,7 +90,17 @@ const RegistrationScreen = () => {
         body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
+      const text = await response.text();
+      console.log('Raw API response text:', text);
+
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        console.log('JSON parse error:', e);
+        Alert.alert('Error', 'Invalid JSON response from server');
+        return;
+      }
       console.log('API response:', data);
 
       if (data.status) {
@@ -97,7 +110,7 @@ const RegistrationScreen = () => {
         Alert.alert('Error', data.message || 'Registration failed');
       }
     } catch (error) {
-      console.log('Fetch error:', error.message);
+      console.log('Fetch error:', error);
       Alert.alert('Error', 'Something went wrong. Try again.');
     }
   };

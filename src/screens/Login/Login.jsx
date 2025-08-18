@@ -23,7 +23,8 @@ const Login = () => {
     }
     try {
       console.log('Sending request to API...');
-      let response = await fetch(`https://ce5b4bd87000.ngrok-free.app/api/users/v1/user-login`, {
+      let response = await fetch(`https://e31442b6d7b3.ngrok-free.app/api/users/v1/user-login`, {
+        // let response = await fetch(`https://ce5b4bd87000.ngrok-free.app/api/users/v1/user-login`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -32,7 +33,17 @@ const Login = () => {
         body: JSON.stringify({ email, password }),
       });
       console.log('Response status:', response);
-      const data = await response.json();
+      const text = await response.text();
+      console.log('Raw Response text:', text);
+
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        console.log('JSON parse error:', e);
+        Alert.alert('Error', 'Invalid JSON response from server');
+        return;
+      }
       console.log('Response JSON:', data);
       if (response.ok && data.status) {
         console.log('Login successful');
