@@ -2,18 +2,18 @@ import { View, Text } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Home from './Drawer/Home';
-import Settings from './Drawer/Settings';
-import Dealers from './Drawer/Dealers';
+import HomeStack from './Drawer/HomeStack';
+import SettingsStack from './Drawer/SettingsStack';
+import DealersStack from './Drawer/DealersStack';
 
 const TabRoutes = () => {
   const navigation = useNavigation();
   const Tab = createBottomTabNavigator();
   return (
     <Tab.Navigator>
-      <Tab.Screen name='Dashboard' component={Home} options={{ headerShown: false }}></Tab.Screen>
-      <Tab.Screen name='Dealers' component={Dealers} options={{ headerShown: false }}></Tab.Screen>
-      <Tab.Screen name='Settings' component={Settings} options={{ headerShown: false }}></Tab.Screen>
+      <Tab.Screen name='Dashboard' component={HomeStack} options={{ headerShown: false }}></Tab.Screen>
+      <Tab.Screen name='Settings' component={SettingsStack} options={{ headerShown: false }}></Tab.Screen>
+      <Tab.Screen name='Dealers' component={DealersStack} options={{ headerShown: false }}></Tab.Screen>
     </Tab.Navigator>
   )
 }
