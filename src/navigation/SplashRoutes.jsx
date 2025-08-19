@@ -12,10 +12,12 @@ const splashRoutes = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator
+      // initialRouteName="Login"
+      >
+        <Stack.Screen name={NavigationStrings.TABROUTES} component={TabRoutes} options={{ headerShown: false }} />
         <Stack.Screen name={NavigationStrings.LOGIN} component={Login} options={{ headerShown: false }} />
         <Stack.Screen name="Registration" component={Registration} options={{ headerShown: false }} />
-        <Stack.Screen name={NavigationStrings.TABROUTES} component={TabRoutes} options={{ headerShown: true }} />
       </Stack.Navigator>
     </NavigationContainer>
   )
