@@ -1,7 +1,7 @@
 import { StatusBar, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-    loginContainer: {
+  loginContainer: {
     flex: 1,
     padding: 24,
     justifyContent: 'center',
@@ -29,11 +29,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   LoginButtonText: {
-  color: '#fff',
-  fontSize: 16,
-  fontWeight: 'bold',
-  textAlign: 'center'
-},
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
   LoginGoogleButton: {
     borderColor: '#db4437',
     marginTop: 10,
@@ -60,10 +60,32 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff' // Or use from your MainStyle
   },
   GradientText: {
-    fontSize : 30,
+    fontSize: 30,
     color: '#fff'
+  },
+  FlexContainer: {
+    backgroundColor: '#ffffff',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    width: '100%',
+    height: '5%',
 
-  }
+  },
+  FlexItems: {
+    backgroundColor: '#f0f0f0',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '70%',
+    width: '45%',
+    borderRadius: 25,
+    borderColor: '#7f8378ff',
+    borderWidth: 1,
+  },
+  FlexText: {
+    color: '#7f8378ff',
+  },
 })
 
 export default styles;

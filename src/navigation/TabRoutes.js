@@ -18,14 +18,13 @@ const TabRoutes = () => {
     <Tab.Navigator screenOptions={{ tabBarInactiveTintColor: '#7f8378ff', tabBarActiveTintColor: '#4CAF50', 
        tabBarStyle: { backgroundColor: '#ffffff' }
      }}>
-      {/* <Tab.Navigator screenOptions={{ tabBarInactiveTintColor: '#4CAF50', tabBarActiveTintColor: '#03f570ff' }}> */}
       <Tab.Screen name='HomeStack' component={HomeStack} options={{
         headerShown: false, title: 'Home',
         tabBarIcon: ({ focused }) => {
           return (
             <Image
               style={{
-                tintColor: focused ? "#4CAF50" : "#7f8378ff",
+                tintColor: focused ? "#66BB6A" : "#7f8378ff",
                 width: iconSize,
                 height: iconSize,
                 resizeMode: "contain",
