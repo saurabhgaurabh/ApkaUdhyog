@@ -3,9 +3,10 @@ import React from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeStack from './Drawer/HomeStack';
-import SettingsStack from './Drawer/SettingsStack';
-import DealersStack from './Drawer/DealersStack';
+import PurchaseStack from './Drawer/PurchaseStack';
+import ItemStack from './Drawer/ItemStack';
 import ImagePath from '../constants/ImagePath';
+import Dashboard from './Drawer/DashboardStack';
 
 
 const TabRoutes = () => {
@@ -14,14 +15,33 @@ const TabRoutes = () => {
   const navigation = useNavigation();
   const Tab = createBottomTabNavigator();
   return (
-    <Tab.Navigator screenOptions={{ tabBarInactiveTintColor: '#4CAF50', tabBarActiveTintColor: '#03f570ff' }}>
-      <Tab.Screen name='Dashboard' component={HomeStack} options={{
-        headerShown: false, title: 'Dashboard',
+    <Tab.Navigator screenOptions={{ tabBarInactiveTintColor: '#7f8378ff', tabBarActiveTintColor: '#4CAF50', 
+       tabBarStyle: { backgroundColor: '#ffffff' }
+     }}>
+      {/* <Tab.Navigator screenOptions={{ tabBarInactiveTintColor: '#4CAF50', tabBarActiveTintColor: '#03f570ff' }}> */}
+      <Tab.Screen name='HomeStack' component={HomeStack} options={{
+        headerShown: false, title: 'Home',
         tabBarIcon: ({ focused }) => {
           return (
             <Image
               style={{
-                tintColor: focused ? "#03f570ff" : "#4CAF50",
+                tintColor: focused ? "#4CAF50" : "#7f8378ff",
+                width: iconSize,
+                height: iconSize,
+                resizeMode: "contain",
+              }}
+              source={ImagePath.Home}
+            />
+          )
+        }
+      }}></Tab.Screen>
+      <Tab.Screen name="Dashboard" component={Dashboard} options={{
+        headerShown: false,
+        tabBarIcon: ({ focused }) => {
+          return (
+            <Image
+              style={{
+                tintColor: focused ? "#4CAF50" : "#7f8378ff",
                 width: iconSize,
                 height: iconSize,
                 resizeMode: "contain",
@@ -30,33 +50,35 @@ const TabRoutes = () => {
             />
           )
         }
-      }}></Tab.Screen>
-      <Tab.Screen name='Dealers' component={DealersStack} options={{
+      }}>
+
+      </Tab.Screen>
+      <Tab.Screen name='Items' component={ItemStack} options={{
         headerShown: false, tabBarIcon: ({ focused }) => {
           return (
             <Image
               style={{
-                tintColor: focused ? "#03f570ff" : "#4CAF50",
+                tintColor: focused ? "#4CAF50" : "#7f8378ff",
                 width: iconSize,
                 height: iconSize,
                 resizeMode: "contain",
               }}
-              source={ImagePath.service}
+              source={ImagePath.items}
             />
           )
         }
       }}></Tab.Screen>
-      <Tab.Screen name='Settings' component={SettingsStack} options={{
+      <Tab.Screen name='Purchase' component={PurchaseStack} options={{
         headerShown: false, tabBarIcon: ({ focused }) => {
           return (
             <Image
               style={{
-                tintColor: focused ? "#03f570ff" : "#4CAF50",
+                tintColor: focused ? "#4CAF50" : "#7f8378ff",
                 width: iconSize,
                 height: iconSize,
                 resizeMode: "contain",
               }}
-              source={ImagePath.setting}
+              source={ImagePath.purchase}
             />
           )
         }

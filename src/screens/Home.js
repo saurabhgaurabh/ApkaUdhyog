@@ -1,8 +1,8 @@
 import { View, Text, TouchableOpacity } from 'react-native'
 import React from 'react'
-import Settings from '../navigation/Drawer/SettingsStack'
+import Settings from '../navigation/Drawer/PurchaseStack'
 
-const Home = ({navigation}) => {
+const Home = ({ navigation }) => {
   return (
     <View>
       <Text>Home</Text>

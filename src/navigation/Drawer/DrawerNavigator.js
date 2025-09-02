@@ -3,7 +3,7 @@ import React from 'react'
 import { createDrawerNavigator, DrawerContentScrollView } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import Home from './HomeStack';
-import Settings from './SettingsStack';
+import Settings from './PurchaseStack';
 import TabRoutes from '../TabRoutes';
 
 
