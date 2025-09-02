@@ -86,6 +86,28 @@ const styles = StyleSheet.create({
   FlexText: {
     color: '#7f8378ff',
   },
+  CardContainer: {
+    // backgroundColor: '#f0f0f0',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 0,
+    padding: 10,
+  },
+  CardBody: {
+    flexDirection: 'row',
+    padding: 15,
+    marginBottom: 10,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    elevation: 2, // Android shadow
+    shadowColor: '#000', // iOS shadow
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    width: '100%',
+    height: 'auto',
+  },
 })
 
 export default styles;
