@@ -86,42 +86,6 @@ const styles = StyleSheet.create({
   FlexText: {
     color: '#7f8378ff',
   },
-  // CardContainer: {
-  //   // backgroundColor: '#13ad7fff',
-  //   display: 'flex',
-  //   flexDirection: 'column',
-  //   alignItems: 'center',
-  //   width: '100%',
-  //   height: '100%',
-  //   gap: 10
-  // },
-  // Cardbody: {
-  //   flexDirection: 'column',
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  //   backgroundColor: '#9e9494ff',
-  //   width: '95%',
-  //   height: 'auto',
-  //   borderRadius: 10,
-  //   padding: 18,
-  // },
-  // CardContentOne: {
-  //   flexDirection: 'row',
-  //   justifyContent: 'space-between',
-  //   alignItems: 'center',
-  //   width: '100%',
-  //   height: 'auto',
-
-  // },
-  // CardContentTwo: {
-  //   flexDirection: 'row',
-  //   justifyContent: 'space-between',
-  //   alignItems: 'center',
-  //   width: '100%',
-  //   height: 'auto',
-  // },
-  ///////////////////
-
 
   card: {
     backgroundColor: "#fff",
@@ -138,7 +102,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 10,
-    // backgroundColor: "#d86060ff",
   },
   partyName: {
     fontSize: 16,
@@ -190,6 +153,35 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     color: "#444",
   },
+  //  Item Screen CSS Starts
+
+  itemBox: {
+    backgroundColor: "#fff",
+    padding: 20,
+    margin: 10,
+    borderRadius: 10,
+    elevation: 2,
+  },
+  floatingBtn: {
+    position: "absolute",
+    bottom: 20,
+    left: 20,
+    right: 20,
+    alignItems: "center",
+  },
+  btn: {
+    backgroundColor: "#66BB6A",
+    paddingVertical: 15,
+    paddingHorizontal: 40,
+    borderRadius: 30,
+    elevation: 5,
+  },
+  btnText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  //  Item Screen CSS Ends
 
 })
 

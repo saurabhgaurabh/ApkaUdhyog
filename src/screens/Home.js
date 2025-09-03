@@ -33,7 +33,7 @@ const Home = ({ navigation }) => {
               <Text style={styles.partyName}>Gaurav Kumar</Text>
               <Text style={styles.date}>#1</Text>
             </View>
-            <View style={styles.topRow}>
+            <View style={styles.topRow}>             
               <View style={styles.tag}>
                 <Text style={styles.tagText}>PURCHASE</Text>
               </View>
