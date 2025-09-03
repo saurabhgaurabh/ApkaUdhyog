@@ -183,6 +183,46 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   //  Item Screen CSS Ends
+   card: {
+    backgroundColor: "#fff",
+    padding: 12,
+    marginVertical: 8,
+    marginHorizontal: 12,
+    borderRadius: 8,
+    elevation: 3, // Android shadow
+    shadowColor: "#000", // iOS shadow
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  },
+  rowBetween: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 6,
+  },
+  productName: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#4CAF50",
+  },
+  batch: {
+    fontSize: 14,
+    color: "#7f8378ff",
+  },
+  label: {
+    fontSize: 14,
+    color: "#333",
+  },
+  cost: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#e91e63",
+  },
+  remarks: {
+    fontSize: 12,
+    color: "#7f8378ff",
+    fontStyle: "italic",
+  },
 
 })
 

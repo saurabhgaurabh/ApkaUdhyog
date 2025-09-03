@@ -14,9 +14,7 @@ const Login = () => {
   const hasPasswordError = () => state.password.length > 0 && state.password.length < 6;
 
   const handleLogin = async () => {
-    console.log("object ------")
     const { email, password } = state;
-    console.log(email, password, 'email, password')
     if (!email || !password) {
       Alert.alert('Validation Error', 'Please enter email and password');
       return;
@@ -24,7 +22,6 @@ const Login = () => {
     try {
       console.log('Sending request to API...');
       let response = await fetch(`https://b1920df43928.ngrok-free.app/api/users/v1/user-login`, {
-        // let response = await fetch(`https://ce5b4bd87000.ngrok-free.app/api/users/v1/user-login`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
