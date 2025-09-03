@@ -86,28 +86,111 @@ const styles = StyleSheet.create({
   FlexText: {
     color: '#7f8378ff',
   },
-  CardContainer: {
-    // backgroundColor: '#f0f0f0',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 0,
-    padding: 10,
-  },
-  CardBody: {
-    flexDirection: 'row',
-    padding: 15,
-    marginBottom: 10,
-    backgroundColor: '#fff',
+  // CardContainer: {
+  //   // backgroundColor: '#13ad7fff',
+  //   display: 'flex',
+  //   flexDirection: 'column',
+  //   alignItems: 'center',
+  //   width: '100%',
+  //   height: '100%',
+  //   gap: 10
+  // },
+  // Cardbody: {
+  //   flexDirection: 'column',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   backgroundColor: '#9e9494ff',
+  //   width: '95%',
+  //   height: 'auto',
+  //   borderRadius: 10,
+  //   padding: 18,
+  // },
+  // CardContentOne: {
+  //   flexDirection: 'row',
+  //   justifyContent: 'space-between',
+  //   alignItems: 'center',
+  //   width: '100%',
+  //   height: 'auto',
+
+  // },
+  // CardContentTwo: {
+  //   flexDirection: 'row',
+  //   justifyContent: 'space-between',
+  //   alignItems: 'center',
+  //   width: '100%',
+  //   height: 'auto',
+  // },
+  ///////////////////
+
+
+  card: {
+    backgroundColor: "#fff",
     borderRadius: 10,
-    elevation: 2, // Android shadow
-    shadowColor: '#000', // iOS shadow
-    shadowOpacity: 0.5,
-    shadowRadius: 2,
-    width: '100%',
-    height: 'auto',
+    padding: 15,
+    margin: 10,
+    elevation: 3, // Android shadow
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
   },
+  topRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 10,
+    // backgroundColor: "#d86060ff",
+  },
+  partyName: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#333",
+    flex: 1,
+  },
+  tag: {
+    backgroundColor: "#ffe6e6",
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 15,
+    marginRight: 10,
+  },
+  tagText: {
+    fontSize: 12,
+    color: "#ff4d4d",
+    fontWeight: "bold",
+  },
+  date: {
+    fontSize: 12,
+    color: "#666",
+  },
+  bottomRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  rowLeft: {
+    flexDirection: "row",
+  },
+  column: {
+    marginRight: 30,
+  },
+  label: {
+    fontSize: 13,
+    color: "#666",
+  },
+  value: {
+    fontSize: 15,
+    fontWeight: "600",
+    color: "#000",
+  },
+  rowRight: {
+    flexDirection: "row",
+  },
+  icon: {
+    fontSize: 18,
+    marginLeft: 15,
+    color: "#444",
+  },
+
 })
 
 export default styles;

@@ -25,107 +25,45 @@ const Home = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         </View>
+        {/* this is card section */}
+        <ScrollView style={{ flex: 1, top: 0 }} horizontal={false} showsVerticalScrollIndicator={false}>
+          <View style={styles.card}>
+            {/* Top Row: Party Name + Tag + Date */}
+            <View style={styles.topRow}>
+              <Text style={styles.partyName}>Gaurav Kumar</Text>
+              <Text style={styles.date}>#1</Text>
+            </View>
+            <View style={styles.topRow}>
+              <View style={styles.tag}>
+                <Text style={styles.tagText}>PURCHASE</Text>
+              </View>
+              <Text style={styles.date}>31 Aug, 25</Text>
+            </View>
 
-        <ScrollView style={{ flex: 1 }} horizontal={false} showsVerticalScrollIndicator={false}>
-          <View style={styles.CardContainer}>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
-            </View>
-            <View style={styles.CardBody}>
-              <Text style={styles.FlexText}>Party Details</Text>
+            {/* Bottom Row: Total + Balance (Left) and Icons (Right) */}
+            <View style={styles.bottomRow}>
+              <View style={styles.rowLeft}>
+                <View style={styles.column}>
+                  <Text style={styles.label}>Total</Text>
+                  <Text style={styles.value}>₹ 2,500.00</Text>
+                </View>
+                <View style={styles.column}>
+                  <Text style={styles.label}>Balance</Text>
+                  <Text style={styles.value}>₹ 2,500.00</Text>
+                </View>
+              </View>
+
+              <View style={styles.rowRight}>
+                <TouchableOpacity>
+                  <Text style={styles.icon}>🖨️</Text>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <Text style={styles.icon}>↗️</Text>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <Text style={styles.icon}>⋮</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </ScrollView>
