@@ -13,8 +13,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  loginInput: {
-    marginBottom: 12,
+  input: {
+    marginBottom: 10,
+    backgroundColor: "#ffffffff",
   },
   LoginForgotText: {
     textAlign: 'right',
