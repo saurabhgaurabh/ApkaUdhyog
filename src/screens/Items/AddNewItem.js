@@ -1,4 +1,4 @@
-r slice files import { View, Text, SafeAreaView, StatusBar, TouchableOpacity, Alert, ToastAndroid } from 'react-native'
+import { View, Text, SafeAreaView, StatusBar, TouchableOpacity, Alert, ToastAndroid } from 'react-native'
 import React, { useState } from 'react'
 import CustomHeader from '../../components/CustomeHeader'
 import { TextInput } from 'react-native-paper'
@@ -61,7 +61,7 @@ const AddNewItem = () => {
             }
         } catch (error) {
             console.log("Error in adding new item: ", error.message);
-            ToastAndroid.show("An error occurred while adding the item", ToastAndroid.SHORT);
+            ToastAndroid.show("An error occurred while adding the items", ToastAndroid.SHORT);
         }
 
     }
@@ -217,12 +217,17 @@ const AddNewItem = () => {
                             style={styles.input}
                         />
                     </View>
-                    <TouchableOpacity onPress={handleNewItem}>
-                        <View style={{ backgroundColor: '#4CAF50', justifyContent: 'center', alignItems: 'center', padding: 12 }}>
-                            <Text>Submit</Text>
-                        </View>
+                </View>
+                
+                <View style={styles.btnBody}>
+                    <TouchableOpacity style={styles.cancelBtn} onPress={() => console.log("Cancel pressed")}           >
+                        <Text style={{ color: "#fff", fontSize: 16, fontWeight: "600" }}>Cancel</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.submitBtn} onPress={handleNewItem} >
+                        <Text style={{ color: "#fff", fontSize: 16, fontWeight: "600" }}>Submit</Text>
                     </TouchableOpacity>
                 </View>
+
             </SafeAreaView>
         </>
     )

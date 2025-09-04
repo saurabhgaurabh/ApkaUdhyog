@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   //  Item Screen CSS Ends
-   card: {
+  card: {
     backgroundColor: "#fff",
     padding: 12,
     marginVertical: 8,
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
   },
   ////////////////////
-   itemBox: {
+  itemBox: {
     backgroundColor: "#fff",
     padding: 15,
     marginBottom: 10,
@@ -244,6 +244,53 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "bold",
   },
+  submitBtn: {
+    backgroundColor: '#4CAF50',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 12,
+    width: '50%',
+  },
+  btnBody: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    paddingHorizontal: 20,
+    marginTop: 20,
+    position: 'absolute',
+    bottom: 10,
+    alignSelf: 'center',
+  },
+  cancelBtn: {
+    flex: 1,
+    marginRight: 10,
+    backgroundColor: "#f44336", // Red tone
+    borderRadius: 10,
+    height: 50,
+    width: '50%',
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    elevation: 4, // Android shadow
+  },
+  submitBtn: {
+    flex: 1,
+    marginLeft: 10,
+    backgroundColor: "#4CAF50", // Green tone
+    borderRadius: 10,
+    height: 50,
+    width: '50%',
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    elevation: 4,
+  }
 
 })
 
