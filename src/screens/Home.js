@@ -4,10 +4,15 @@ import Settings from '../navigation/Drawer/PurchaseStack'
 import CustomHeader from '../components/CustomeHeader'
 import styles from '../MainStyle'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { useSelector } from 'react-redux'
+
+
+
 
 const Home = ({ navigation }) => {
   const [showSearch, setShowSearch] = React.useState(false);
   const [q, setQ] = React.useState("");
+  const get = useSelector((state) => state.items.itemList);
 
   return (
     <>

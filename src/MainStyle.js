@@ -223,6 +223,27 @@ const styles = StyleSheet.create({
     color: "#7f8378ff",
     fontStyle: "italic",
   },
+  ////////////////////
+   itemBox: {
+    backgroundColor: "#fff",
+    padding: 15,
+    marginBottom: 10,
+    borderRadius: 8,
+    elevation: 3,
+  },
+  floatingBtn: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+    backgroundColor: "#4CAF50",
+    padding: 15,
+    borderRadius: 50,
+    elevation: 5,
+  },
+  btnText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
 
 })
 

@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, StatusBar, TouchableOpacity, Alert, ToastAndroid } from 'react-native'
+r slice files import { View, Text, SafeAreaView, StatusBar, TouchableOpacity, Alert, ToastAndroid } from 'react-native'
 import React, { useState } from 'react'
 import CustomHeader from '../../components/CustomeHeader'
 import { TextInput } from 'react-native-paper'
@@ -6,9 +6,12 @@ import styles from '../../MainStyle'
 import { useNavigation } from '@react-navigation/native'
 import Home from '../Home'
 import Items from './Items'
+import { useDispatch } from 'react-redux'
+import { addItem } from '../../redux/slices/itemSlice'
 
 const AddNewItem = () => {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
     const [state, setState] = useState({
         product_name: '',
         material_type_one: '',
@@ -35,7 +38,7 @@ const AddNewItem = () => {
             console.log('api responding')
             const { product_name, material_type_one, material_quantity, material_quality, batch_number, unit, supervisor_name, total_cost, remarks } = state;
             console.log(product_name, material_type_one, material_quantity, material_quality, batch_number, unit, supervisor_name, total_cost, remarks, "product_name, material_type_one, material_quantity, material_quality, batch_number, unit, supervisor_name, total_cost, remarks")
-            const response = await fetch(`https://290fe016faf8.ngrok-free.app/api/users/v1/motion-product-manufacturing`, {
+            const response = await fetch(`https://b2f34b664c3c.ngrok-free.app/api/users/v1/motion-product-manufacturing`, {
                 method: 'POST',
                 headers: {
                     accept: 'application/json',
@@ -43,18 +46,22 @@ const AddNewItem = () => {
                 },
                 body: JSON.stringify({ product_name, material_type_one, material_quantity, material_quality, batch_number, unit, supervisor_name, total_cost, remarks }),
             })
-            console.log("Response in adding new item: ", response);
+            console.log("Response status: ", response.status, "ok: ", response.ok);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             const data = await response.json();
+            console.log("Response data in adding new item: ", data);
             if (data.status) {
                 ToastAndroid.show("New item added successfully!", ToastAndroid.SHORT);
-                navigation.navigate(Items);
+                dispatch(addItem(data.result || state)); // Add the new item from API response to Redux store
+                navigation.navigate('Items'); // Navigate to Items screen
             } else {
                 ToastAndroid.show("Failed to add new item", ToastAndroid.SHORT);
             }
-            console.log("Response data in adding new item: ", data);
         } catch (error) {
             console.log("Error in adding new item: ", error.message);
-            Alert.alert("Error", "Something went wrong!");
+            ToastAndroid.show("An error occurred while adding the item", ToastAndroid.SHORT);
         }
 
     }

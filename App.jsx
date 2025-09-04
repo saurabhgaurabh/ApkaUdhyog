@@ -1,12 +1,14 @@
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import MainComponent from './src/screens/main';
-import style from './src/MainStyle'
+import { Provider } from 'react-redux';
+import store from './src/redux/store/store';
 
 
 const App = () => {
   return (
-    <MainComponent />
+    <Provider store={store}>
+      <MainComponent />
+    </Provider>
   );
 }
 
