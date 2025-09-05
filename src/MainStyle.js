@@ -290,6 +290,8 @@ const styles = StyleSheet.create({
   dashBoxes: { flexDirection: 'column', flex: 1, backgroundColor: Colors.light, justifyContent: 'center', alignItems: 'center', borderRadius: 8, height: 60 },
   dashTextOne: { fontFamily: Fonts.boldItalic, fontSize: Fonts.sizes.regular, fontWeight: Fonts.weights.bold, color: Colors.primary },
   dashTextTwo: { fontFamily: Fonts.boldItalic, fontSize: Fonts.sizes.regular, fontWeight: Fonts.weights.bold, color: Colors.danger },
+  CardText: { fontSize: 24, fontWeight: 'bold', color: Colors.text, textAlign: 'center' },
+  
 
 })
 
