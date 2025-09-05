@@ -1,0 +1,2 @@
+- [x] Add font sizes to src/constants/fonts.js
+- [x] Apply regular font size to Text components in src/screens/Dashboard/Dashboard.js

@@ -1,4 +1,6 @@
 import { StatusBar, StyleSheet } from "react-native";
+import Colors from "./constants/color";
+import Fonts from "./constants/fonts";
 
 const styles = StyleSheet.create({
   loginContainer: {
@@ -255,17 +257,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
-    paddingHorizontal: 20,
-    marginTop: 20,
     position: 'absolute',
     bottom: 10,
     alignSelf: 'center',
+    backgroundColor: '#fff',
   },
   cancelBtn: {
-    flex: 1,
-    marginRight: 10,
-    backgroundColor: "#f44336", // Red tone
-    borderRadius: 10,
+    backgroundColor: "#f44336",
     height: 50,
     width: '50%',
     justifyContent: "center",
@@ -277,10 +275,7 @@ const styles = StyleSheet.create({
     elevation: 4, // Android shadow
   },
   submitBtn: {
-    flex: 1,
-    marginLeft: 10,
-    backgroundColor: "#4CAF50", // Green tone
-    borderRadius: 10,
+    backgroundColor: "#4CAF50",
     height: 50,
     width: '50%',
     justifyContent: "center",
@@ -290,7 +285,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 3,
     elevation: 4,
-  }
+  },
+  dashTopBox: { display: 'flex', flexDirection: 'row', gap: 10, padding: 20,},
+  dashBoxes: { flexDirection: 'column', flex: 1, backgroundColor: Colors.light, justifyContent: 'center', alignItems: 'center', borderRadius: 8, height: 60 },
+  dashTextOne: { fontFamily: Fonts.boldItalic, fontSize: Fonts.sizes.regular, fontWeight: Fonts.weights.bold, color: Colors.primary },
+  dashTextTwo: { fontFamily: Fonts.boldItalic, fontSize: Fonts.sizes.regular, fontWeight: Fonts.weights.bold, color: Colors.danger },
 
 })
 

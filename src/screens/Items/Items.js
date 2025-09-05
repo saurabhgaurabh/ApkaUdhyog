@@ -19,7 +19,7 @@ const Items = () => {
     const fetchData = async () => {
         try {
             const response = await fetch(
-                "https://b2f34b664c3c.ngrok-free.app/api/users/v1/product-manufacturing-get"
+                "https://d5021510c8e8.ngrok-free.app/api/users/v1/product-manufacturing-get"
             );
             const data = await response.json();
             if (data.status && Array.isArray(data.result.result)) {
