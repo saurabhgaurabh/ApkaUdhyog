@@ -77,10 +77,13 @@ const TabRoutes = () => {
           };
         }}
         />
-
-        <Tab.Screen name='Purchase' component={PurchaseStack} options={{
-          headerShown: false, tabBarIcon: ({ focused }) => {
-            return (
+        <Tab.Screen name="Purchase" component={PurchaseStack} options={({ route }) => {
+          const routeName = getFocusedRouteNameFromRoute(route) ?? "";
+          const isAddPurchaseItems = routeName === "AddPurchaseItems";
+          return {
+            headerShown: false,
+            tabBarStyle: isAddPurchaseItems ? { display: "none" } : { display: "flex" },
+            tabBarIcon: ({ focused }) => (
               <Image
                 style={{
                   tintColor: focused ? "#4CAF50" : "#7f8378ff",
@@ -90,9 +93,10 @@ const TabRoutes = () => {
                 }}
                 source={ImagePath.purchase}
               />
-            )
-          }
-        }}></Tab.Screen>
+            ),
+          };
+        }}
+        />
       </Tab.Navigator>
     </SafeAreaView>
   )

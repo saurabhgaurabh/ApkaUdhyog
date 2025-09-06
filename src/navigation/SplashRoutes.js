@@ -5,6 +5,7 @@ import NavigationStrings from '../constants/NavigationStrings';
 import Login from '../screens/Login/Login';
 import TabRoutes from './TabRoutes';
 import Registration from '../screens/Registration/Registration';
+import AddPurchaseItems from '../screens/Purchase/AddPurchaseItems';
 
 const splashRoutes = () => {
 
@@ -18,6 +19,7 @@ const splashRoutes = () => {
         <Stack.Screen name={NavigationStrings.TABROUTES} component={TabRoutes} options={{ headerShown: false }} />
         <Stack.Screen name={NavigationStrings.LOGIN} component={Login} options={{ headerShown: false }} />
         <Stack.Screen name="Registration" component={Registration} options={{ headerShown: false }} />
+        {/* <Stack.Screen name="AddPurchaseItems" component={AddPurchaseItems} options={{ headerShown: false }} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   )

@@ -22,16 +22,22 @@ import { View, StyleSheet, ScrollView, KeyboardAvoidingView, Platform, Alert, To
 import { TextInput, Text, Card, Button, HelperText } from "react-native-paper"
 import CustomHeader from "../../components/CustomeHeader"
 import styles from "../../MainStyle"
+import AddPurchaseItems from "./AddPurchaseItems"
+import { useNavigation } from "@react-navigation/native"
+
 
 
 const PurchaseItems = () => {
+    const navigation = useNavigation();
+
+    const AddPurchaseItems = () => {navigation.navigate('AddPurchaseItems'); }
     return (
         <View style={{ flex: 1, backgroundColor: '#DCEDC8', }}>
             <CustomHeader />
             <ScrollView showsVerticalScrollIndicator={false}>
                 {/* Content goes here */}
             </ScrollView>
-            <TouchableOpacity style={styles.purchaseButton}>
+            <TouchableOpacity style={styles.purchaseButton} onPress={AddPurchaseItems}>
                 <Text style={styles.purchaseButtonText}>New Purchase</Text>
             </TouchableOpacity>
         </View>
