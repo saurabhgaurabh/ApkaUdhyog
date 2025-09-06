@@ -5,7 +5,7 @@ import store from './src/redux/store/store';
 
 
 const App = () => {
-  return (
+  return (    
     <Provider store={store}>
       <MainComponent />
     </Provider>

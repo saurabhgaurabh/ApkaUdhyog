@@ -23,12 +23,12 @@ export default function CustomHeader({
 }) {
   const topInset = Platform.select({
     ios: 44,
-    android: StatusBar.currentHeight || 0,
+    android: 30,
     default: 0,
   });
 
   return (
-    <View style={[styles.container, { backgroundColor, paddingTop: topInset }]}> 
+    <View style={[styles.container, { backgroundColor, paddingTop: topInset }]}>
       <StatusBar
         barStyle={textColor === "#ffffff" ? "light-content" : "dark-content"}
         backgroundColor={backgroundColor}

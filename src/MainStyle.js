@@ -286,12 +286,30 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 4,
   },
-  dashTopBox: { display: 'flex', flexDirection: 'row', gap: 10, padding: 20,},
+  dashTopBox: { display: 'flex', flexDirection: 'row', gap: 10, padding: 20, },
   dashBoxes: { flexDirection: 'column', flex: 1, backgroundColor: Colors.light, justifyContent: 'center', alignItems: 'center', borderRadius: 8, height: 60 },
   dashTextOne: { fontFamily: Fonts.boldItalic, fontSize: Fonts.sizes.regular, fontWeight: Fonts.weights.bold, color: Colors.primary },
   dashTextTwo: { fontFamily: Fonts.boldItalic, fontSize: Fonts.sizes.regular, fontWeight: Fonts.weights.bold, color: Colors.danger },
   CardText: { fontSize: 24, fontWeight: 'bold', color: Colors.text, textAlign: 'center' },
-  
+  purchaseButton: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    backgroundColor: Colors.primary,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 25,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  purchaseButtonText: {
+    color: '#fff',
+    fontFamily: Fonts.large,
+    fontWeight: 'bold',
+  },
 
 })
 
