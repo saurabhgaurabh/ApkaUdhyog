@@ -4,6 +4,7 @@ const Colors = {
   primary: "#4CAF50",      // main green
   lightGreen: "#a3f0a7ff",  
   sweetGreen: "#bff1c2ff",  
+  dashboardGreen: "#DCEDC8",  
   secondary: "#2196F3",    // blue
   danger: "#f44336",       // red
   warning: "#FFC107",      // yellow

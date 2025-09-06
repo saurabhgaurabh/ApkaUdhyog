@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
   input: {
     marginBottom: 10,
     backgroundColor: "#ffffffff",
+    width: '95%',
   },
   LoginForgotText: {
     textAlign: 'right',
@@ -310,6 +311,13 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.large,
     fontWeight: 'bold',
   },
+  cardHeading: { display: 'flex', paddingTop: 10, justifyContent: 'center', alignItems: 'center', },
+  cardButton: { borderRadius: 10, backgroundColor: Colors.sweetGreen, width: '90%', justifyContent: 'center', alignItems: 'center', height: 60, paddingHorizontal: 10, borderColor: '#fff', borderWidth: 2 },
+  cardText: { fontFamily: Fonts.bold, fontSize: 20, fontWeight: '900', color: Colors.dark },
+  bottomButtonBody: { flexDirection: "row", justifyContent: "space-around", width: "100%", position: 'absolute', bottom: 0, backgroundColor: Colors.dashboardGreen, paddingVertical: 10 },
+  bottomButtonCancel: { backgroundColor: "#f44336", height: 50, width: '45%', justifyContent: "center", alignItems: "center", shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.3, shadowRadius: 3, elevation: 4, borderRadius: 10 },
+  bottomButtonColumnSubmit: { backgroundColor: "#4CAF50", height: 50, width: '45%', justifyContent: "center", alignItems: "center", shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.3, shadowRadius: 3, elevation: 4, borderRadius: 10 },
+  bottomButtonText: { color: "#fff", fontSize: 16, fontWeight: "600" },
 
 })
 

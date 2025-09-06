@@ -8,9 +8,9 @@ const PurchaseStack = () => {
 
   const Stack = createNativeStackNavigator();
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator screenOptions={{ headerShown: false,   }}>
       <Stack.Screen name="PurchaseItems" component={PurchaseItems} screenOptions={{}} />
-      <Stack.Screen name='AddPurchaseItems' component={AddPurchaseItems} />
+      <Stack.Screen name='AddPurchaseItems' component={AddPurchaseItems} options={{ headerShown: false, }}/>
     </Stack.Navigator>
   )
 }
