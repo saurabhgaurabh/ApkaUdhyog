@@ -62,6 +62,7 @@ const TabRoutes = () => {
           const isAddNewItem = routeName === "AddNewItem";
           return {
             headerShown: false,
+            title: 'Products',
             tabBarStyle: isAddNewItem ? { display: "none" } : { display: "flex" },
             tabBarIcon: ({ focused }) => (
               <Image
@@ -71,7 +72,7 @@ const TabRoutes = () => {
                   height: iconSize,
                   resizeMode: "contain",
                 }}
-                source={ImagePath.items}
+                source={ImagePath.product}
               />
             ),
           };

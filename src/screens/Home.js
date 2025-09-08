@@ -5,6 +5,7 @@ import CustomHeader from '../components/CustomeHeader'
 import styles from '../MainStyle'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
+import Colors from '../constants/color'
 
 
 
@@ -38,7 +39,7 @@ const Home = ({ navigation }) => {
               <Text style={styles.partyName}>Gaurav Kumar</Text>
               <Text style={styles.date}>#1</Text>
             </View>
-            <View style={styles.topRow}>             
+            <View style={styles.topRow}>
               <View style={styles.tag}>
                 <Text style={styles.tagText}>PURCHASE</Text>
               </View>
@@ -71,7 +72,116 @@ const Home = ({ navigation }) => {
               </View>
             </View>
           </View>
+
         </ScrollView>
+
+        {/* New Cards Section */}
+        <View style={{ padding: 10, paddingTop: 20 }}>
+          <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#333', marginBottom: 15, textAlign: 'center' }}>
+            Quick Actions
+          </Text>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+            {/* Add Dealer Card */}
+            <TouchableOpacity
+              style={{
+                backgroundColor: Colors.lightGreen,
+                width: '48%',
+                padding: 20,
+                borderRadius: 12,
+                marginBottom: 15,
+                elevation: 3,
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                alignItems: 'center',
+                opacity: 0.9
+              }}
+              activeOpacity={0.7}
+            // onPress={() => navigation.navigate('AddDealer')}
+            >
+              <Text style={{ fontSize: 24, marginBottom: 8 }}>👥</Text>
+              <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold', textAlign: 'center' }}>
+                Add Dealer
+              </Text>
+            </TouchableOpacity>
+
+            {/* Employee Registration Card */}
+            <TouchableOpacity
+              style={{
+                backgroundColor: '#cecfc1ff',
+                width: '48%',
+                padding: 20,
+                borderRadius: 12,
+                marginBottom: 15,
+                elevation: 3,
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                alignItems: 'center',
+                opacity: 0.9
+              }}
+              activeOpacity={0.7}
+            // onPress={() => navigation.navigate('EmpRegistration')}
+            >
+              <Text style={{ fontSize: 24, marginBottom: 8 }}>👤</Text>
+              <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold', textAlign: 'center' }}>
+                Emp Registration
+              </Text>
+            </TouchableOpacity>
+
+            {/* Product Manufacturing Card */}
+            <TouchableOpacity
+              style={{
+                backgroundColor: '#acecf5ff',
+                width: '48%',
+                padding: 20,
+                borderRadius: 12,
+                marginBottom: 15,
+                elevation: 3,
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                alignItems: 'center',
+                opacity: 0.9
+              }}
+              activeOpacity={0.7}
+            // onPress={() => navigation.navigate('ProductManufacturing')}
+            >
+              <Text style={{ fontSize: 24, marginBottom: 8 }}>🏭</Text>
+              <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold', textAlign: 'center' }}>
+                Product Manufacturing
+              </Text>
+            </TouchableOpacity>
+
+            {/* Party Registration Card */}
+            <TouchableOpacity
+              style={{
+                backgroundColor: '#8bf7cdff',
+                width: '48%',
+                padding: 20,
+                borderRadius: 12,
+                marginBottom: 15,
+                elevation: 3,
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                alignItems: 'center',
+                opacity: 0.9
+              }}
+              activeOpacity={0.7}
+            // onPress={() => navigation.navigate('PartyRegistration')}
+            >
+              <Text style={{ fontSize: 24, marginBottom: 8 }}>🎭</Text>
+              <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold', textAlign: 'center' }}>
+                Party Registration
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
     </>
   )
