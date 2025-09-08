@@ -37,7 +37,6 @@ const AddNewItem = () => {
         try {
             // console.log('api responding')
             const { product_name, material_type_one, material_quantity, material_quality, batch_number, unit, supervisor_name, total_cost, remarks } = state;
-            // console.log(product_name, material_type_one, material_quantity, material_quality, batch_number, unit, supervisor_name, total_cost, remarks, "product_name, material_type_one, material_quantity, material_quality, batch_number, unit, supervisor_name, total_cost, remarks")
             const response = await fetch(`https://d5021510c8e8.ngrok-free.app/api/users/v1/motion-product-manufacturing`, {
                 method: 'POST',
                 headers: {
@@ -75,7 +74,7 @@ const AddNewItem = () => {
                             <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#7f8378ff', }}>Create New Items</Text>
                             <View style={{ paddingTop: 10 }}></View>
                             <TextInput
-                                label="New Item" // product_name
+                                label="New Item" 
                                 placeholder="Enter item name"
                                 mode="outlined"
                                 onChangeText={handleProductName}

@@ -35,7 +35,7 @@ const PurchaseItems = () => {
         <View style={{ flex: 1, backgroundColor: '#DCEDC8', }}>
             <CustomHeader />
             <ScrollView showsVerticalScrollIndicator={false}>
-                {/* Content goes here */}
+                <View></View>
             </ScrollView>
             <TouchableOpacity style={styles.purchaseButton} onPress={AddPurchaseItems}>
                 <Text style={styles.purchaseButtonText}>New Purchase</Text>
