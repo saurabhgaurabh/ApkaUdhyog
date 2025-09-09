@@ -15,6 +15,7 @@ const Colors = {
   text: "#333333",         // default text color
   background: "#ffffff",   // white background
   border: "#e0e0e0",       // border grey
+  textOrCardBackground: "#dcdcdc"
 };
 
 export default Colors;

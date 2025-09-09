@@ -318,6 +318,65 @@ const styles = StyleSheet.create({
   bottomButtonCancel: { backgroundColor: "#f44336", height: 50, width: '45%', justifyContent: "center", alignItems: "center", shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.3, shadowRadius: 3, elevation: 4, borderRadius: 10 },
   bottomButtonColumnSubmit: { backgroundColor: "#4CAF50", height: 50, width: '45%', justifyContent: "center", alignItems: "center", shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.3, shadowRadius: 3, elevation: 4, borderRadius: 10 },
   bottomButtonText: { color: "#fff", fontSize: 16, fontWeight: "600" },
+  quickAccessCard: {
+    width: '48%',
+    borderRadius: 12,
+    marginBottom: 15,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    overflow: 'hidden',
+    // height: 'auto'
+  },
+  QuickAcessCardGradient: {
+    flex: 1,
+    borderRadius: 12,
+    padding: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  cardText: { color: '#0a0a0aff', fontSize: 16, fontWeight: 'bold', textAlign: 'center' },
+  // Cardcontainer: {
+  //   flexDirection: 'row',
+  //   flexWrap: 'wrap',
+  //   justifyContent: 'space-between',
+  //   padding: 20,
+  // },
+  // cardWrapper: {
+  //   width: '48%',
+  //   marginBottom: 15,
+  //   borderRadius: 12,
+  //   elevation: 4,
+  //   shadowColor: '#000',
+  //   shadowOpacity: 0.25,
+  //   shadowOffset: { width: 0, height: 2 },
+  //   shadowRadius: 4,
+  //   overflow: 'hidden',
+  // },
+  // card: {
+  //   flex: 1,
+  //   borderRadius: 12,
+  //   paddingVertical: 30,
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  // },
+  // icon: {
+  //   fontSize: 28,
+  //   marginBottom: 8,
+  // },
+  HomecardText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#111010ff',
+  },
+  homeTopCard: { flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', width: '100%', height: 190 },
+  homeCardBodyLeft: { flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffffff', height: 190, width: '45%', borderRadius: 10, borderColor: '#e0e0e0', borderWidth: 1, shadowColor: '#000', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.15, shadowRadius: 6, elevation: 4, },
+  homeCardBodyRight: { flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: 190, width: '45%' },
+
+
+
 
 })
 

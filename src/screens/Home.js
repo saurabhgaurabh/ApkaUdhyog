@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView, SafeAreaView, Image } from 'react-native'
 import React from 'react'
 import Settings from '../navigation/Drawer/PurchaseStack'
 import CustomHeader from '../components/CustomeHeader'
@@ -6,7 +6,8 @@ import styles from '../MainStyle'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import Colors from '../constants/color'
-
+import ImagePath from '../constants/ImagePath'
+import LinearGradient from 'react-native-linear-gradient';
 
 
 
@@ -14,11 +15,17 @@ const Home = ({ navigation }) => {
   const [showSearch, setShowSearch] = React.useState(false);
   const [q, setQ] = React.useState("");
   const get = useSelector((state) => state.items.itemList);
+  // const cards = [
+  //   { id: 1, title: 'Emp Registration', icon: '👤', colors: ['#83e2beff', '#bff1c2ff'] },
+  //   { id: 2, title: 'Dealer', icon: '🏢', colors: ['#eed695ff', '#bff1c2ff'] },
+  //   { id: 3, title: 'Stock', icon: '📦', colors: ['#a3f0a7ff', '#bff1c2ff'] },
+  //   { id: 4, title: 'Reports', icon: '📊', colors: ['#84bdebff', '#bff1c2ff'] },
+  // ];
 
   return (
     <>
       <CustomHeader backgroundColor="#ffffff" textColor="#8a4949ff" />
-      <View style={{ flex: 1, backgroundColor: '#DCEDC8', gap: 10 }}>
+      <View style={{ flex: 1, backgroundColor: '#ebebebff', gap: 10 }}>
         <View style={styles.FlexContainer}>
           <View style={styles.FlexItems}>
             <TouchableOpacity onPress={{}}>
@@ -31,10 +38,9 @@ const Home = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         </View>
-        {/* this is card section */}
+
         <ScrollView style={{ flex: 1, top: 0 }} horizontal={false} showsVerticalScrollIndicator={false}>
-          <View style={styles.card}>
-            {/* Top Row: Party Name + Tag + Date */}
+          {/* <View style={styles.card}>
             <View style={styles.topRow}>
               <Text style={styles.partyName}>Gaurav Kumar</Text>
               <Text style={styles.date}>#1</Text>
@@ -46,7 +52,6 @@ const Home = ({ navigation }) => {
               <Text style={styles.date}>31 Aug, 25</Text>
             </View>
 
-            {/* Bottom Row: Total + Balance (Left) and Icons (Right) */}
             <View style={styles.bottomRow}>
               <View style={styles.rowLeft}>
                 <View style={styles.column}>
@@ -71,117 +76,44 @@ const Home = ({ navigation }) => {
                 </TouchableOpacity>
               </View>
             </View>
+          </View> */}
+
+          {/* <View style={styles.Cardcontainer}>
+            {cards.map((card) => (
+              <TouchableOpacity
+                key={card.id}
+                style={styles.cardWrapper}
+                activeOpacity={0.8}
+                onPress={() => console.log(`${card.title} pressed`)}
+              >
+                <LinearGradient
+                  colors={card.colors}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  style={styles.card}
+                >
+                  <Text style={styles.icon}>{card.icon}</Text>
+                  <Text style={styles.HomecardText}>{card.title}</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            ))}
+          </View> */}
+
+          <View style={styles.homeTopCard}>
+            <View style={styles.homeCardBodyLeft}>
+              <Text>Add New Sale</Text>
+            </View>
+            <View style={styles.homeCardBodyRight}>
+              <View style={{ height: '100%', width: '100%', justifyContent: 'space-between', alignItems: 'center', borderRadius: 10 }}>
+                <View style={{ backgroundColor: 'red', width: '100%', height: '48%', borderRadius: 10 }}><Text>Add New Client</Text></View>
+                <View style={{ backgroundColor: 'yellow', width: '100%', height: '48%', borderRadius: 10 }}><Text>Add New Dealer</Text></View>
+              </View>
+            </View>
           </View>
 
         </ScrollView>
 
-        {/* New Cards Section */}
-        <View style={{ padding: 10, paddingTop: 20 }}>
-          <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#333', marginBottom: 15, textAlign: 'center' }}>
-            Quick Actions
-          </Text>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-            {/* Add Dealer Card */}
-            <TouchableOpacity
-              style={{
-                backgroundColor: Colors.lightGreen,
-                width: '48%',
-                padding: 20,
-                borderRadius: 12,
-                marginBottom: 15,
-                elevation: 3,
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.25,
-                shadowRadius: 3.84,
-                alignItems: 'center',
-                opacity: 0.9
-              }}
-              activeOpacity={0.7}
-            // onPress={() => navigation.navigate('AddDealer')}
-            >
-              <Text style={{ fontSize: 24, marginBottom: 8 }}>👥</Text>
-              <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold', textAlign: 'center' }}>
-                Add Dealer
-              </Text>
-            </TouchableOpacity>
 
-            {/* Employee Registration Card */}
-            <TouchableOpacity
-              style={{
-                backgroundColor: '#cecfc1ff',
-                width: '48%',
-                padding: 20,
-                borderRadius: 12,
-                marginBottom: 15,
-                elevation: 3,
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.25,
-                shadowRadius: 3.84,
-                alignItems: 'center',
-                opacity: 0.9
-              }}
-              activeOpacity={0.7}
-            // onPress={() => navigation.navigate('EmpRegistration')}
-            >
-              <Text style={{ fontSize: 24, marginBottom: 8 }}>👤</Text>
-              <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold', textAlign: 'center' }}>
-                Emp Registration
-              </Text>
-            </TouchableOpacity>
-
-            {/* Product Manufacturing Card */}
-            <TouchableOpacity
-              style={{
-                backgroundColor: '#acecf5ff',
-                width: '48%',
-                padding: 20,
-                borderRadius: 12,
-                marginBottom: 15,
-                elevation: 3,
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.25,
-                shadowRadius: 3.84,
-                alignItems: 'center',
-                opacity: 0.9
-              }}
-              activeOpacity={0.7}
-            // onPress={() => navigation.navigate('ProductManufacturing')}
-            >
-              <Text style={{ fontSize: 24, marginBottom: 8 }}>🏭</Text>
-              <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold', textAlign: 'center' }}>
-                Product Manufacturing
-              </Text>
-            </TouchableOpacity>
-
-            {/* Party Registration Card */}
-            <TouchableOpacity
-              style={{
-                backgroundColor: '#8bf7cdff',
-                width: '48%',
-                padding: 20,
-                borderRadius: 12,
-                marginBottom: 15,
-                elevation: 3,
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.25,
-                shadowRadius: 3.84,
-                alignItems: 'center',
-                opacity: 0.9
-              }}
-              activeOpacity={0.7}
-            // onPress={() => navigation.navigate('PartyRegistration')}
-            >
-              <Text style={{ fontSize: 24, marginBottom: 8 }}>🎭</Text>
-              <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold', textAlign: 'center' }}>
-                Party Registration
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
       </View>
     </>
   )
