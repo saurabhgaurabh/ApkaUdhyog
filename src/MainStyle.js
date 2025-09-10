@@ -1,6 +1,10 @@
-import { StatusBar, StyleSheet } from "react-native";
+import { Dimensions, StatusBar, StyleSheet } from "react-native";
 import Colors from "./constants/color";
 import Fonts from "./constants/fonts";
+const { height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
+
+
 const styles = StyleSheet.create({
   loginContainer: {
     flex: 1,
@@ -357,9 +361,66 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10,
   },
-  homeCardInnerBody: { alignItems: 'center', width: '25%',},
-  menuCardHeading: {color: Colors.primary, fontSize: 15, fontWeight: '500', marginTop: 10},
-  menuCardSubHeading: {color: Colors.primary, fontSize: 15, fontWeight: '500'},
+  homeCardInnerBody: { alignItems: 'center', width: '25%', },
+  menuCardHeading: { color: Colors.primary, fontSize: 15, fontWeight: '500', marginTop: 10 },
+  menuCardSubHeading: { color: Colors.primary, fontSize: 15, fontWeight: '500' },
+  slide: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // height: height * 0.3,
+    backgroundColor: '#4CAF50',
+    borderRadius: 15,
+    margin: 15,
+    elevation: 5,
+  },
+  text: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+  dot: {
+    backgroundColor: 'grey',
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    margin: 3,
+  },
+  activeDot: {
+    backgroundColor: '#ebf5ecff',
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    margin: 3,
+  },
+  CarouselContainer: {
+    height: 220,
+  },
+  card: {
+    width: width,
+    height: 200,
+    borderRadius: 15,
+    marginHorizontal: 5,
+    overflow: 'hidden',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    borderRadius: 10,
+  },
+  text: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#fff',
+    marginBottom: 15,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    borderRadius: 8,
+  },
 
 
 

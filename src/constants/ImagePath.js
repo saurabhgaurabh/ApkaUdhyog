@@ -7,4 +7,10 @@ export default {
     client: require('../assets/client.png'),
     sale: require('../assets/sale.png'),
     dealer: require('../assets/dealer.png'),
+    dailyTask: require('../assets/dailyTask.png'),
+    productDispatch: require('../assets/productDispatch.png'),
+    payments: require('../assets/payments.png'),
+    employeeRegistration: require('../assets/employeeRegistration.png'),
+    partyRegistration: require('../assets/partyRegistration.png'),
+    manufacturing: require('../assets/manufacturing.png'),
 }

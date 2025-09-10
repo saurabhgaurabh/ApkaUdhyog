@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity, ScrollView, SafeAreaView, Image } from 'react-native'
-import React, { useState } from 'react'
+import { View, Text, TouchableOpacity, ScrollView, SafeAreaView, Image, Dimensions } from 'react-native'
+import React, { useRef, useState } from 'react'
 import Settings from '../navigation/Drawer/PurchaseStack'
 import CustomHeader from '../components/CustomeHeader'
 import styles from '../MainStyle'
@@ -8,10 +8,13 @@ import { useSelector } from 'react-redux'
 import Colors from '../constants/color'
 import ImagePath from '../constants/ImagePath'
 import LinearGradient from 'react-native-linear-gradient';
+import Swiper from 'react-native-swiper';
 
 
-
+const { height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 const Home = ({ navigation }) => {
+
   const [showSearch, setShowSearch] = React.useState(false);
   const [q, setQ] = React.useState("");
   const get = useSelector((state) => state.items.itemList);
@@ -33,6 +36,7 @@ const Home = ({ navigation }) => {
   const handlePressOut = (cardName) => {
     setPressedStates(prev => ({ ...prev, [cardName]: false }));
   };
+
 
   return (
     <>
@@ -122,26 +126,47 @@ const Home = ({ navigation }) => {
           <View style={styles.homeMenuBody} >
             <TouchableOpacity style={styles.homeCardInnerBody}>
               <View style={styles.menuColumnCss} >
-                <Image source={ImagePath.dealer} style={{ width: 30, height: 30 }} resizeMode="contain" />
+                <Image source={ImagePath.employeeRegistration} style={{ width: 45, height: 40, borderRadius: 10 }} resizeMode="cover" />
               </View>
               <Text style={styles.menuCardHeading}  >Employee </Text>
               <Text style={styles.menuCardSubHeading}>Registration</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.homeCardInnerBody}>
               <View style={styles.menuColumnCss} >
-                <Image source={ImagePath.dealer} style={{ width: 30, height: 30 }} resizeMode="contain" />
+                <Image source={ImagePath.partyRegistration} style={{ width: 30, height: 30 }} resizeMode="contain" />
               </View>
               <Text style={styles.menuCardHeading}   >Party </Text>
               <Text style={styles.menuCardSubHeading}>Registration</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.homeCardInnerBody}>
               <View style={styles.menuColumnCss} >
-                <Image source={ImagePath.dealer} style={{ width: 30, height: 30 }} resizeMode="contain" />
+                <Image source={ImagePath.manufacturing} style={{ width: 30, height: 30 }} resizeMode="contain" />
               </View>
               <Text style={styles.menuCardHeading} >Products </Text>
               <Text style={styles.menuCardSubHeading}>Manufacture</Text>
             </TouchableOpacity>
           </View>
+
+          <View style={{ height: height * 0.25, width: width * 0.95 }}>
+            <Swiper
+              loop
+              showsPagination={true}
+              dotStyle={styles.dot}
+              activeDotStyle={styles.activeDot}
+              autoplay
+            >
+              <TouchableOpacity style={styles.slide} activeOpacity={0.8} onPress={() => alert("Go to Daily Task")} >
+                <Image source={ImagePath.dailyTask} resizeMode='cover' style={styles.image} />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.slide} activeOpacity={0.8} onPress={() => alert("Go to Product Dispatch")} >
+                <Image source={ImagePath.productDispatch} resizeMode='cover' style={styles.image} />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.slide} activeOpacity={0.8} onPress={() => alert("Go to Payments")}>
+                <Image source={ImagePath.payments} resizeMode='cover' style={styles.image} />
+              </TouchableOpacity>
+            </Swiper>
+          </View>
+
         </ScrollView>
 
 
