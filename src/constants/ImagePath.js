@@ -1,5 +1,6 @@
 export default {
     Home: require('../assets/home.png'),
+    user: require('../assets/user.png'),
     dashboard: require('../assets/Dash.png'),
     product: require('../assets/new-product.png'),
     service: require('../assets/service.png'),
@@ -13,4 +14,6 @@ export default {
     employeeRegistration: require('../assets/employeeRegistration.png'),
     partyRegistration: require('../assets/partyRegistration.png'),
     manufacturing: require('../assets/manufacturing.png'),
+    notification: require('../assets/notification.png'),
+    setting: require('../assets/setting.png'),
 }

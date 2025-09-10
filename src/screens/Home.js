@@ -126,7 +126,7 @@ const Home = ({ navigation }) => {
           <View style={styles.homeMenuBody} >
             <TouchableOpacity style={styles.homeCardInnerBody}>
               <View style={styles.menuColumnCss} >
-                <Image source={ImagePath.employeeRegistration} style={{ width: 45, height: 40, borderRadius: 10 }} resizeMode="cover" />
+                <Image source={ImagePath.employeeRegistration} style={{ width: 30, height: 30 }} resizeMode="cover" />
               </View>
               <Text style={styles.menuCardHeading}  >Employee </Text>
               <Text style={styles.menuCardSubHeading}>Registration</Text>

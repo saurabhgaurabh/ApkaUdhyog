@@ -12,10 +12,11 @@ import {
   Platform
 } from 'react-native';
 import ImagePath from '../constants/ImagePath';
+import Colors from '../constants/color';
 
 export default function CustomHeader({
   username = "User",
-  logo = ImagePath.Home,
+  logo = ImagePath.user,
   onSettingsPress,
   onNotificationPress,
   backgroundColor = "#ffffff",
@@ -44,10 +45,10 @@ export default function CustomHeader({
       {/* Right side: Notification + Settings */}
       <View style={styles.rightSide}>
         <TouchableOpacity onPress={onNotificationPress} style={styles.iconBtn}>
-          <Text style={[styles.iconText, { color: textColor }]}>🔔</Text>
+          <Image source={ImagePath.notification} style={{ width: 30, height: 25 }} resizeMode="contain" />
         </TouchableOpacity>
         <TouchableOpacity onPress={onSettingsPress} style={styles.iconBtn}>
-          <Text style={[styles.iconText, { color: textColor }]}>⚙️</Text>
+          <Image source={ImagePath.setting} style={{ width: 30, height: 25 }} resizeMode="contain" />
         </TouchableOpacity>
       </View>
     </View>
@@ -75,6 +76,8 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     backgroundColor: '#f0f0f0',
     imageContentFit: 'contain',
+    borderWidth: 1.5,
+    borderColor: Colors.dark    
   },
   username: {
     fontSize: 18,
