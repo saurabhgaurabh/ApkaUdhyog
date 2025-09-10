@@ -120,34 +120,28 @@ const Home = ({ navigation }) => {
 
           {/* Menu Items Section */}
           <View style={styles.homeMenuBody} >
-            <View style={{ alignItems: 'center' }}>
+            <TouchableOpacity style={styles.homeCardInnerBody}>
               <View style={styles.menuColumnCss} >
                 <Image source={ImagePath.dealer} style={{ width: 30, height: 30 }} resizeMode="contain" />
               </View>
-              <Text style={styles.HomecardText}>Dealer</Text>
-            </View>
-            <View style={{ alignItems: 'center' }}>
+              <Text style={styles.menuCardHeading}  >Employee </Text>
+              <Text style={styles.menuCardSubHeading}>Registration</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.homeCardInnerBody}>
               <View style={styles.menuColumnCss} >
                 <Image source={ImagePath.dealer} style={{ width: 30, height: 30 }} resizeMode="contain" />
               </View>
-              <Text style={styles.HomecardText}>Dealer</Text>
-            </View>
-            <View style={{ alignItems: 'center' }}>
+              <Text style={styles.menuCardHeading}   >Party </Text>
+              <Text style={styles.menuCardSubHeading}>Registration</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.homeCardInnerBody}>
               <View style={styles.menuColumnCss} >
                 <Image source={ImagePath.dealer} style={{ width: 30, height: 30 }} resizeMode="contain" />
               </View>
-              <Text style={styles.HomecardText}>Dealer</Text>
-            </View>
-            <View style={{ alignItems: 'center' }}>
-              <View style={styles.menuColumnCss} >
-                <Image source={ImagePath.dealer} style={{ width: 30, height: 30 }} resizeMode="contain" />
-              </View>
-              <Text style={styles.HomecardText}>Dealer</Text>
-            </View>
+              <Text style={styles.menuCardHeading} >Products </Text>
+              <Text style={styles.menuCardSubHeading}>Manufacture</Text>
+            </TouchableOpacity>
           </View>
-
-
-
         </ScrollView>
 
 

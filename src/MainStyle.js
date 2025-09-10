@@ -347,7 +347,7 @@ const styles = StyleSheet.create({
   homeCardBodyLeft: { flexDirection: 'column', justifyContent: 'space-around', alignItems: 'flex-start', backgroundColor: '#ffffff', height: 190, width: '45%', borderRadius: 10, borderColor: '#e0e0e0', borderWidth: 1, shadowColor: '#000', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.15, shadowRadius: 6, elevation: 4, paddingHorizontal: 10, gap: 50 },
   homeCardBodyRight: { flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: 190, width: '45%' },
   // homeCardLeft: { justifyContent: 'space-around',  backgroundColor: pressed ? Colors.sweetGreen : '#ffffff', width: '100%', height: '48%', borderRadius: 15, paddingHorizontal: 10, },
-  homeMenuBody: { backgroundColor: '#ffffff', width: '100%', height: 110, flex: 1, flexDirection: "row", justifyContent: 'space-around', alignItems: 'center', borderRadius: 10, borderColor: Colors.border, borderWidth: 1.5, shadowColor: '#000', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.15, shadowRadius: 6, elevation: 1, },
+  homeMenuBody: { backgroundColor: '#ffffff', width: '100%', height: 140, flex: 1, flexDirection: "row", justifyContent: 'space-around', alignItems: 'center', borderRadius: 10, borderColor: Colors.border, borderWidth: 1.5, shadowColor: '#000', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.15, shadowRadius: 6, elevation: 1, },
   menuColumnCss: {
     backgroundColor: Colors.textOrCardBackground,
     width: 60,
@@ -357,6 +357,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10,
   },
+  homeCardInnerBody: { alignItems: 'center', width: '25%',},
+  menuCardHeading: {color: Colors.primary, fontSize: 15, fontWeight: '500', marginTop: 10},
+  menuCardSubHeading: {color: Colors.primary, fontSize: 15, fontWeight: '500'},
 
 
 
