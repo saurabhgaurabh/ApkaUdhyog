@@ -1,7 +1,8 @@
 // src/constants/color.js
 
 const Colors = {
-  primary: "#4CAF50",      // main green
+  primary: "#4CAF50",      // main green active_outline color
+  inactiveOutlineOrTextColor: "#7f8378ff",
   lightGreen: "#a3f0a7ff",  
   sweetGreen: "#bff1c2ff",  
   dashboardGreen: "#DCEDC8",  
@@ -15,7 +16,8 @@ const Colors = {
   text: "#333333",         // default text color
   background: "#ffffff",   // white background
   border: "#e0e0e0",       // border grey
-  textOrCardBackground: "#dcdcdc"
+  textOrCardBackground: "#dcdcdc",
+
 };
 
 export default Colors;

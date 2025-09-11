@@ -9,11 +9,15 @@ import Colors from '../constants/color'
 import ImagePath from '../constants/ImagePath'
 import LinearGradient from 'react-native-linear-gradient';
 import Swiper from 'react-native-swiper';
+import { useNavigation } from '@react-navigation/native'
+import AddDealers from './Dealers/AddDealers'
+
 
 
 const { height } = Dimensions.get('window');
 const { width } = Dimensions.get('window');
-const Home = ({ navigation }) => {
+const Home = () => {
+  const navigation = useNavigation();
 
   const [showSearch, setShowSearch] = React.useState(false);
   const [q, setQ] = React.useState("");
@@ -65,14 +69,14 @@ const Home = ({ navigation }) => {
           <View style={{ marginBottom: 20 }}>
             <View style={styles.homeTopCard}>
               <TouchableOpacity
+                onPress={()=>(navigation.navigate(AddDealers))}
                 activeOpacity={0.9}
                 onPressIn={() => handlePressIn('addDealer')}
                 onPressOut={() => handlePressOut('addDealer')}
                 style={[styles.homeCardBodyLeft, {
                   backgroundColor: pressedStates.addDealer ? Colors.lightGreen : '#ffffff',
                   transform: [{ scale: pressedStates.addDealer ? 0.98 : 1 }],
-                }]}
-              >
+                }]} >
                 <Text style={styles.HomecardText}>New Dealer
                   {'\n'}
                   <Text style={{ fontWeight: 'bold', color: 'grey', fontSize: 10 }}>

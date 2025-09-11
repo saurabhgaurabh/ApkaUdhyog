@@ -15,7 +15,7 @@ import ImagePath from '../constants/ImagePath';
 import Colors from '../constants/color';
 
 export default function CustomHeader({
-  username = "User",
+  username = "Patiram Production",
   logo = ImagePath.user,
   onSettingsPress,
   onNotificationPress,
@@ -38,7 +38,7 @@ export default function CustomHeader({
 
       {/* Left side: Logo + Username */}
       <View style={styles.leftSide}>
-        {logo && <Image source={logo} style={styles.logo} resizeMode="contain" />}
+        {logo && <Image source={logo} style={styles.logo} resizeMode="cover" />}
         <Text style={[styles.username, { color: "#4CAF50" }]}>{username}</Text>
       </View>
 
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f0f0f0',
     imageContentFit: 'contain',
     borderWidth: 1.5,
-    borderColor: Colors.dark    
+    borderColor: 'grey'  
   },
   username: {
     fontSize: 18,

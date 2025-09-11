@@ -317,7 +317,7 @@ const styles = StyleSheet.create({
   cardHeading: { display: 'flex', paddingTop: 10, justifyContent: 'center', alignItems: 'center', },
   cardButton: { borderRadius: 10, backgroundColor: Colors.sweetGreen, width: '90%', justifyContent: 'center', alignItems: 'center', height: 60, paddingHorizontal: 10, borderColor: '#fff', borderWidth: 2 },
   cardText: { fontFamily: Fonts.bold, fontSize: 20, fontWeight: '900', color: Colors.dark },
-  bottomButtonBody: { flexDirection: "row", justifyContent: "space-around", width: "100%", position: 'absolute', bottom: 0, backgroundColor: Colors.dashboardGreen, paddingVertical: 10 },
+  bottomButtonBody: { flexDirection: "row", justifyContent: "space-around", width: "100%", position: 'fix', bottom: 0, backgroundColor: Colors.background, paddingVertical: 10 },
   bottomButtonCancel: { backgroundColor: "#f44336", height: 50, width: '45%', justifyContent: "center", alignItems: "center", shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.3, shadowRadius: 3, elevation: 4, borderRadius: 10 },
   bottomButtonColumnSubmit: { backgroundColor: "#4CAF50", height: 50, width: '45%', justifyContent: "center", alignItems: "center", shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.3, shadowRadius: 3, elevation: 4, borderRadius: 10 },
   bottomButtonText: { color: "#fff", fontSize: 16, fontWeight: "600" },
@@ -352,6 +352,7 @@ const styles = StyleSheet.create({
   homeCardBodyRight: { flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: 190, width: '45%' },
   // homeCardLeft: { justifyContent: 'space-around',  backgroundColor: pressed ? Colors.sweetGreen : '#ffffff', width: '100%', height: '48%', borderRadius: 15, paddingHorizontal: 10, },
   homeMenuBody: { backgroundColor: '#ffffff', width: '100%', height: 140, flex: 1, flexDirection: "row", justifyContent: 'space-around', alignItems: 'center', borderRadius: 10, borderColor: Colors.border, borderWidth: 1.5, shadowColor: '#000', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.15, shadowRadius: 6, elevation: 1, },
+
   menuColumnCss: {
     backgroundColor: Colors.textOrCardBackground,
     width: 60,
@@ -421,7 +422,14 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     borderRadius: 8,
   },
-
+sectionTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#4CAF50",
+    alignSelf: "flex-start",
+    marginVertical: 10,
+    marginLeft: 15,
+  },
 
 
 

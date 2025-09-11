@@ -17,27 +17,31 @@ const TabRoutes = () => {
   const Tab = createBottomTabNavigator();
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      {/* <StatusBar backgroundColor="#fff" barStyle="dark-content" translucent={false} /> */}
       <Tab.Navigator screenOptions={{
         tabBarInactiveTintColor: '#7f8378ff', tabBarActiveTintColor: '#4CAF50',
         tabBarStyle: { backgroundColor: '#ffffff' }
       }}>
-        <Tab.Screen name='HomeStack' component={HomeStack} options={{
-          headerShown: false, title: 'Home',
-          tabBarIcon: ({ focused }) => {
-            return (
+        <Tab.Screen name="HomeStack" component={HomeStack} options={({ route }) => {
+          const routeName = getFocusedRouteNameFromRoute(route) ?? "";
+          const isAddDealers = routeName === "AddDealers";
+          return {
+            headerShown: false,
+            title: 'Products',
+            tabBarStyle: isAddDealers ? { display: "none" } : { display: "flex" },
+            tabBarIcon: ({ focused }) => (
               <Image
                 style={{
-                  tintColor: focused ? "#66BB6A" : "#7f8378ff",
+                  tintColor: focused ? "#4CAF50" : "#7f8378ff",
                   width: iconSize,
                   height: iconSize,
                   resizeMode: "contain",
                 }}
                 source={ImagePath.Home}
               />
-            )
-          }
-        }}></Tab.Screen>
+            ),
+          };
+        }}
+        />
         <Tab.Screen name="Dashboard" component={Dashboard} options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => {
