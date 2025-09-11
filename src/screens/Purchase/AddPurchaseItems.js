@@ -56,7 +56,7 @@ const AddPurchaseItems = () => {
             const { dealer_name, material_type, postal_code,
                 country, state: addressState, city, address, freight, material_amount, material_amount_pending } = state;
 
-            const order_id = Math.random().toString(36).substr(2, 9);
+            const order_id = Math.random().toString(36).substring(2, 9);
             console.log(dealer_name, material_type, postal_code, country, addressState, city, address, freight, material_amount, material_amount_pending, order_id);
             const response = await fetch(`https://d5021510c8e8.ngrok-free.app/api/users/v1/motion-purchase-row-material-post`, {
                 method: 'post',

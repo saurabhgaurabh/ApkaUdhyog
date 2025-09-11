@@ -3,4 +3,5 @@ export default {
     LOGIN: 'Login',
     TABROUTES: 'TabRoutes',
     ADDDEALER: 'AddDealers',
+    HOME: 'Home'
 }

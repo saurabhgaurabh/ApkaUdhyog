@@ -1,13 +1,62 @@
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native'
-import React, { useEffect } from 'react'
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, ToastAndroid } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { TextInput, Button } from "react-native-paper";
 import EditableHeader from '../../components/EditableHeader';
 import CustomHeader from '../../components/CustomeHeader';
 import Colors from '../../constants/color';
 import styles from '../../MainStyle';
+import { useNavigation } from '@react-navigation/native';
+import Home from '../Home';
+import NavigationStrings from '../../constants/NavigationStrings';
+
 
 
 const AddDealers = () => {
+    const navigation = useNavigation();
+    const [state, setState] = useState({
+        dealer_name: '', dealer_GST: '', mobile_number: '', adhar_number: '', pan: '', dealing_product: '',
+        email: '', country: '', state: '', city: '', address: '', postal_code: ''
+    });
+    const handleDealerName = (text) => setState(prevState => ({ ...prevState, dealer_name: text }));
+    const handleGST = (text) => setState(prevState => ({ ...prevState, dealer_GST: text }));
+    const handleMobile = (text) => setState(prevState => ({ ...prevState, mobile_number: text }));
+    const handleAdhar = (text) => setState(prevState => ({ ...prevState, adhar_number: text }));
+    const handlePan = (text) => setState(prevState => ({ ...prevState, pan: text }));
+    const handleDealingProduct = (text) => setState(prevState => ({ ...prevState, dealing_product: text }));
+    const handleEmail = (text) => setState(prevState => ({ ...prevState, email: text }));
+    const handleCountry = (text) => setState(prevState => ({ ...prevState, country: text }));
+    const handleState = (text) => setState(prevState => ({ ...prevState, state: text }));
+    const handleCity = (text) => setState(prevState => ({ ...prevState, city: text }));
+    const handleAddress = (text) => setState(prevState => ({ ...prevState, address: text }));
+    const handlePostalCode = (text) => setState(prevState => ({ ...prevState, postal_code: text }));
+
+    const handleSubmit = async () => {
+        const { dealer_name, dealer_GST, mobile_number, adhar_number, pan, dealing_product, email,
+            country, state: addressState, city, address, postal_code } = state;
+        console.log(dealer_name, dealer_GST, mobile_number, adhar_number, pan, dealing_product, email,
+            country, addressState, city, address, postal_code, "consle dealer data...");
+        const dealer_Code = Math.random().toString(36).substring(2, 9);
+        const response = await fetch(`https://0a0aa604993c.ngrok-free.app/api/users/v1/motion-add-dealer-registration-post`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'Application/json',
+                'Content-Type': 'Application/json'
+            },
+            body: JSON.stringify({
+                dealer_Code, dealer_name, dealer_GST, mobile_number, adhar_number, pan, dealing_product, email,
+                country, state: addressState, city, address, postal_code
+            }),
+        });
+        const result = await response.json();
+        console.log(result, "dealer result");
+        if (result.status) {
+            ToastAndroid.show("Dealer has been Registered Successfully", ToastAndroid.SHORT);
+            navigation.navigate(NavigationStrings.HOME);
+
+        } else {
+            ToastAndroid.show("Internal Error.", ToastAndroid.SHORT);
+        }
+    }
     return (
         <>
             <View style={{ flex: 1 }}>
@@ -21,6 +70,10 @@ const AddDealers = () => {
                             label="Dealer/Distributor"
                             placeholder="Enter Dealer/Distributor Name"
                             mode="outlined"
+                            onChangeText={handleDealerName}
+                            keyboardType="default"
+                            autoCapitalize="none"
+                            autoCorrect={false}
                             activeOutlineColor="#4CAF50"
                             outlineColor="#7f8378ff"
                             style={styles.input}
@@ -29,6 +82,10 @@ const AddDealers = () => {
                             label="Email"
                             placeholder="Enter Your Email"
                             mode="outlined"
+                            onChangeText={handleGST}
+                            keyboardType="default"
+                            autoCapitalize="none"
+                            autoCorrect={false}
                             activeOutlineColor="#4CAF50"
                             outlineColor="#7f8378ff"
                             style={styles.input}
@@ -37,6 +94,10 @@ const AddDealers = () => {
                             label="GST"
                             placeholder="Enter GST Number"
                             mode="outlined"
+                            onChangeText={handleMobile}
+                            keyboardType="default"
+                            autoCapitalize="none"
+                            autoCorrect={false}
                             activeOutlineColor="#4CAF50"
                             outlineColor="#7f8378ff"
                             style={styles.input}
@@ -45,6 +106,10 @@ const AddDealers = () => {
                             label="Mobile"
                             placeholder="+91 Enter Mobile"
                             mode="outlined"
+                            onChangeText={handleAdhar}
+                            keyboardType="default"
+                            autoCapitalize="none"
+                            autoCorrect={false}
                             activeOutlineColor="#4CAF50"
                             outlineColor="#7f8378ff"
                             style={styles.input}
@@ -53,6 +118,10 @@ const AddDealers = () => {
                             label="Dealing Product"
                             placeholder="Enter Dealing Product Name"
                             mode="outlined"
+                            onChangeText={handlePan}
+                            keyboardType="default"
+                            autoCapitalize="none"
+                            autoCorrect={false}
                             activeOutlineColor="#4CAF50"
                             outlineColor="#7f8378ff"
                             style={styles.input}
@@ -65,6 +134,10 @@ const AddDealers = () => {
                                 label="Adhar"
                                 placeholder="Adhar Card No"
                                 mode="outlined"
+                                onChangeText={handleDealingProduct}
+                                keyboardType="default"
+                                autoCapitalize="none"
+                                autoCorrect={false}
                                 activeOutlineColor="#4CAF50"
                                 outlineColor="#7f8378ff"
                                 style={[styles.input, { flex: 1, marginRight: 5 }]}
@@ -73,6 +146,10 @@ const AddDealers = () => {
                                 label="Pan Card"
                                 placeholder="Enter Pan Card No"
                                 mode="outlined"
+                                onChangeText={handleEmail}
+                                keyboardType="default"
+                                autoCapitalize="none"
+                                autoCorrect={false}
                                 activeOutlineColor="#4CAF50"
                                 outlineColor="#7f8378ff"
                                 style={[styles.input, { flex: 1, marginLeft: 5 }]}
@@ -86,6 +163,10 @@ const AddDealers = () => {
                                 label="Country"
                                 placeholder="Enter Country"
                                 mode="outlined"
+                                onChangeText={handleCountry}
+                                keyboardType="default"
+                                autoCapitalize="none"
+                                autoCorrect={false}
                                 activeOutlineColor="#4CAF50"
                                 outlineColor="#7f8378ff"
                                 style={[styles.input, { flex: 1, marginRight: 5 }]}
@@ -94,6 +175,10 @@ const AddDealers = () => {
                                 label="State"
                                 placeholder="Enter State"
                                 mode="outlined"
+                                onChangeText={handleState}
+                                keyboardType="default"
+                                autoCapitalize="none"
+                                autoCorrect={false}
                                 activeOutlineColor="#4CAF50"
                                 outlineColor="#7f8378ff"
                                 style={[styles.input, { flex: 1, marginLeft: 5 }]}
@@ -105,6 +190,10 @@ const AddDealers = () => {
                                 label="City"
                                 placeholder="Enter City"
                                 mode="outlined"
+                                onChangeText={handleCity}
+                                keyboardType="default"
+                                autoCapitalize="none"
+                                autoCorrect={false}
                                 activeOutlineColor="#4CAF50"
                                 outlineColor="#7f8378ff"
                                 style={[styles.input, { flex: 1, marginRight: 5 }]}
@@ -113,6 +202,10 @@ const AddDealers = () => {
                                 label="Address"
                                 placeholder="Enter Address"
                                 mode="outlined"
+                                onChangeText={handleAddress}
+                                keyboardType="default"
+                                autoCapitalize="none"
+                                autoCorrect={false}
                                 activeOutlineColor="#4CAF50"
                                 outlineColor="#7f8378ff"
                                 style={[styles.input, { flex: 1, marginLeft: 5 }]}
@@ -123,6 +216,10 @@ const AddDealers = () => {
                             label="Postal Code"
                             placeholder="Enter Postal Code"
                             mode="outlined"
+                            onChangeText={handlePostalCode}
+                            keyboardType="default"
+                            autoCapitalize="none"
+                            autoCorrect={false}
                             activeOutlineColor="#4CAF50"
                             outlineColor="#7f8378ff"
                             style={styles.input}
@@ -138,7 +235,7 @@ const AddDealers = () => {
                     <View style={styles.bottomButtonCancel}>
                         <Text style={styles.bottomButtonText}>Cancel</Text>
                     </View>
-                    <TouchableOpacity onPress={{}} style={styles.bottomButtonColumnSubmit}>
+                    <TouchableOpacity onPress={handleSubmit} style={styles.bottomButtonColumnSubmit}>
                         <Text style={styles.bottomButtonText}>Submit</Text>
                     </TouchableOpacity>
                 </View>
