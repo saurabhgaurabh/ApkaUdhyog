@@ -8,11 +8,51 @@ import styles from '../../MainStyle';
 import { useNavigation } from '@react-navigation/native';
 import Home from '../Home';
 import NavigationStrings from '../../constants/NavigationStrings';
+import DropDown from "react-native-paper-dropdown";
 
 
 
 const AddDealers = () => {
     const navigation = useNavigation();
+    const [showCountryDropDown, setShowCountryDropDown] = useState(false);
+    const [country, setCountry] = useState("");
+    const locationData = {
+        India: {
+            states: {
+                Maharashtra: ["Mumbai", "Pune", "Nagpur"],
+                Karnataka: ["Bengaluru", "Mysuru"],
+                Delhi: ["New Delhi"],
+            },
+        },
+        USA: {
+            states: {
+                California: ["Los Angeles", "San Francisco"],
+                Texas: ["Houston", "Dallas"],
+                NewYork: ["New York City", "Buffalo"],
+            },
+        },
+    };
+    // Convert object keys to dropdown format
+    const countryList = Object.keys(locationData).map((c) => ({
+        label: c,
+        value: c,
+    }));
+
+    const stateList =
+        country && locationData[country]
+            ? Object.keys(locationData[country].states).map((s) => ({
+                label: s,
+                value: s,
+            }))
+            : [];
+
+    const cityList =
+        country && state
+            ? locationData[country].states[state].map((ct) => ({
+                label: ct,
+                value: ct,
+            }))
+            : [];
     const [state, setState] = useState({
         dealer_name: '', dealer_GST: '', mobile_number: '', adhar_number: '', pan: '', dealing_product: '',
         email: '', country: '', state: '', city: '', address: '', postal_code: ''
@@ -83,7 +123,7 @@ const AddDealers = () => {
                             placeholder="Enter Your Email"
                             mode="outlined"
                             onChangeText={handleGST}
-                            keyboardType="default"
+                            keyboardType="email-address"
                             autoCapitalize="none"
                             autoCorrect={false}
                             activeOutlineColor="#4CAF50"
@@ -95,7 +135,7 @@ const AddDealers = () => {
                             placeholder="Enter GST Number"
                             mode="outlined"
                             onChangeText={handleMobile}
-                            keyboardType="default"
+                            keyboardType="visible-password"
                             autoCapitalize="none"
                             autoCorrect={false}
                             activeOutlineColor="#4CAF50"
@@ -107,7 +147,7 @@ const AddDealers = () => {
                             placeholder="+91 Enter Mobile"
                             mode="outlined"
                             onChangeText={handleAdhar}
-                            keyboardType="default"
+                            keyboardType="phone-pad"
                             autoCapitalize="none"
                             autoCorrect={false}
                             activeOutlineColor="#4CAF50"
@@ -135,7 +175,7 @@ const AddDealers = () => {
                                 placeholder="Adhar Card No"
                                 mode="outlined"
                                 onChangeText={handleDealingProduct}
-                                keyboardType="default"
+                                keyboardType="number-pad"
                                 autoCapitalize="none"
                                 autoCorrect={false}
                                 activeOutlineColor="#4CAF50"
@@ -147,7 +187,7 @@ const AddDealers = () => {
                                 placeholder="Enter Pan Card No"
                                 mode="outlined"
                                 onChangeText={handleEmail}
-                                keyboardType="default"
+                                keyboardType="number-pad"
                                 autoCapitalize="none"
                                 autoCorrect={false}
                                 activeOutlineColor="#4CAF50"
@@ -203,7 +243,7 @@ const AddDealers = () => {
                                 placeholder="Enter Address"
                                 mode="outlined"
                                 onChangeText={handleAddress}
-                                keyboardType="default"
+                                keyboardType="ascii-capable"
                                 autoCapitalize="none"
                                 autoCorrect={false}
                                 activeOutlineColor="#4CAF50"
@@ -217,7 +257,7 @@ const AddDealers = () => {
                             placeholder="Enter Postal Code"
                             mode="outlined"
                             onChangeText={handlePostalCode}
-                            keyboardType="default"
+                            keyboardType="numeric"
                             autoCapitalize="none"
                             autoCorrect={false}
                             activeOutlineColor="#4CAF50"

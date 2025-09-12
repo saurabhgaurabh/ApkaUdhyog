@@ -10,7 +10,6 @@ import ImagePath from '../constants/ImagePath'
 import LinearGradient from 'react-native-linear-gradient';
 import Swiper from 'react-native-swiper';
 import { useNavigation } from '@react-navigation/native'
-import AddDealers from './Dealers/AddDealers'
 
 
 
@@ -26,6 +25,7 @@ const Home = () => {
   // Pressed states for all cards
   const [pressedStates, setPressedStates] = React.useState({
     addDealer: false,
+    listDealers: false,
     addClient: false,
     addSale: false,
     empRegistration: false,
@@ -69,13 +69,13 @@ const Home = () => {
           <View style={{ marginBottom: 20 }}>
             <View style={styles.homeTopCard}>
               <TouchableOpacity
-                onPress={()=>(navigation.navigate(AddDealers))}
+                onPress={() => navigation.navigate('ListDealer')}
                 activeOpacity={0.9}
-                onPressIn={() => handlePressIn('addDealer')}
-                onPressOut={() => handlePressOut('addDealer')}
+                onPressIn={() => handlePressIn('listDealers')}
+                onPressOut={() => handlePressOut('listDealers')}
                 style={[styles.homeCardBodyLeft, {
-                  backgroundColor: pressedStates.addDealer ? Colors.lightGreen : '#ffffff',
-                  transform: [{ scale: pressedStates.addDealer ? 0.98 : 1 }],
+                  backgroundColor: pressedStates.listDealers ? Colors.lightGreen : '#ffffff',
+                  transform: [{ scale: pressedStates.listDealers ? 0.98 : 1 }],
                 }]} >
                 <Text style={styles.HomecardText}>New Dealer
                   {'\n'}

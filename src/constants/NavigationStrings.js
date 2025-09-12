@@ -1,7 +1,8 @@
 export default {
     REGISTRATION: 'Registration',
+    HOME: 'Home',
     LOGIN: 'Login',
     TABROUTES: 'TabRoutes',
-    ADDDEALER: 'AddDealers',
-    HOME: 'Home'
+    DEALER: 'AddDealers',
+    LISTDEALERS: 'ListDealers,'
 }

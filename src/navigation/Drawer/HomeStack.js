@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Home from '../../screens/Home';
 import CustomHeader from '../../components/CustomeHeader';
 import AddDealers from '../../screens/Dealers/AddDealers';
+import ListDealers from '../../screens/Dealers/ListDealers';
 
 
 const HomeStack = ({ navigation }) => {
@@ -12,7 +13,8 @@ const HomeStack = ({ navigation }) => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name='AddDealers' component={AddDealers}/>
+      <Stack.Screen name='AddDealers' component={AddDealers} />
+      <Stack.Screen name='ListDealer' component={ListDealers} />
     </Stack.Navigator>
   )
 }
