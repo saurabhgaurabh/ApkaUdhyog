@@ -6,22 +6,20 @@
 // a slice is a combination of action or reducers
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-
+ 
 const initialState = {
     itemList: [],
     loading: false,
     error: null,
 };
-
-
 const itemSlice = createSlice({
     name: "items", // reducer name
     initialState,
     reducers: {
-        setItems: (state, action) => {
+        setItems: (state, action) => { // Sets the entire list of items (e.g., from API fetch)
             state.itemList = action.payload;
         },
-        addItem: (state, action) => {
+        addItem: (state, action) => { // Adds a single item to the list
             state.itemList.push(action.payload);
         },
     },

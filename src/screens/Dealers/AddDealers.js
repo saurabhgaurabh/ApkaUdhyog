@@ -9,54 +9,21 @@ import { useNavigation } from '@react-navigation/native';
 import Home from '../Home';
 import NavigationStrings from '../../constants/NavigationStrings';
 import DropDown from "react-native-paper-dropdown";
+import { getDealers } from '../../redux/slices/addDealerSlice'; // reducer
+import { useDispatch } from 'react-redux';
+// import { addDealerData } from '../../redux/slices/addDealerSlice';
 
 
 
 const AddDealers = () => {
+    
     const navigation = useNavigation();
-    const [showCountryDropDown, setShowCountryDropDown] = useState(false);
-    const [country, setCountry] = useState("");
-    const locationData = {
-        India: {
-            states: {
-                Maharashtra: ["Mumbai", "Pune", "Nagpur"],
-                Karnataka: ["Bengaluru", "Mysuru"],
-                Delhi: ["New Delhi"],
-            },
-        },
-        USA: {
-            states: {
-                California: ["Los Angeles", "San Francisco"],
-                Texas: ["Houston", "Dallas"],
-                NewYork: ["New York City", "Buffalo"],
-            },
-        },
-    };
-    // Convert object keys to dropdown format
-    const countryList = Object.keys(locationData).map((c) => ({
-        label: c,
-        value: c,
-    }));
-
-    const stateList =
-        country && locationData[country]
-            ? Object.keys(locationData[country].states).map((s) => ({
-                label: s,
-                value: s,
-            }))
-            : [];
-
-    const cityList =
-        country && state
-            ? locationData[country].states[state].map((ct) => ({
-                label: ct,
-                value: ct,
-            }))
-            : [];
+    const dispatch = useDispatch();
     const [state, setState] = useState({
         dealer_name: '', dealer_GST: '', mobile_number: '', adhar_number: '', pan: '', dealing_product: '',
         email: '', country: '', state: '', city: '', address: '', postal_code: ''
     });
+
     const handleDealerName = (text) => setState(prevState => ({ ...prevState, dealer_name: text }));
     const handleGST = (text) => setState(prevState => ({ ...prevState, dealer_GST: text }));
     const handleMobile = (text) => setState(prevState => ({ ...prevState, mobile_number: text }));
@@ -73,23 +40,23 @@ const AddDealers = () => {
     const handleSubmit = async () => {
         const { dealer_name, dealer_GST, mobile_number, adhar_number, pan, dealing_product, email,
             country, state: addressState, city, address, postal_code } = state;
-        console.log(dealer_name, dealer_GST, mobile_number, adhar_number, pan, dealing_product, email,
-            country, addressState, city, address, postal_code, "consle dealer data...");
         const dealer_Code = Math.random().toString(36).substring(2, 9);
+        const dealerData = {
+            dealer_Code, dealer_name, dealer_GST, mobile_number, adhar_number, pan, dealing_product, email,
+            country, state: addressState, city, address, postal_code
+        };
         const response = await fetch(`https://0a0aa604993c.ngrok-free.app/api/users/v1/motion-add-dealer-registration-post`, {
             method: 'POST',
             headers: {
                 'Accept': 'Application/json',
                 'Content-Type': 'Application/json'
             },
-            body: JSON.stringify({
-                dealer_Code, dealer_name, dealer_GST, mobile_number, adhar_number, pan, dealing_product, email,
-                country, state: addressState, city, address, postal_code
-            }),
+            body: JSON.stringify(dealerData),
         });
         const result = await response.json();
         console.log(result, "dealer result");
         if (result.status) {
+            dispatch(getDealers(result));
             ToastAndroid.show("Dealer has been Registered Successfully", ToastAndroid.SHORT);
             navigation.navigate(NavigationStrings.HOME);
 
