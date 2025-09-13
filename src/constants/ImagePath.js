@@ -16,4 +16,5 @@ export default {
     manufacturing: require('../assets/manufacturing.png'),
     notification: require('../assets/notification.png'),
     setting: require('../assets/setting.png'),
+    arrowsBack: require('../assets/arrowsBack.png'),
 }

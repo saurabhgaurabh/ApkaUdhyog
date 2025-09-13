@@ -341,7 +341,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   cardText: { color: '#0a0a0aff', fontSize: 16, fontWeight: 'bold', textAlign: 'center' },
-  subcardText: { color: 'grey', fontSize: 12, fontWeight: 'bold', textAlign: 'center' },
+  subcardText: { color: 'grey', fontSize: 14, fontWeight: 'bold', textAlign: 'center' },
   HomecardText: {
     fontSize: 16,
     fontWeight: 'bold',
@@ -431,7 +431,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     marginLeft: 15,
   },
-  listCardBody: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 },
+  listCardBody: { flexDirection: 'row', justifyContent: 'space-between' },
   listStatus: {
     backgroundColor: Colors.sweetGreen,
     borderRadius: 20,
@@ -441,7 +441,25 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '600',
     overflow: 'hidden',
-  }
+  },
+  cardImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#f5f5f5',
+    padding: 8,
+  },
+  cardDealerBody: {
+    margin: 10,
+    borderRadius: 12,
+    backgroundColor: '#fff',
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 4,
+    padding: 15,
+  },
+  cardInfoHeader: { fontSize: 20, color: Colors.primary },
 
 
 

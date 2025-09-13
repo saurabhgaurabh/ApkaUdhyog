@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux';
 import { Color } from 'react-native/types_generated/Libraries/Animated/AnimatedExports';
 import Colors from '../../constants/color';
 import ImagePath from '../../constants/ImagePath';
+import DealersInfo from './DealersInfo';
+
 
 
 
@@ -25,52 +27,20 @@ const ListDealers = () => {
             <ScrollView showsVerticalScrollIndicator={false}>
                 {dealersGet?.result?.data && dealersGet?.result?.data?.length > 0 ? (
                     dealersGet?.result?.data?.map((dealer, index) => (
-                        <TouchableOpacity
-                            key={index}
-                            style={{
-                                margin: 10,
-                                borderRadius: 12,
-                                backgroundColor: '#fff',
-                                shadowColor: '#000',
-                                shadowOpacity: 0.1,
-                                shadowRadius: 6,
-                                elevation: 4,
-                                padding: 15,
-                            }}
-                        >
-                            {/* Top row: Status + Dealer ID */}
+                        <TouchableOpacity onPress={() => navigation.navigate('DealersInfo')} key={index} style={styles.cardDealerBody}  >
                             <View style={styles.listCardBody}>
                                 <Text style={styles.listStatus} >{capitalizeFirst(dealer?.status)} </Text>
-                                <Text style={styles.cardText}># {dealer.dealer_id}</Text>
+                                <Text style={styles.subcardText}>{ `#${dealer.dealer_id}`}</Text>
                             </View>
-
-                            {/* Middle row: Dealer Name + Product */}
                             <View style={{ marginBottom: 10 }}>
                                 <Text style={styles.cardText}>
                                     {capitalizeFirst(dealer.dealer_name)}
                                 </Text>
-                                 <Text style={styles.subcardText}>GSTIN: {` ${dealer.dealer_GST}`} </Text>
+                                <Text style={styles.subcardText}>{`GSTIN:  ${dealer.dealer_GST}`} </Text>
                             </View>
-
-
-                            {/* Bottom row: Icon / Image aligned right */}
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <View style={{ marginTop: 40 }}>
-                                    <Text style={{ fontSize: 14, color: '#666' }}>
-                                        View More
-                                    </Text>
-                                </View>
-                                <Image
-                                    source={ImagePath.user}
-                                    resizeMode="contain"
-                                    style={{
-                                        width: 60,
-                                        height: 60,
-                                        borderRadius: 30,
-                                        backgroundColor: '#f5f5f5',
-                                        padding: 8,
-                                    }}
-                                />
+                            <View style={styles.listCardBody}>
+                                <View style={{ marginTop: 40 }}><Text style={styles.subcardText}> More Info</Text> </View>
+                                <Image source={ImagePath.user} resizeMode="contain" style={styles.cardImage} />
                             </View>
                         </TouchableOpacity>
 
@@ -78,7 +48,6 @@ const ListDealers = () => {
                 ) : (
                     <Text>No dealers found.</Text>
                 )}
-                <Text>{console.log(dealersGet, " get new dealer data")}</Text>
             </ScrollView>
             <TouchableOpacity style={styles.purchaseButton} onPress={() => navigation.navigate('AddDealers')}>
                 <Text style={styles.purchaseButtonText}>Add Dealer</Text>

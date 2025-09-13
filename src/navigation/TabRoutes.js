@@ -24,10 +24,11 @@ const TabRoutes = () => {
         <Tab.Screen name="HomeStack" component={HomeStack} options={({ route }) => {
           const routeName = getFocusedRouteNameFromRoute(route) ?? "";
           const isAddDealers = routeName === "AddDealers";
+          const isDealersInfo = routeName === "DealersInfo";
           return {
             headerShown: false,
             title: 'Products',
-            tabBarStyle: isAddDealers ? { display: "none" } : { display: "flex" },
+            tabBarStyle: isAddDealers || isDealersInfo ? { display: "none" } : { display: "flex" },
             tabBarIcon: ({ focused }) => (
               <Image
                 style={{
