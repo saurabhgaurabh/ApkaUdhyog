@@ -1,13 +1,16 @@
 import { StyleSheet } from 'react-native';
 import MainComponent from './src/screens/main';
 import { Provider } from 'react-redux';
-import store from './src/redux/store/store';
+import { PersistGate } from 'redux-persist/integration/react';
+import store, { persistor } from './src/redux/store/store';
 
 
 const App = () => {
-  return (    
+  return (
     <Provider store={store}>
-      <MainComponent />
+      <PersistGate loading={null} persistor={persistor}>
+        <MainComponent />
+      </PersistGate>
     </Provider>
   );
 }

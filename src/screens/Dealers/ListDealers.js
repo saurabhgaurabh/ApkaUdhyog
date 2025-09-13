@@ -14,8 +14,8 @@ const ListDealers = () => {
         <View style={{ flex: 1, backgroundColor: '#DCEDC8', }}>
             <CustomHeader />
             <ScrollView showsVerticalScrollIndicator={false}>
-                {dealersGet.result.data && dealersGet.result.data.length > 0 ? (
-                    dealersGet.result.data.map((dealer, index) => (
+                {dealersGet?.result?.data && dealersGet?.result?.data?.length > 0 ? (
+                    dealersGet?.result?.data?.map((dealer, index) => (
                         <View key={index} style={{ padding: 10, margin: 10, backgroundColor: '#fff', borderRadius: 5 }}>
                             <Text>Name: {dealer.dealer_name}</Text>
                             <Text>Email: {dealer.email}</Text>
@@ -25,7 +25,7 @@ const ListDealers = () => {
                 ) : (
                     <Text>No dealers found.</Text>
                 )}
-                <Text>{console.log(dealersGet.result.data, " get new dealer data")}</Text>
+                <Text>{console.log(dealersGet, " get new dealer data")}</Text>
             </ScrollView>
             <TouchableOpacity style={styles.purchaseButton} onPress={() => navigation.navigate('AddDealers')}>
                 <Text style={styles.purchaseButtonText}>Add Dealer</Text>

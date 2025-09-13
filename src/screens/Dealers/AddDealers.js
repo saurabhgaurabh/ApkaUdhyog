@@ -45,7 +45,7 @@ const AddDealers = () => {
             dealer_Code, dealer_name, dealer_GST, mobile_number, adhar_number, pan, dealing_product, email,
             country, state: addressState, city, address, postal_code
         };
-        const response = await fetch(`https://0a0aa604993c.ngrok-free.app/api/users/v1/motion-add-dealer-registration-post`, {
+        const response = await fetch(`https://741a7d93753a.ngrok-free.app/api/users/v1/motion-add-dealer-registration-post`, {
             method: 'POST',
             headers: {
                 'Accept': 'Application/json',

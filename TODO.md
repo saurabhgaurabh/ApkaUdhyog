@@ -1,2 +1,4 @@
 - [x] Add font sizes to src/constants/fonts.js
 - [x] Apply regular font size to Text components in src/screens/Dashboard/Dashboard.js
+- [x] Integrate redux-persist to persist dealers data locally in Redux to fix "data is not defined" error on app reload
+- [x] Display dealers data in descending order by name in ListDealers.js

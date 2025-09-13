@@ -24,7 +24,7 @@ export default function CustomHeader({
 }) {
   const topInset = Platform.select({
     ios: 44,
-    android: 30,
+    android: 20,
     default: 0,
   });
 
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f0f0f0',
     imageContentFit: 'contain',
     borderWidth: 1.5,
-    borderColor: 'grey'  
+    borderColor: 'grey'
   },
   username: {
     fontSize: 18,
