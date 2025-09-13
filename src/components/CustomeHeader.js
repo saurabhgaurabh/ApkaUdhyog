@@ -24,7 +24,7 @@ export default function CustomHeader({
 }) {
   const topInset = Platform.select({
     ios: 44,
-    android: 20,
+    android: 35,
     default: 0,
   });
 

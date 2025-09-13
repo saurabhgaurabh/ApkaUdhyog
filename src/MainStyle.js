@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
   dashBoxes: { flexDirection: 'column', flex: 1, backgroundColor: Colors.light, justifyContent: 'center', alignItems: 'center', borderRadius: 8, height: 60 },
   dashTextOne: { fontFamily: Fonts.boldItalic, fontSize: Fonts.sizes.regular, fontWeight: Fonts.weights.bold, color: Colors.primary },
   dashTextTwo: { fontFamily: Fonts.boldItalic, fontSize: Fonts.sizes.regular, fontWeight: Fonts.weights.bold, color: Colors.danger },
-  CardText: { fontSize: 24, fontWeight: 'bold', color: Colors.text, textAlign: 'center' },
+  // CardText: { fontSize: 24, fontWeight: 'bold', color: Colors.text, textAlign: 'center' },
   purchaseButton: {
     position: 'absolute',
     bottom: 20,
@@ -341,6 +341,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   cardText: { color: '#0a0a0aff', fontSize: 16, fontWeight: 'bold', textAlign: 'center' },
+  subcardText: { color: 'grey', fontSize: 12, fontWeight: 'bold', textAlign: 'center' },
   HomecardText: {
     fontSize: 16,
     fontWeight: 'bold',
@@ -422,7 +423,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     borderRadius: 8,
   },
-sectionTitle: {
+  sectionTitle: {
     fontSize: 16,
     fontWeight: "bold",
     color: "#4CAF50",
@@ -430,7 +431,17 @@ sectionTitle: {
     marginVertical: 10,
     marginLeft: 15,
   },
-
+  listCardBody: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 },
+  listStatus: {
+    backgroundColor: Colors.sweetGreen,
+    borderRadius: 20,
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    color: '#161515ff',
+    fontSize: 12,
+    fontWeight: '600',
+    overflow: 'hidden',
+  }
 
 
 
