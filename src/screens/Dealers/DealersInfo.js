@@ -5,10 +5,11 @@ import Colors from '../../constants/color'
 import ImagePath from '../../constants/ImagePath'
 import styles from '../../MainStyle'
 import { useSelector } from 'react-redux'
-import { useRoute } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 
 
 const DealersInfo = () => {
+    const navigation = useNavigation();
     const route = useRoute();
     const { dealer } = route.params;
     const handleCall = (phone) => {
@@ -41,12 +42,17 @@ const DealersInfo = () => {
         <>
             <View style={{ flex: 1, backgroundColor: Colors.background, paddingTop: 35 }}>
                 <ScrollView showsVerticalScrollIndicator={false}>
-                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10 }}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={styles.backheader}>
+                        <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => navigation.goBack()} activeOpacity={0.7} >
                             <Image source={ImagePath.arrowsBack} style={{ width: 20, height: 25, marginRight: 5 }} resizeMode="contain" />
                             <Text style={styles.cardInfoHeader}>Back</Text>
-                        </View>
-                        <Text style={{ fontSize: 20, color: Colors.primary }}>Edit</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => console.log("Edit pressed")}
+                            activeOpacity={0.7}
+                        >
+                            <Text style={{ fontSize: 20, color: Colors.primary }}>Edit</Text>
+                        </TouchableOpacity>
                     </View>
 
                     <View style={styles.infoPhotoContainer}>
@@ -104,9 +110,9 @@ const DealersInfo = () => {
                             <Text style={{ marginTop: 5, fontSize: 14 }}>WhatsApp</Text>
                         </TouchableOpacity>
                     </View>
-                    <TouchableOpacity style={styles.deletebutton} onPress={{}} activeOpacity={0.7}>
+                    {/* <TouchableOpacity style={styles.deletebutton} onPress={{}} activeOpacity={0.7}>
                         <Text style={styles.deletetext}>{'Delete this account'}</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
 
                 </ScrollView>
             </View>

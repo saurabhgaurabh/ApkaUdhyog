@@ -466,6 +466,7 @@ const styles = StyleSheet.create({
     elevation: 4,
     padding: 15,
   },
+  backheader: { display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10 },
   cardInfoHeader: { fontSize: 20, color: Colors.primary },
   infoPhotoContainer: { backgroundColor: '#fff', marginBottom: 60, justifyContent: 'center', alignContent: 'center', alignItems: 'center' },
   coverPhoto: {
