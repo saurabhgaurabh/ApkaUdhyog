@@ -8,7 +8,8 @@ import { Color } from 'react-native/types_generated/Libraries/Animated/AnimatedE
 import Colors from '../../constants/color';
 import ImagePath from '../../constants/ImagePath';
 import DealersInfo from './DealersInfo';
-
+import * as Animatable from 'react-native-animatable';
+import { SlideInLeft } from 'react-native-reanimated';
 
 
 
@@ -24,13 +25,19 @@ const ListDealers = () => {
     return (
         <View style={{ flex: 1, backgroundColor: '#DCEDC8', }}>
             <CustomHeader />
+            <Animatable.View animation="slideInRight" duration={800} easing="ease-in-circ" style={{ height: 65 }}>
+                <TouchableOpacity style={styles.purchaseButton} onPress={() => navigation.navigate('AddDealers')}>
+                    <Text style={styles.purchaseButtonText}>{'Add New Dealer'}</Text>
+                </TouchableOpacity>
+            </Animatable.View>
+
             <ScrollView showsVerticalScrollIndicator={false}>
                 {dealersGet?.result?.data && dealersGet?.result?.data?.length > 0 ? (
                     dealersGet?.result?.data?.map((dealer, index) => (
-                        <TouchableOpacity onPress={() => navigation.navigate('DealersInfo')} key={index} style={styles.cardDealerBody}  >
+                        <TouchableOpacity onPress={() => navigation.navigate('DealersInfo',{dealer})} key={index} style={styles.cardDealerBody}  >
                             <View style={styles.listCardBody}>
                                 <Text style={styles.listStatus} >{capitalizeFirst(dealer?.status)} </Text>
-                                <Text style={styles.subcardText}>{ `#${dealer.dealer_id}`}</Text>
+                                <Text style={styles.subcardText}>{`#${dealer.dealer_id}`}</Text>
                             </View>
                             <View style={{ marginBottom: 10 }}>
                                 <Text style={styles.cardText}>
@@ -40,7 +47,7 @@ const ListDealers = () => {
                             </View>
                             <View style={styles.listCardBody}>
                                 <View style={{ marginTop: 40 }}><Text style={styles.subcardText}> More Info</Text> </View>
-                                <Image source={ImagePath.user} resizeMode="contain" style={styles.cardImage} />
+                                <Image source={ImagePath.user} resizeMode="cover" style={styles.cardImage} />
                             </View>
                         </TouchableOpacity>
 
@@ -49,9 +56,7 @@ const ListDealers = () => {
                     <Text>No dealers found.</Text>
                 )}
             </ScrollView>
-            <TouchableOpacity style={styles.purchaseButton} onPress={() => navigation.navigate('AddDealers')}>
-                <Text style={styles.purchaseButtonText}>Add Dealer</Text>
-            </TouchableOpacity>
+
         </View>
     )
 }

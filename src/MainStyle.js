@@ -297,12 +297,12 @@ const styles = StyleSheet.create({
   // CardText: { fontSize: 24, fontWeight: 'bold', color: Colors.text, textAlign: 'center' },
   purchaseButton: {
     position: 'absolute',
-    bottom: 20,
+    top: 15,
     right: 20,
     backgroundColor: Colors.primary,
     paddingVertical: 12,
     paddingHorizontal: 20,
-    borderRadius: 25,
+    borderRadius: 10,
     elevation: 5,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -449,6 +449,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
     padding: 8,
   },
+  infocardImage: {
+    width: 30,
+    height: 30,
+    // borderRadius: 30,
+    backgroundColor: '#f5f5f5',
+    padding: 8,
+  },
   cardDealerBody: {
     margin: 10,
     borderRadius: 12,
@@ -460,7 +467,104 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   cardInfoHeader: { fontSize: 20, color: Colors.primary },
+  infoPhotoContainer: { backgroundColor: '#fff', marginBottom: 60, justifyContent: 'center', alignContent: 'center', alignItems: 'center' },
+  coverPhoto: {
+    width: '104%',
+    height: 180,
+    top: 10,
 
+  },
+  profileContainer: {
+    position: 'absolute',
+    top: 130, // overlap position
+    left: 20,
+    borderWidth: 3,
+    borderColor: '#fff',
+    borderRadius: 60,
+    elevation: 5, // shadow for Android
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+  },
+  profileImage: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+  },
+  infocard: {
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    padding: 16,
+    marginHorizontal: 15,
+    marginTop: 50, // to push down after profile image
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 4,
+  },
+  clientName: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: Colors.primary,
+    textAlign: "center",
+  },
+  clientSub: {
+    fontSize: 14,
+    color: "#7f8378ff",
+    textAlign: "center",
+    marginBottom: 10,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: "#e0e0e0",
+    marginVertical: 10,
+  },
+  infoRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginVertical: 4,
+  },
+  label: {
+    fontSize: 15,
+    fontWeight: "600",
+    color: "#555",
+  },
+  value: {
+    fontSize: 15,
+    color: "#333",
+  },
+  socialBody: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: 20,
+    paddingVertical: 10,
+    backgroundColor: "#f3efefff",
+    borderRadius: 12,
+    marginHorizontal: 20
+  },
+  deletebutton: {
+    backgroundColor: "#D32F2F", // danger red
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5, // Android shadow
+    width: '90%',
+    alignSelf: 'center'
+  },
+    deletetext: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
+    letterSpacing: 0.5,
+  },
 
 
 })

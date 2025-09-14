@@ -17,4 +17,8 @@ export default {
     notification: require('../assets/notification.png'),
     setting: require('../assets/setting.png'),
     arrowsBack: require('../assets/arrowsBack.png'),
+    coverBanner: require('../assets/coverBanner.jpg'),
+    whats: require('../assets/whats.png'),
+    gmail: require('../assets/gmail.png'),
+    phone: require('../assets/phone.png'),
 }
