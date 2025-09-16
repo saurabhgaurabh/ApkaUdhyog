@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Image, TouchableOpacity, Linking } from 'react-native'
+import { View, Text, ScrollView, Image, TouchableOpacity, Linking, useRef } from 'react-native'
 import React from 'react'
 import EditableHeader from '../../components/EditableHeader'
 import Colors from '../../constants/color'
@@ -12,6 +12,7 @@ const DealersInfo = () => {
     const navigation = useNavigation();
     const route = useRoute();
     const { dealer } = route.params;
+    
     const handleCall = (phone) => {
         if (phone) {
             Linking.openURL(`tel:${phone}`);
@@ -47,10 +48,7 @@ const DealersInfo = () => {
                             <Image source={ImagePath.arrowsBack} style={{ width: 20, height: 25, marginRight: 5 }} resizeMode="contain" />
                             <Text style={styles.cardInfoHeader}>Back</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={() => console.log("Edit pressed")}
-                            activeOpacity={0.7}
-                        >
+                        <TouchableOpacity onPress={() => console.log("Edit pressed")} activeOpacity={0.7} >
                             <Text style={{ fontSize: 20, color: Colors.primary }}>Edit</Text>
                         </TouchableOpacity>
                     </View>
