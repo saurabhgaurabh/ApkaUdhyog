@@ -34,19 +34,19 @@ const ListDealers = () => {
             <ScrollView showsVerticalScrollIndicator={false}>
                 {dealersGet?.result?.data && dealersGet?.result?.data?.length > 0 ? (
                     dealersGet?.result?.data?.map((dealer, index) => (
-                        <TouchableOpacity onPress={() => navigation.navigate('DealersInfo',{dealer})} key={index} style={styles.cardDealerBody}  >
+                        <TouchableOpacity onPress={() => navigation.navigate('DealersInfo', { dealer })} key={index} style={styles.cardDealerBody}  >
                             <View style={styles.listCardBody}>
-                                <Text style={styles.listStatus} >{capitalizeFirst(dealer?.status)} </Text>
-                                <Text style={styles.subcardText}>{`#${dealer.dealer_id}`}</Text>
+                                <Text style={styles.listStatus}>{(capitalizeFirst(dealer?.status ?? ""))}</Text>
+                                <Text style={styles.subcardText}>#{(dealer?.dealer_id ?? "")}</Text>
                             </View>
                             <View style={{ marginBottom: 10 }}>
-                                <Text style={styles.cardText}>
-                                    {capitalizeFirst(dealer.dealer_name)}
-                                </Text>
-                                <Text style={styles.subcardText}>{`GSTIN:  ${dealer.dealer_GST}`} </Text>
+                                <Text style={styles.cardText}>{capitalizeFirst(dealer?.dealer_name ?? "")}</Text>
+                                <Text style={styles.subcardText}>GSTIN: {(dealer?.dealer_GST ?? "")}</Text>
                             </View>
                             <View style={styles.listCardBody}>
-                                <View style={{ marginTop: 40 }}><Text style={styles.subcardText}> More Info</Text> </View>
+                                <View style={{ marginTop: 40 }}>
+                                    <Text style={styles.subcardText}>{'More Info'}</Text>
+                                </View>
                                 <Image source={ImagePath.user} resizeMode="cover" style={styles.cardImage} />
                             </View>
                         </TouchableOpacity>

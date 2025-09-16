@@ -4,5 +4,5 @@ export default {
     LOGIN: 'Login',
     TABROUTES: 'TabRoutes',
     DEALER: 'AddDealers',
-    LISTDEALERS: 'ListDealers,'
+    LISTDEALERS: 'ListDealers'
 }

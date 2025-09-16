@@ -11,14 +11,18 @@ import NavigationStrings from '../../constants/NavigationStrings';
 import DropDown from "react-native-paper-dropdown";
 import { getDealers } from '../../redux/slices/addDealerSlice'; // reducer
 import { useDispatch } from 'react-redux';
+import ListDealers from './ListDealers';
 // import { addDealerData } from '../../redux/slices/addDealerSlice';
 
 
 
 const AddDealers = () => {
-    
+
     const navigation = useNavigation();
     const dispatch = useDispatch();
+    const goToListDealers = () => {
+        navigation.navigate('ListDealers')
+    }
     const [state, setState] = useState({
         dealer_name: '', dealer_GST: '', mobile_number: '', adhar_number: '', pan: '', dealing_product: '',
         email: '', country: '', state: '', city: '', address: '', postal_code: ''
@@ -58,7 +62,7 @@ const AddDealers = () => {
         if (result.status) {
             dispatch(getDealers(result));
             ToastAndroid.show("Dealer has been Registered Successfully", ToastAndroid.SHORT);
-            navigation.navigate(NavigationStrings.HOME);
+            navigation.navigate(NavigationStrings.LISTDEALERS);
 
         } else {
             ToastAndroid.show("Internal Error.", ToastAndroid.SHORT);
@@ -233,7 +237,7 @@ const AddDealers = () => {
                         />
                     </View>
                     <View style={styles.cardHeading}>
-                        <TouchableOpacity style={styles.cardButton}>
+                        <TouchableOpacity style={styles.cardButton}  onPress={() => navigation.navigate('ListDealer')}>
                             <Text style={styles.cardText}>Get Your Dealers or Distributer</Text>
                         </TouchableOpacity>
                     </View>
