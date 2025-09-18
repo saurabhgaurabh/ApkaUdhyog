@@ -432,6 +432,26 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     marginLeft: 15,
   },
+  SectionRow: {
+    flexDirection: "row",
+    width: "100%",
+    paddingHorizontal: 10,
+  },
+  submitContainer: {
+    marginTop: 20,
+    paddingHorizontal: 10,
+  },
+  submitButton: {
+    backgroundColor: "#1976D2",
+    paddingVertical: 14,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  submitText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
   listCardBody: { flexDirection: 'row', justifyContent: 'space-between' },
   listStatus: {
     backgroundColor: Colors.sweetGreen,
@@ -561,7 +581,7 @@ const styles = StyleSheet.create({
     width: '90%',
     alignSelf: 'center'
   },
-    deletetext: {
+  deletetext: {
     color: "#fff",
     fontSize: 16,
     fontWeight: "600",
