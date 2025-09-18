@@ -14,9 +14,8 @@ const AddClients = () => {
                 <SubHeader title="Add New Client" />
                 <ScrollView
                     showsVerticalScrollIndicator={false}
-                    contentContainerStyle={{ paddingBottom: 40, paddingHorizontal: 10 }} >
-                    <View style={{ paddingTop: 10, justifyContent: "center", alignItems: "center" }}>
-
+                    contentContainerStyle={{ paddingBottom: 20, paddingHorizontal: 0 }} >
+                    <View style={{ paddingTop: 20, justifyContent: "center", alignItems: "center" }}>
                         <Text style={styles.sectionTitle}>Personal Details</Text>
                         <TextInput
                             label="Organization Name"
@@ -98,7 +97,7 @@ const AddClients = () => {
                         <Text style={styles.cardText}>Get All Clients</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={{ flex: 1, top: 0 }}>
+                <View style={{ flex: 1, top: 5 }}>
                     <View style={styles.bottomButtonBody}>
                         <View style={styles.bottomButtonCancel}>
                             <Text style={styles.bottomButtonText}>Cancel</Text>
