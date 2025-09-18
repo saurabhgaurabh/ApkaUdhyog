@@ -1,15 +1,15 @@
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity, ToastAndroid } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { TextInput, Button } from "react-native-paper";
-import EditableHeader from '../../components/EditableHeader';
-import CustomHeader from '../../components/CustomeHeader';
-import Colors from '../../constants/color';
-import styles from '../../MainStyle';
+// import EditableHeader from '../../components/EditableHeader';
+import CustomHeader from '../../../components/CustomeHeader';
+import Colors from '../../../constants/color';
+import styles from '../../../MainStyle';
 import { useNavigation } from '@react-navigation/native';
-import Home from '../Home';
-import NavigationStrings from '../../constants/NavigationStrings';
+import Home from '../../Home';
+import NavigationStrings from '../../../constants/NavigationStrings';
 import DropDown from "react-native-paper-dropdown";
-import { getDealers } from '../../redux/slices/addDealerSlice'; // reducer
+import { getDealers } from '../../../redux/slices/addDealerSlice'; // reducer
 import { useDispatch } from 'react-redux';
 import ListDealers from './ListDealers';
 // import { addDealerData } from '../../redux/slices/addDealerSlice';
@@ -49,7 +49,7 @@ const AddDealers = () => {
             dealer_Code, dealer_name, dealer_GST, mobile_number, adhar_number, pan, dealing_product, email,
             country, state: addressState, city, address, postal_code
         };
-        const response = await fetch(`https://741a7d93753a.ngrok-free.app/api/users/v1/motion-add-dealer-registration-post`, {
+        const response = await fetch(`https://8f923e25719a.ngrok-free.app/api/users/v1/motion-add-dealer-registration-post`, {
             method: 'POST',
             headers: {
                 'Accept': 'Application/json',

@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeStack from './Drawer/HomeStack';
 import PurchaseStack from './Drawer/PurchaseStack';
-import ItemStack from './Drawer/ItemStack';
+import ItemStack from './Drawer/ProductsStack';
 import ImagePath from '../constants/ImagePath';
 import Dashboard from './Drawer/DashboardStack';
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
@@ -25,10 +25,11 @@ const TabRoutes = () => {
           const routeName = getFocusedRouteNameFromRoute(route) ?? "";
           const isAddDealers = routeName === "AddDealers";
           const isDealersInfo = routeName === "DealersInfo";
+          const isAddClients = routeName === "AddClients";
           return {
             headerShown: false,
             title: 'Products',
-            tabBarStyle: isAddDealers || isDealersInfo ? { display: "none" } : { display: "flex" },
+            tabBarStyle: isAddDealers || isDealersInfo || isAddClients ? { display: "none" } : { display: "flex" },
             tabBarIcon: ({ focused }) => (
               <Image
                 style={{

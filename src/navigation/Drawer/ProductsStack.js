@@ -1,8 +1,8 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Items from '../../screens/Items/Items';
-import AddNewItem from '../../screens/Items/AddNewItem';
+import Items from '../../screens/Products/Items';
+import AddNewItem from '../../screens/Products/AddNewItem';
 
 const Dealers = () => {
   const Stack = createNativeStackNavigator();

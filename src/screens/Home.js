@@ -89,6 +89,7 @@ const Home = () => {
                 <View style={{ height: '100%', width: '100%', justifyContent: 'space-between', alignItems: 'center', }}>
                   <TouchableOpacity
                     activeOpacity={0.9}
+                      onPress={() => navigation.navigate('ListClients')}
                     onPressIn={() => handlePressIn('addClient')}
                     onPressOut={() => handlePressOut('addClient')}
                     style={{
@@ -102,7 +103,7 @@ const Home = () => {
                     }}
                   >
                     <Text style={styles.HomecardText}>Add New Client</Text>
-                    <Image source={ImagePath.client} style={{ height: '33%', width: '25%', alignSelf: 'flex-end' }} resizeMode="contain" />
+                    <Image source={ImagePath.client} style={styles.homeImagesCss} resizeMode="contain" />
                   </TouchableOpacity>
                   <TouchableOpacity
                     activeOpacity={0.9}
@@ -119,7 +120,7 @@ const Home = () => {
                     }}
                   >
                     <Text style={styles.HomecardText}>Add New Sale</Text>
-                    <Image source={ImagePath.sale} style={{ height: '33%', width: '25%', alignSelf: 'flex-end' }} resizeMode="contain" />
+                    <Image source={ImagePath.sale} style={styles.homeImagesCss} resizeMode="contain" />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -172,8 +173,6 @@ const Home = () => {
           </View>
 
         </ScrollView>
-
-
       </View>
     </>
   )
