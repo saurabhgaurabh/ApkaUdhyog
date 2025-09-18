@@ -12,6 +12,7 @@ import DropDown from "react-native-paper-dropdown";
 import { getDealers } from '../../../redux/slices/addDealerSlice'; // reducer
 import { useDispatch } from 'react-redux';
 import ListDealers from './ListDealers';
+import SubHeader from '../../../components/SubHeader';
 // import { addDealerData } from '../../redux/slices/addDealerSlice';
 
 
@@ -71,7 +72,7 @@ const AddDealers = () => {
     return (
         <>
             <View style={{ flex: 1 }}>
-                <CustomHeader />
+               <SubHeader title="Add New Dealer"/>
                 <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 40, paddingHorizontal: 10 }}>
                     <View style={{ paddingTop: 10, justifyContent: "center", alignItems: "center" }}>
 

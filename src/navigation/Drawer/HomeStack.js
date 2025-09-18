@@ -7,6 +7,7 @@ import AddDealers from '../../screens/Home/Dealers/AddDealers';
 import ListDealers from '../../screens/Home/Dealers/ListDealers';
 import DealersInfo from '../../screens/Home/Dealers/DealersInfo';
 import ListClients from '../../screens/Home/Clients/ListClients';
+import AddClients from '../../screens/Home/Clients/AddClients';
 
 
 const HomeStack = ({ navigation }) => {
@@ -18,6 +19,7 @@ const HomeStack = ({ navigation }) => {
       <Stack.Screen name='AddDealers' component={AddDealers} />
       <Stack.Screen name='ListDealer' component={ListDealers} />
       <Stack.Screen name='DealersInfo' component={DealersInfo} />
+      <Stack.Screen name='AddClients' component={AddClients} />
       <Stack.Screen name='ListClients' component={ListClients} />
     </Stack.Navigator>
   )

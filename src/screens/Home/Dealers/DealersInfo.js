@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, Image, TouchableOpacity, Linking, useRef } from 'react-native'
 import React from 'react'
-import EditableHeader from '../../../components/EditableHeader'
+import EditableHeader from '../../../components/SubHeader'
 import Colors from '../../../constants/color'
 import ImagePath from '../../../constants/ImagePath'
 import styles from '../../../MainStyle'
