@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.large,
     fontWeight: 'bold',
   },
-  cardHeading: { display: 'flex', paddingTop: 10, justifyContent: 'center', alignItems: 'center', },
+  cardHeading: { display: 'flex', paddingTop: 1, justifyContent: 'center', alignItems: 'center', },
   cardButton: { borderRadius: 10, backgroundColor: Colors.sweetGreen, width: '90%', justifyContent: 'center', alignItems: 'center', height: 60, paddingHorizontal: 10, borderColor: '#fff', borderWidth: 2 },
   cardText: { fontFamily: Fonts.bold, fontSize: 20, fontWeight: '900', color: Colors.dark },
   bottomButtonBody: { flexDirection: "row", justifyContent: "space-around", width: "100%", position: 'fix', bottom: 0, backgroundColor: Colors.background, paddingVertical: 10 },

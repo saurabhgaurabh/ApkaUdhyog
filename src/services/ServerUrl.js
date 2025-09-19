@@ -1,3 +1,3 @@
 export function ServerUrl(){
-    return 'https://8f923e25719a.ngrok-free.app/';
+    return 'https://12692cd96b96.ngrok-free.app/';
 }

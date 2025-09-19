@@ -21,9 +21,6 @@ const AddDealers = () => {
 
     const navigation = useNavigation();
     const dispatch = useDispatch();
-    const goToListDealers = () => {
-        navigation.navigate('ListDealers')
-    }
     const [state, setState] = useState({
         dealer_name: '', dealer_GST: '', mobile_number: '', adhar_number: '', pan: '', dealing_product: '',
         email: '', country: '', state: '', city: '', address: '', postal_code: ''
