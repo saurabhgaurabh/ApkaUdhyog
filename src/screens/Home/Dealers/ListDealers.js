@@ -15,7 +15,7 @@ import { SlideInLeft } from 'react-native-reanimated';
 
 const ListDealers = () => {
     const navigation = useNavigation();
-    const { dealersGet } = useSelector(state => state.addDealer)
+    const { dealersGet } = useSelector(state => state.addDealer) // addDealer is a state name
     const capitalizeFirst = (str) => {
         if (!str) return '';
         return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();

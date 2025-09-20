@@ -4,16 +4,18 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { combineReducers } from "redux";
 import itemReducer from "../slices/itemSlice"; // import the item itemSlice reducer itemSlice.js
 import addDealerReducer from "../slices/addDealerSlice"; // import the addDealer slice reducer
+import addClientsReducer from "../slices/AddClientsSlice";
 
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  whitelist: ["addDealer"], // only addDealer slice will be persisted
+  whitelist: ["addDealer", "addClients"], // only addDealer slice will be persisted
 };
 
 const rootReducer = combineReducers({
   items: itemReducer,
   addDealer: addDealerReducer,
+  addClients: addClientsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -1,15 +1,13 @@
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity, ToastAndroid } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { TextInput, Button } from "react-native-paper";
-// import EditableHeader from '../../components/EditableHeader';
 import CustomHeader from '../../../components/CustomeHeader';
 import Colors from '../../../constants/color';
 import styles from '../../../MainStyle';
 import { useNavigation } from '@react-navigation/native';
 import Home from '../../Home';
 import NavigationStrings from '../../../constants/NavigationStrings';
-import DropDown from "react-native-paper-dropdown";
-import { getDealers } from '../../../redux/slices/addDealerSlice'; // reducer
+import { addDealer } from '../../../redux/slices/addDealerSlice'; // reducer
 import { useDispatch } from 'react-redux';
 import ListDealers from './ListDealers';
 import SubHeader from '../../../components/SubHeader';
@@ -58,7 +56,7 @@ const AddDealers = () => {
         const result = await response.json();
         console.log(result, "dealer result");
         if (result.status) {
-            dispatch(getDealers(result));
+            dispatch(addDealer(result.data)); // addDealer is reducer name to add individual dealer
             ToastAndroid.show("Dealer has been Registered Successfully", ToastAndroid.SHORT);
             navigation.navigate(NavigationStrings.LISTDEALERS);
 
@@ -69,7 +67,7 @@ const AddDealers = () => {
     return (
         <>
             <View style={{ flex: 1 }}>
-               <SubHeader title="Add New Dealer"/>
+                <SubHeader title="Add New Dealer" />
                 <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 40, paddingHorizontal: 10 }}>
                     <View style={{ paddingTop: 10, justifyContent: "center", alignItems: "center" }}>
 
@@ -235,7 +233,7 @@ const AddDealers = () => {
                         />
                     </View>
                     <View style={styles.cardHeading}>
-                        <TouchableOpacity style={styles.cardButton}  onPress={() => navigation.navigate('ListDealer')}>
+                        <TouchableOpacity style={styles.cardButton} onPress={() => navigation.navigate('ListDealer')}>
                             <Text style={styles.cardText}>Get Your Dealers or Distributer</Text>
                         </TouchableOpacity>
                     </View>

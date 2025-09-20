@@ -6,10 +6,13 @@ import { TextInput } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { ServerUrl } from '../../../services/ServerUrl'
 import NavigationStrings from '../../../constants/NavigationStrings'
+import { useDispatch } from 'react-redux'
+import { addClient } from '../../../redux/slices/AddClientsSlice'; // addClient is a reducer name
 
 
-const AddClients = () => {
+const AddClients = () => { 
     const navigation = useNavigation();
+    const dispatch = useDispatch();
     const [state, setState] = useState({ organization_name: "", owner_name: "", mobile: "", email: "", gst: "", pan: "", address: "" })
     const handleOrganizationName = (text) => setState(prevState => ({ ...prevState, organization_name: text }));
     const handleOwnerName = (text) => setState(prevState => ({ ...prevState, owner_name: text }));
@@ -24,7 +27,7 @@ const AddClients = () => {
             const clientData = { organization_name, owner_name, mobile, email, gst, address, pan, };
             console.log(clientData, "sending clientData");
 
-            let response = await fetch(`https://12692cd96b96.ngrok-free.app/api/users/v1/motion-parties-registration`, {
+            let response = await fetch(`https://514bcc3e1c37.ngrok-free.app/api/users/v1/motion-parties-registration`, {
                 method: "POST",
                 headers: {
                     'Accept': 'application/json',
@@ -34,11 +37,13 @@ const AddClients = () => {
             });
 
             const result = await response.json();
-            console.log(result, "client result");
+            console.log(result.result, "client result");
 
             if (result.status) {
+                // dispatch(addClient(result.result)); // addClient is a reducer name to add individual client
                 ToastAndroid.show("New Client Added Successfully.", ToastAndroid.SHORT);
                 navigation.navigate(NavigationStrings.LISTCLIENTS);
+                console.log(result, "result")
             } else {
                 ToastAndroid.show(result.message || "Something went wrong.", ToastAndroid.SHORT);
             }
