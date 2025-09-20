@@ -57,7 +57,7 @@ const ListClients = () => {
                     clients.map((client, index) => (
                         <View key={index} style={styles.clientItem}>
                             <TouchableOpacity
-                                // onPress={() => navigation.navigate('DealersInfo', { client })}
+                                onPress={() => navigation.navigate('InfoClients', { client })}
                                 style={styles.cardDealerBody}
                             >
                                 <View style={styles.listCardBody}>
