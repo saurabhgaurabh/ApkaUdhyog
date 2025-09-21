@@ -129,7 +129,7 @@ const Home = () => {
 
           {/* Menu Items Section */}
           <View style={styles.homeMenuBody} >
-            <TouchableOpacity style={styles.homeCardInnerBody}>
+            <TouchableOpacity style={styles.homeCardInnerBody} onPress={ () => navigation.navigate('EmployeeRegistration')}>
               <View style={styles.menuColumnCss} >
                 <Image source={ImagePath.employeeRegistration} style={{ width: 30, height: 30 }} resizeMode="cover" />
               </View>
