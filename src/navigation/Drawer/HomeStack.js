@@ -10,6 +10,7 @@ import ListClients from '../../screens/Home/Clients/ListClients';
 import AddClients from '../../screens/Home/Clients/AddClients';
 import InfoClients from '../../screens/Home/Clients/InfoClients';
 import EmployeeRegistration from '../../screens/Home/Employees/EmployeeRegistration';
+import EmployeeList from '../../screens/Home/Employees/EmployeeList';
 
 
 const HomeStack = ({ navigation }) => {
@@ -25,6 +26,7 @@ const HomeStack = ({ navigation }) => {
       <Stack.Screen name='ListClients' component={ListClients} />
       <Stack.Screen name='InfoClients' component={InfoClients} />
       <Stack.Screen name='EmployeeRegistration' component={EmployeeRegistration} />
+      <Stack.Screen name='EmployeeList' component={EmployeeList} />
     </Stack.Navigator>
   )
 }

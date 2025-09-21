@@ -31,7 +31,7 @@ const SubHeader = ({ title }) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: 55,
+    height: 60,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
