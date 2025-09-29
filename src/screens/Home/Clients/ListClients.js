@@ -11,17 +11,19 @@ const ListClients = () => {
     const navigation = useNavigation();
     const [clients, setClients] = useState([]);
     const capitalizeFirst = (str) => {
-        if (!str) return '';
-        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+        if (typeof str !== 'string') return '';
+        return str.charAt(0).toUpperCase() + str.slice(1);
     };
 
     const fetchClients = async () => {
         try {
-            const response = await fetch("https://514bcc3e1c37.ngrok-free.app/api/users/v1/motion-parties-registration-get");
+            const response = await fetch("https://cdeed6ab33c1.ngrok-free.app/api/users/v1/motion-parties-registration-get");
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const data = await response.json();
+            setClients(data.result.result);
+            // console.log("Fetched clients:", data.result.result);
         } catch (err) {
             console.error("API error:", err);
             Alert.alert(err);
@@ -40,17 +42,20 @@ const ListClients = () => {
                         <Text style={styles.purchaseButtonText}>{`👤  Add New Clients`}</Text>
                     </TouchableOpacity>
                 </Animatable.View>
-                {clients && Array.isArray(clients) && clients.length > 0 ? (
+                {clients && Array.isArray(clients) && clients?.length > 0 ? (
                     clients?.map((client, index) => (
-                        <View key={index} style={styles.clientItem}>
+                        // Animate each list item from bottom to top one by one with staggered delay
+                        // animation="slideInUp" makes the item slide in from the bottom
+                        // delay={index * 200} adds a 200ms delay per item index to animate sequentially
+                        <Animatable.View key={index} style={styles.clientItem} animation="slideInUp" duration={600} easing="ease-in-circ" delay={index * 200}>
                             <TouchableOpacity onPress={() => navigation.navigate('InfoClients', { client })} style={styles.cardDealerBody} >
                                 <View style={styles.listCardBody}>
-                                    <Text style={styles.listStatus}>{capitalizeFirst(client.status)}</Text>
-                                    <Text style={styles.subcardText}>#{client.party_id}</Text>
+                                    <Text style={styles.listStatus}>{capitalizeFirst(client?.status)}</Text>
+                                    <Text style={styles.subcardText}>#{client?.party_id}</Text>
                                 </View>
 
                                 <View style={{ marginBottom: 10 }}>
-                                    <Text style={styles.cardText}>{capitalizeFirst(client.owner_name)}</Text>
+                                    <Text style={styles.cardText}>{capitalizeFirst(client?.owner_name)}</Text>
                                     <Text style={styles.subcardText}>GSTIN: {client.gst}</Text>
                                 </View>
 
@@ -61,7 +66,7 @@ const ListClients = () => {
                                     <Image source={ImagePath.user} resizeMode="cover" style={styles.cardImage} />
                                 </View>
                             </TouchableOpacity>
-                        </View>
+                        </Animatable.View>
                     ))
                 ) : (
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

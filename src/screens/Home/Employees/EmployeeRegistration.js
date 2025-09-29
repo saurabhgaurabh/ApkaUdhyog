@@ -1,11 +1,13 @@
-import { View, Text, ScrollView } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native'
 import React from 'react'
 import SubHeader from '../../../components/SubHeader'
 import styles from '../../../MainStyle'
 import { TextInput } from 'react-native-paper'
-
+import { useNavigation } from '@react-navigation/native';
 
 const EmployeeRegistration = () => {
+    const navigation = useNavigation();
+    
     return (
         <>
             <View style={{ flex: 1, }}>
@@ -127,9 +129,17 @@ const EmployeeRegistration = () => {
                                     />
                                 </View>
                             </View>
-
                         </View>
+
                     </ScrollView>
+                    <View style={styles.bottomButtonBody}>
+                        <View style={styles.bottomButtonCancel}>
+                            <Text style={styles.bottomButtonText}>Cancel</Text>
+                        </View>
+                        <TouchableOpacity onPress={{}} style={styles.bottomButtonColumnSubmit}>
+                            <Text style={styles.bottomButtonText}>Submit</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
         </>

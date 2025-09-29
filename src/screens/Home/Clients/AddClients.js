@@ -27,7 +27,7 @@ const AddClients = () => {
             const clientData = { organization_name, owner_name, mobile, email, gst, address, pan, };
             console.log(clientData, "sending clientData");
 
-            let response = await fetch(`https://514bcc3e1c37.ngrok-free.app/api/users/v1/motion-parties-registration`, {
+            let response = await fetch(`https://cdeed6ab33c1.ngrok-free.app/api/users/v1/motion-parties-registration`, {
                 method: "POST",
                 headers: {
                     'Accept': 'application/json',
