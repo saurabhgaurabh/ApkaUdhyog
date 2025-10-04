@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { View, StyleSheet, ScrollView, KeyboardAvoidingView, Platform, Alert, TouchableOpacity } from "react-native"
-import { TextInput, Text, Card, Button, HelperText } from "react-native-paper"
+import { TextInput, Text, Card, Button, HelperText, Menu, IconButton, Modal, Pressable } from "react-native-paper"
 import CustomHeader from "../../components/CustomeHeader"
 import styles from "../../MainStyle"
 import AddPurchaseItems from "./AddPurchaseItems"
@@ -9,9 +9,30 @@ import * as Animatable from 'react-native-animatable';
 import Colors from "../../constants/color"
 
 
-const PurchaseItems = () => {
+const PurchaseItems = ({ items, handleDelete }) => {
     const navigation = useNavigation();
     const [purchaseItems, setPurchaseItems] = useState([]);
+    const [menuVisibleId, setMenuVisibleId] = useState(null); // store the open menu's purchase_id
+    const [menuVisible, setMenuVisible] = useState(false);
+    const toggleMenu = (id) => {
+        setMenuVisibleId(menuVisibleId === id ? null : id);
+    };
+    const capitalizeFirst = (str) => {
+        if (typeof str !== 'string') return '';
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    };
+    const getStatusStyle = (status) => {
+        switch ((status || '').toLowerCase()) {
+            case 'pending':
+                return { backgroundColor: '#FFF4E5', color: '#FF8C00' };
+            case 'approved':
+                return { backgroundColor: '#E5F9E0', color: '#3BA55D' };
+            case 'rejected':
+                return { backgroundColor: '#FFE5E5', color: '#E63946' };
+            default:
+                return { backgroundColor: '#E0E7FF', color: '#3B5BDB' };
+        }
+    }
 
     const purchaseGetApi = async () => {
         try {
@@ -24,8 +45,6 @@ const PurchaseItems = () => {
             });
             const data = await response.json();
             setPurchaseItems(data.result.data);
-            console.log("Purchase items data:", data.result.data);
-            console.log(purchaseItems, " new data");
         } catch (error) {
             Alert.alert("Error fetching purchase items:", error.message);
             console.error("Error fetching purchase items:", error);
@@ -47,18 +66,43 @@ const PurchaseItems = () => {
             <ScrollView showsVerticalScrollIndicator={false}>
                 {purchaseItems && Array.isArray(purchaseItems) && purchaseItems?.length > 0 ? (
                     purchaseItems?.map((items, index) => (
-                        <TouchableOpacity key={index} style={styles.purchaseCardBody}>
-                            <View style={styles.purchaseCard}>
-                                <Text style={styles.subcardText}>Status</Text>
-                                <Text style={styles.subcardText}>ID: {items?.purchase_id}</Text>
+                        <TouchableOpacity key={index} style={styles.purchaseCardBody} activeOpacity={0.9}>
+                            <View style={styles.purchaseCardHeader}>
+                                <Text style={[styles.status, getStatusStyle(items?.status)]}>
+                                    {capitalizeFirst(items?.status)}
+                                </Text>
+                                <TouchableOpacity onPress={toggleMenu}>
+                                    <Text style={styles.dots}>⋮</Text>
+                                </TouchableOpacity>
                             </View>
-                            <View style={styles.purchaseCard}>
-                                <Text style={styles.subcardText}>Name</Text>
-                                <Text style={styles.subcardText}>{items?.dealer_name}</Text>
-                            </View>
-                            <View style={styles.purchaseCard}>
-                                <Text style={styles.subcardText}>Material Type</Text>
-                                <Text style={styles.subcardText}>{items?.material_type}</Text>
+                            <Modal
+                                visible={menuVisible}
+                                transparent
+                                animationType="fade"
+                                onRequestClose={() => setMenuVisible(false)}>
+                                <Pressable style={styles.overlay} onPress={() => setMenuVisible(false)}>
+                                    <View style={styles.menuBox}>
+                                        <TouchableOpacity
+                                            style={styles.menuItem}
+                                            onPress={() => {
+                                                setMenuVisible(false);
+                                                handleDelete(items?.purchase_id);
+                                            }}>
+                                            <Text style={styles.menuText}>Delete</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </Pressable>
+                            </Modal>
+
+                            <View style={styles.purchaseCardContent}>
+                                <View style={styles.row}>
+                                    <Text style={styles.label}>Name</Text>
+                                    <Text style={styles.value}>{capitalizeFirst(items?.dealer_name)}</Text>
+                                </View>
+                                <View style={styles.row}>
+                                    <Text style={styles.label}>Material Type</Text>
+                                    <Text style={styles.value}>{capitalizeFirst(items?.material_type)}</Text>
+                                </View>
                             </View>
                         </TouchableOpacity>
                     ))

@@ -14,6 +14,19 @@ const ListClients = () => {
         if (typeof str !== 'string') return '';
         return str.charAt(0).toUpperCase() + str.slice(1);
     };
+    const getStatusStyle = (status) => {
+        switch ((status || '').toLowerCase()) {
+            case 'pending':
+                return { backgroundColor: '#FFF4E5', color: '#FF8C00' };
+            case 'active':
+                return { backgroundColor: '#E5F9E0', color: '#3BA55D' };
+            case 'deleted':
+                return { backgroundColor: '#FFE5E5', color: '#E63946' };
+            default:
+                return { backgroundColor: '#E0E7FF', color: '#3B5BDB' };
+        }
+    }
+
 
     const fetchClients = async () => {
         try {
@@ -46,23 +59,27 @@ const ListClients = () => {
                     clients?.map((client, index) => (
                         <Animatable.View key={index} style={styles.clientItem} animation="slideInUp" duration={600} easing="ease-in-circ" delay={index * 200}>
                             <TouchableOpacity onPress={() => navigation.navigate('InfoClients', { client })} style={styles.cardDealerBody} >
-                                <View style={styles.listCardBody}>
-                                    <Text style={styles.listStatus}>{capitalizeFirst(client?.status)}</Text>
-                                    <Text style={styles.subcardText}>#{client?.party_id}</Text>
+                                {/* Top Row - Status + Dealer ID */}
+                                <View style={styles.listCardHeader}>
+                                    <Text style={[styles.listStatus, getStatusStyle(client?.status)]}>
+                                        {capitalizeFirst(client?.status ?? '')}
+                                    </Text>
+                                    <Text style={styles.subcardId}>#{client?.party_id ?? ''}</Text>
                                 </View>
 
-                                <View style={{ marginBottom: 10 }}>
-                                    <Text style={styles.cardText}>{capitalizeFirst(client?.owner_name)}</Text>
-                                    <Text style={styles.subcardText}>GSTIN: {client.gst}</Text>
+                                {/* Middle Section - Dealer Name + GST */}
+                                <View style={styles.cardMiddle}>
+                                    <Text style={styles.cardTitle}>Name: {capitalizeFirst(client?.owner_name ?? '')}</Text>
+                                    <Text style={styles.cardTitle}>GSTIN: {client?.gst ?? ''}</Text>
                                 </View>
 
-                                <View style={styles.listCardBody}>
-                                    <View style={{ marginTop: 40 }}>
-                                        <Text style={styles.subcardText}>More Info</Text>
-                                    </View>
+                                {/* Bottom Row - More Info + Image */}
+                                <View style={styles.listCardFooter}>
+                                    <Text style={styles.moreInfo}>More Info →</Text>
                                     <Image source={ImagePath.user} resizeMode="cover" style={styles.cardImage} />
                                 </View>
                             </TouchableOpacity>
+
                         </Animatable.View>
                     ))
                 ) : (
