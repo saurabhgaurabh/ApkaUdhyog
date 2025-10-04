@@ -58,7 +58,7 @@ const AddPurchaseItems = () => {
 
             const order_id = Math.random().toString(36).substring(2, 9);
             console.log(dealer_name, material_type, postal_code, country, addressState, city, address, freight, material_amount, material_amount_pending, order_id);
-            const response = await fetch(`https://d5021510c8e8.ngrok-free.app/api/users/v1/motion-purchase-row-material-post`, {
+            const response = await fetch(`https://a40f5f24c80d.ngrok-free.app/api/users/v1/motion-purchase-row-material-post`, {
                 method: 'post',
                 headers: {
                     'Accept': 'application/json',
@@ -92,7 +92,7 @@ const AddPurchaseItems = () => {
                         onChangeText={handleDealerName}
                         keyboardType="default"
                         autoCapitalize="none"
-                        autoCorrect={false}
+                        autoCorrect={false} 
                         activeOutlineColor="#4CAF50"
                         outlineColor="#7f8378ff"
                         textColor="#7f8378ff"
@@ -263,7 +263,7 @@ const AddPurchaseItems = () => {
                     </TouchableOpacity>
                 </View>
             </ScrollView>
-            <View style={{ height: 60 }} />
+            <View style={{ height: 0 }} />
             <View style={styles.bottomButtonBody}>
                 <View style={styles.bottomButtonCancel}>
                     <Text style={styles.bottomButtonText}>Cancel</Text>

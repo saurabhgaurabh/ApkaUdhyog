@@ -16,6 +16,7 @@ const EmployeeList = () => {
                         <Text style={styles.purchaseButtonText}>{'Employee Registration'}</Text>
                     </TouchableOpacity>
                 </Animatable.View>
+                
 
             </View>
         </>

@@ -17,13 +17,13 @@ const ListClients = () => {
 
     const fetchClients = async () => {
         try {
-            const response = await fetch("https://cdeed6ab33c1.ngrok-free.app/api/users/v1/motion-parties-registration-get");
+            const response = await fetch("https://a40f5f24c80d.ngrok-free.app/api/users/v1/motion-parties-registration-get");
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const data = await response.json();
             setClients(data.result.result);
-            // console.log("Fetched clients:", data.result.result);
+            console.log("Fetched clients:", data.result.result);
         } catch (err) {
             console.error("API error:", err);
             Alert.alert(err);
@@ -44,9 +44,6 @@ const ListClients = () => {
                 </Animatable.View>
                 {clients && Array.isArray(clients) && clients?.length > 0 ? (
                     clients?.map((client, index) => (
-                        // Animate each list item from bottom to top one by one with staggered delay
-                        // animation="slideInUp" makes the item slide in from the bottom
-                        // delay={index * 200} adds a 200ms delay per item index to animate sequentially
                         <Animatable.View key={index} style={styles.clientItem} animation="slideInUp" duration={600} easing="ease-in-circ" delay={index * 200}>
                             <TouchableOpacity onPress={() => navigation.navigate('InfoClients', { client })} style={styles.cardDealerBody} >
                                 <View style={styles.listCardBody}>

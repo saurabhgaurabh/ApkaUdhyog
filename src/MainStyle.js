@@ -300,7 +300,6 @@ const styles = StyleSheet.create({
     top: 15,
     right: 20,
     backgroundColor: "#82AB7D",
-    // backgroundColor: Colors.primary,
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 10,
@@ -309,6 +308,8 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
+    borderWidth: 1,
+    borderColor: '#fff'
   },
   purchaseButtonText: {
     color: '#fff',
@@ -588,7 +589,8 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     letterSpacing: 0.5,
   },
-
+  purchaseCard: { flexDirection: 'row', justifyContent: 'space-between', width: '100%', padding: 10 },
+  purchaseCardBody: { backgroundColor: Colors.background, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: 10, width: '100%', marginVertical: 5},
 
 })
 

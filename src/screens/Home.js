@@ -80,7 +80,7 @@ const Home = () => {
                 <Text style={styles.HomecardText}>New Dealer
                   {'\n'}
                   <Text style={{ fontWeight: 'bold', color: 'grey', fontSize: 10 }}>
-                    Register New Dealers
+                    or Suppliers/Venders
                   </Text>
                 </Text>
                 <Image source={ImagePath.dealer} style={{ height: '45%', width: '35%', alignSelf: 'flex-end' }} resizeMode="contain" />
