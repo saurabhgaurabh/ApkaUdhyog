@@ -8,6 +8,7 @@ import Home from '../Home'
 import Items from './Items'
 import { useDispatch } from 'react-redux'
 import { addItem } from '../../redux/slices/itemSlice'
+import Colors from '../../constants/color'
 
 const AddNewItem = () => {
     const navigation = useNavigation();
@@ -68,7 +69,7 @@ const AddNewItem = () => {
         <>
             <SafeAreaView style={{ flex: 1 }}>
                 <CustomHeader />
-                <View style={{ flex: 1, backgroundColor: '#DCEDC8', gap: 0 }}>
+                <View style={{ flex: 1, backgroundColor: Colors.screenBackground, gap: 0 }}>
                     <ScrollView>
                         <View style={{ display: 'flex', top: 10, paddingLeft: 10, backgroundColor: '#fff', padding: 10 }}>
                             <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#7f8378ff', }}>Create New Items</Text>

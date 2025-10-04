@@ -56,7 +56,7 @@ const PurchaseItems = ({ items, handleDelete }) => {
     }, []);
 
     return (
-        <View style={{ flex: 1, backgroundColor: '#DCEDC8', }}>
+        <View style={{ flex: 1, backgroundColor: Colors.screenBackground, }}>
             <CustomHeader />
             <Animatable.View animation="slideInRight" duration={800} easing="ease-in-circ" style={{ height: 65 }}>
                 <TouchableOpacity style={styles.purchaseButton} onPress={() => navigation.navigate('AddPurchaseItems')}>

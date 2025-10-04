@@ -10,7 +10,7 @@ import LinearGradient from 'react-native-linear-gradient'
 
 const Dashboard = () => {
     return (
-        <View style={{ flex: 1, backgroundColor: '#DCEDC8', }}>
+        <View style={{ flex: 1, backgroundColor: Colors.screenBackground, }}>
             <CustomHeader />
             <ScrollView showsVerticalScrollIndicator={false} >
                 <View style={styles.dashTopBox}>

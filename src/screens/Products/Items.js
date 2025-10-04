@@ -6,6 +6,7 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import AddNewItem from './AddNewItem';
 import { useDispatch } from 'react-redux';
 import { addItem } from '../../redux/slices/itemSlice';
+import Colors from '../../constants/color';
 
 
 
@@ -79,7 +80,7 @@ const Items = () => {
                     </TouchableOpacity>
                 </Animated.View>
             </View> */}
-            <View style={{ flex: 1, backgroundColor: '#DCEDC8', padding: 10 }}>
+            <View style={{ flex: 1, backgroundColor: Colors.screenBackground, padding: 10 }}>
                 <FlatList
                     data={itemList}
                     keyExtractor={(item, index) => index.toString()}

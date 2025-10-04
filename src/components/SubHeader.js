@@ -5,7 +5,7 @@ import ImagePath from "../constants/ImagePath";
 import Colors from "../constants/color";
 
 
-const SubHeader = ({ title }) => {
+const SubHeader = ({ title, onRightPress, rightLabel = "Add" }) => {
   const navigation = useNavigation();
 
   return (
@@ -20,11 +20,15 @@ const SubHeader = ({ title }) => {
         <Text style={styles.backText}>Back</Text>
       </TouchableOpacity>
 
-      {/* Title */}
       <Text style={styles.title}>{title}</Text>
 
-      {/* Placeholder for right side (keep title centered) */}
-      <View style={{ width: 50 }} />
+      {onRightPress && rightLabel ? (
+        <TouchableOpacity onPress={onRightPress} style={styles.rightButton}>
+          <Text style={styles.rightButtonText}>{rightLabel}</Text>
+        </TouchableOpacity>
+      ) : (
+        <View style={{ width: 50 }} /> 
+      )}
     </View>
   );
 };
@@ -52,12 +56,23 @@ const styles = StyleSheet.create({
   },
   backText: {
     fontSize: 16,
-   color: Colors.primary
+    color: Colors.primary
   },
   title: {
     fontSize: 18,
     fontWeight: "600",
     color: Colors.primary
+  },
+  rightButton: {
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    borderRadius: 6,
+    backgroundColor: Colors.primary,
+  },
+  rightButtonText: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#fff",
   },
 });
 

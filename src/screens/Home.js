@@ -89,7 +89,7 @@ const Home = () => {
                 <View style={{ height: '100%', width: '100%', justifyContent: 'space-between', alignItems: 'center', }}>
                   <TouchableOpacity
                     activeOpacity={0.9}
-                      onPress={() => navigation.navigate('ListClients')}
+                    onPress={() => navigation.navigate('ListClients')}
                     onPressIn={() => handlePressIn('addClient')}
                     onPressOut={() => handlePressOut('addClient')}
                     style={{
@@ -129,7 +129,7 @@ const Home = () => {
 
           {/* Menu Items Section */}
           <View style={styles.homeMenuBody} >
-            <TouchableOpacity style={styles.homeCardInnerBody} onPress={ () => navigation.navigate('EmployeeList')}>
+            <TouchableOpacity style={styles.homeCardInnerBody} onPress={() => navigation.navigate('EmployeeList')}>
               <View style={styles.menuColumnCss} >
                 <Image source={ImagePath.employeeRegistration} style={{ width: 30, height: 30 }} resizeMode="cover" />
               </View>
@@ -140,7 +140,7 @@ const Home = () => {
               <View style={styles.menuColumnCss} >
                 <Image source={ImagePath.partyRegistration} style={{ width: 30, height: 30 }} resizeMode="contain" />
               </View>
-              <Text style={styles.menuCardHeading}   >Party </Text>
+              <Text style={styles.menuCardHeading}   >Client </Text>
               <Text style={styles.menuCardSubHeading}>Registration</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.homeCardInnerBody}>
@@ -160,7 +160,7 @@ const Home = () => {
               activeDotStyle={styles.activeDot}
               autoplay
             >
-              <TouchableOpacity style={styles.slide} activeOpacity={0.8} onPress={() => alert("Go to Daily Task")} >
+              <TouchableOpacity style={styles.slide} activeOpacity={0.8} onPress={() => navigation.navigate('ViewTasks')} >
                 <Image source={ImagePath.dailyTask} resizeMode='cover' style={styles.image} />
               </TouchableOpacity>
               <TouchableOpacity style={styles.slide} activeOpacity={0.8} onPress={() => alert("Go to Product Dispatch")} >

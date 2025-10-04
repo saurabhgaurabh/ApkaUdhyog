@@ -3,9 +3,9 @@
 const Colors = {
   primary: "#4CAF50",      // main green active_outline color
   inactiveOutlineOrTextColor: "#7f8378ff",
-  lightGreen: "#a3f0a7ff",  
-  sweetGreen: "#bff1c2ff",  
-  dashboardGreen: "#DCEDC8",  
+  lightGreen: "#a3f0a7ff",
+  sweetGreen: "#bff1c2ff",
+  dashboardGreen: "#DCEDC8",
   secondary: "#2196F3",    // blue
   danger: "#f44336",       // red
   warning: "#FFC107",      // yellow
@@ -17,6 +17,7 @@ const Colors = {
   background: "#ffffff",   // white background
   border: "#e0e0e0",       // border grey
   textOrCardBackground: "#dcdcdc",
+  screenBackground: "#edf1e8ff", // Screen background color
 
 };
 

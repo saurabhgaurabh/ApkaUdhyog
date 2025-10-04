@@ -698,6 +698,22 @@ const styles = StyleSheet.create({
     width: 120,
     elevation: 6,
   },
+  dailycontainer: {
+        flexGrow: 1,
+        backgroundColor: "#f9fafb",
+        padding: 16,
+        justifyContent: "center",
+    },
+    dailycard: {
+        borderRadius: 16,
+        elevation: 4,
+        paddingBottom: 10,
+    },
+    dailycardTitle: {
+        fontSize: 18,
+        fontWeight: "700",
+        color: "#111827",
+    },
 
 
 })

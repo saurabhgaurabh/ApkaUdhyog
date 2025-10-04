@@ -5,6 +5,7 @@ import styles from '../../../MainStyle'
 import { useNavigation } from '@react-navigation/native'
 import * as Animatable from 'react-native-animatable';
 import ImagePath from '../../../constants/ImagePath'
+import Colors from '../../../constants/color'
 
 
 const ListClients = () => {
@@ -48,7 +49,7 @@ const ListClients = () => {
 
     return (
         <>
-            <View style={{ flex: 1, backgroundColor: '#DCEDC8', }}>
+            <View style={{ flex: 1, backgroundColor: Colors.background, }}>
                 <CustomHeader />
                 <Animatable.View animation="slideInRight" duration={800} easing="ease-in-circ" style={{ height: 65 }}>
                     <TouchableOpacity style={styles.purchaseButton} onPress={() => navigation.navigate('AddClients')}>

@@ -11,6 +11,8 @@ import AddClients from '../../screens/Home/Clients/AddClients';
 import InfoClients from '../../screens/Home/Clients/InfoClients';
 import EmployeeRegistration from '../../screens/Home/Employees/EmployeeRegistration';
 import EmployeeList from '../../screens/Home/Employees/EmployeeList';
+import DailyTask from '../../screens/Home/DailyTask/DailyTask';
+import ViewTasks from '../../screens/Home/DailyTask/ViewTasks';
 
 
 const HomeStack = ({ navigation }) => {
@@ -27,6 +29,8 @@ const HomeStack = ({ navigation }) => {
       <Stack.Screen name='InfoClients' component={InfoClients} />
       <Stack.Screen name='EmployeeRegistration' component={EmployeeRegistration} />
       <Stack.Screen name='EmployeeList' component={EmployeeList} />
+      <Stack.Screen name='DailyTask' component={DailyTask} />
+      <Stack.Screen name='ViewTasks' component={ViewTasks} />
     </Stack.Navigator>
   )
 }
