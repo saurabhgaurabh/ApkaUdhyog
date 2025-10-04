@@ -708,6 +708,7 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         elevation: 4,
         paddingBottom: 10,
+        
     },
     dailycardTitle: {
         fontSize: 18,
