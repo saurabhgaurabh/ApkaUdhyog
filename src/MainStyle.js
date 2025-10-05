@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
   dashBoxes: { flexDirection: 'column', flex: 1, backgroundColor: Colors.light, justifyContent: 'center', alignItems: 'center', borderRadius: 8, height: 60 },
   dashTextOne: { fontFamily: Fonts.boldItalic, fontSize: Fonts.sizes.regular, fontWeight: Fonts.weights.bold, color: Colors.primary },
   dashTextTwo: { fontFamily: Fonts.boldItalic, fontSize: Fonts.sizes.regular, fontWeight: Fonts.weights.bold, color: Colors.danger },
-  // CardText: { fontSize: 24, fontWeight: 'bold', color: Colors.text, textAlign: 'center' },
+
   purchaseButton: {
     position: 'absolute',
     top: 15,
@@ -699,21 +699,111 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   dailycontainer: {
-        flexGrow: 1,
+    flexGrow: 1,
+    backgroundColor: "#f9fafb",
+    padding: 16,
+    justifyContent: "center",
+  },
+  dailycard: {
+    borderRadius: 16,
+    elevation: 4,
+    paddingBottom: 10,
+
+  },
+  dailycardTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: "#111827",
+  },
+  pageTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#111827",
+    marginBottom: 16,
+    textAlign: "right",
+    top: 30
+  },
+    taskcontainer: {
+        flex: 1,
+        backgroundColor: "#fff",
+        shadowColor: "#000",
+        shadowOpacity: 0.05,
+        shadowRadius: 8,
+        elevation: 3,
+        top: 10
+    },
+    searchBar: {
         backgroundColor: "#f9fafb",
-        padding: 16,
+    },
+    tableHeader: {
+        flexDirection: "row",
+        backgroundColor: "#4CAF50",
+        paddingVertical: 10,
+    },
+    headerCell: {
+        color: "#fff",
+        fontSize: 15,
+        fontWeight: "800",
+        textAlign: "center",
+    },
+    tableRow: {
+        flexDirection: "row",
+        paddingVertical: 10,
+        paddingHorizontal: 6,
+        alignItems: "center",
+        borderBottomWidth: 1,
+        borderColor: "#e5e7eb",
+    },
+    tableCell: {
+        fontSize: 13,
+        textAlign: "center",
+        color: "#374151",
+    },
+    loadingContainer: {
+        marginTop: 60,
         justifyContent: "center",
+        alignItems: "center",
     },
-    dailycard: {
-        borderRadius: 16,
-        elevation: 4,
-        paddingBottom: 10,
-        
+    loadingText: {
+        marginTop: 8,
+        color: "#6b7280",
+        fontSize: 13,
     },
-    dailycardTitle: {
+    emptyText: {
+        textAlign: "center",
+        color: "#6b7280",
+        marginTop: 40,
+    },
+    modalOverlay: {
+        flex: 1,
+        backgroundColor: "rgba(0,0,0,0.4)",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 20,
+    },
+    modalContainer: {
+        width: "90%",
+        backgroundColor: "#fff",
+        borderRadius: 12,
+        padding: 20,
+        elevation: 10,
+    },
+    modalTitle: {
         fontSize: 18,
         fontWeight: "700",
         color: "#111827",
+        marginBottom: 10,
+        textAlign: "center",
+    },
+    modalText: {
+        fontSize: 14,
+        color: "#374151",
+        lineHeight: 22,
+        textAlign: "justify",
+    },
+    modalButton: {
+        marginTop: 16,
+        backgroundColor: "#4CAF50",
     },
 
 

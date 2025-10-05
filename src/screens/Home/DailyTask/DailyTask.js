@@ -1,18 +1,43 @@
 import React, { useState } from "react";
-import { View, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import { View, ScrollView, StyleSheet, TouchableOpacity, ToastAndroid } from "react-native";
 import { TextInput, Button, Card, Text, Menu, Divider } from "react-native-paper";
 import SubHeader from "../../../components/SubHeader";
 import styles from "../../../MainStyle";
+import { useNavigation } from "@react-navigation/native";
 
 const DailyTask = () => {
-    const [empName, setEmpName] = useState("");
-    const [shift, setShift] = useState("");
-    const [taskType, setTaskType] = useState("");
-    const [remarks, setRemarks] = useState("");
+    const navigation = useNavigation();
+    const [state, setState] = useState({ employee_name: "", shift: "", remarks: "" });
+    const handleEmployee = (text) => setState(prevState => ({ ...prevState, employee_name: text }));
+    const handleShift = (text) => setState(prevState => ({ ...prevState, shift: text }));
+    const handleRemarks = (text) => setState(prevState => ({ ...prevState, remarks: text }));
+    const handleHours = (text) => setState(prevState => ({ ...prevState, total_hours: text }));
 
-    const handleSubmit = () => {
-        console.log({ empName, shift, taskType, remarks, date });
-        // API call or state saving logic here
+    const handleSubmit = async () => {
+        try {
+            const { employee_name, shift, total_hours, remarks } = state;
+            const taskData = { employee_name, shift, total_hours, remarks };
+            let response = await fetch("https://30e48ae68ae9.ngrok-free.app/api/users/v1/motion-daily-tasks", {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(taskData),
+            });
+            const result = await response.json();
+            console.log(result, "result");
+            if (response.ok) {
+                ToastAndroid.show("Task added successfully!", ToastAndroid.SHORT);
+                navigation.navigate("ViewTasks");
+            } else {
+                console.log("Error Response:", result);
+                Alert.alert("Error", result?.message || "Failed to add task. Please try again.");
+            }
+        } catch (error) {
+            Alert.alert("Error", "Failed to add task. Please try again.");
+            console.error("Error adding task:", error);
+        }
     };
 
 
@@ -29,23 +54,42 @@ const DailyTask = () => {
                             <View style={[localStyles.colorBadge, { backgroundColor: '#4f46e5' }]} />
                             <TextInput
                                 label="Employee Name"
-                                value={empName}
                                 mode="outlined"
-                                onChangeText={setEmpName}
-                                style={localStyles.input}
+                                placeholder="Enter Employee Name"
+                                onChangeText={handleEmployee}
+                                keyboardType="default"
+                                autoCapitalize="true"
+                                autoCorrect={false}
+                                activeOutlineColor="#4CAF50"
+                                outlineColor="#7f8378ff"
+                                style={styles.input}
                             />
                         </View>
-
-                        {/* Shift */}
                         <View style={localStyles.inputContainer}>
                             <View style={[localStyles.colorBadge, { backgroundColor: '#f59e0b' }]} />
                             <TextInput
                                 label="Shift"
-                                value={shift}
                                 mode="outlined"
-                                placeholder="Morning / Noon / Evening / Night"
-                                onChangeText={setShift}
-                                style={localStyles.input}
+                                placeholder="Morning / Evening "
+                                onChangeText={handleShift}
+                                keyboardType="default"
+                                autoCapitalize="true"
+                                autoCorrect={false}
+                                activeOutlineColor="#4CAF50"
+                                outlineColor="#7f8378ff"
+                                style={[styles.input, { flex: 1, marginRight: 5 }]}
+                            />
+                            <TextInput
+                                label="Hours"
+                                mode="outlined"
+                                placeholder="00:00"
+                                onChangeText={handleHours}
+                                keyboardType="numeric"
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                activeOutlineColor="#4CAF50"
+                                outlineColor="#7f8378ff"
+                                style={[styles.input, { flex: 1, marginLeft: 5 }]}
                             />
                         </View>
                         {/* Remarks */}
@@ -53,12 +97,17 @@ const DailyTask = () => {
                             <View style={[localStyles.colorBadge, { backgroundColor: '#6366f1' }]} />
                             <TextInput
                                 label="Remarks"
-                                value={remarks}
                                 mode="outlined"
+                                placeholder="Enter Remarks"
                                 multiline
                                 numberOfLines={3}
-                                onChangeText={setRemarks}
-                                style={localStyles.input}
+                                onChangeText={handleRemarks}
+                                keyboardType="default"
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                activeOutlineColor="#4CAF50"
+                                outlineColor="#7f8378ff"
+                                style={styles.input}
                             />
                         </View>
                     </Card.Content>
