@@ -6,4 +6,5 @@ export default {
     DEALER: 'AddDealers',
     LISTDEALERS: 'ListDealers',
     LISTCLIENTS: 'ListClients',
+    EMPLOYEELIST: 'EmployeeList',
 }

@@ -1,17 +1,6 @@
 import React from "react";
-import {
-    View,
-    ScrollView,
-    StyleSheet,
-    TouchableOpacity,
-    ToastAndroid,
-    Alert,
-} from "react-native";
-import {
-    TextInput,
-    Card,
-    Text,
-} from "react-native-paper";
+import {  View, ScrollView, StyleSheet, TouchableOpacity, ToastAndroid, Alert,} from "react-native";
+import { TextInput, Card, Text,} from "react-native-paper";
 import SubHeader from "../../../components/SubHeader";
 import styles from "../../../MainStyle";
 import { useNavigation } from "@react-navigation/native";
@@ -21,18 +10,8 @@ const DailyTask = () => {
     const navigation = useNavigation();
 
     // 🧩 Initialize React Hook Form
-    const {
-        control,
-        handleSubmit,
-        reset,
-        formState: { errors },
-    } = useForm({
-        defaultValues: {
-            employee_name: "",
-            shift: "",
-            total_hours: "",
-            remarks: "",
-        },
+    const { control, handleSubmit,reset,formState: { errors },} = useForm({defaultValues: {
+         employee_name: "", shift: "", total_hours: "", remarks: "", },
     });
     const onSubmit = async (data) => {
         try {

@@ -102,7 +102,7 @@ const Home = () => {
                       transform: [{ scale: pressedStates.addClient ? 0.98 : 1 }],
                     }}
                   >
-                    <Text style={styles.HomecardText}>Add New Client</Text>
+                    <Text style={styles.HomecardText}>Add New Client / {'\n'} Registration</Text>
                     <Image source={ImagePath.client} style={styles.homeImagesCss} resizeMode="contain" />
                   </TouchableOpacity>
                   <TouchableOpacity
@@ -133,15 +133,16 @@ const Home = () => {
               <View style={styles.menuColumnCss} >
                 <Image source={ImagePath.employeeRegistration} style={{ width: 30, height: 30 }} resizeMode="cover" />
               </View>
-              <Text style={styles.menuCardHeading}  >Employee </Text>
-              <Text style={styles.menuCardSubHeading}>Registration</Text>
+              <Text style={styles.menuCardHeading}  >Add/Register </Text>
+              <Text style={styles.menuCardSubHeading}>Employee</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.homeCardInnerBody}>
               <View style={styles.menuColumnCss} >
                 <Image source={ImagePath.partyRegistration} style={{ width: 30, height: 30 }} resizeMode="contain" />
               </View>
-              <Text style={styles.menuCardHeading}   >Client </Text>
-              <Text style={styles.menuCardSubHeading}>Registration</Text>
+              {/* <Text style={styles.menuCardHeading}   >Client </Text>
+              <Text style={styles.menuCardSubHeading}>Registration</Text> */}
+
             </TouchableOpacity>
             <TouchableOpacity style={styles.homeCardInnerBody}>
               <View style={styles.menuColumnCss} >
