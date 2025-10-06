@@ -69,10 +69,10 @@ const EmployeeList = () => {
 
     const renderHeader = () => (
         <View style={styles.tableHeader}>
-            <Text style={[styles.headerCell, { flex: 1 }]}>Name</Text>
-            <Text style={[styles.headerCell, { flex: 1 }]}>Department</Text>
+            <Text style={[styles.headerCell, { flex: 1.3 }]}>Name</Text>
+            <Text style={[styles.headerCell, { flex: 1.2 }]}>Department</Text>
             <Text style={[styles.headerCell, { flex: 1.5 }]}> </Text>
-            <Text style={[styles.headerCell, { flex: 1.5 }]}> </Text>
+            <Text style={[styles.headerCell, { flex: 1.8 }]}> </Text>
         </View>
     );
 
@@ -83,9 +83,8 @@ const EmployeeList = () => {
                 { backgroundColor: index % 2 === 0 ? "#f9fafb" : "#ffffff" },
             ]}
         >
-            <Text style={[styles.tableCell, { flex: 0.8 }]} numberOfLines={1}>
-                {capitalizeFirst(item.employee_name)}
-            </Text>
+            <Text style={[styles.tableCell, { flex: 0.2 }]}> {item?.emp_id}. </Text>
+            <Text style={[styles.tableCell, { flex: 0.5 }]}> {capitalizeFirst(item.employee_name)} </Text>
             <Text style={[styles.tableCell, { flex: 1 }]}>{capitalizeFirst(item.department)}</Text>
 
             <TouchableOpacity
@@ -94,25 +93,23 @@ const EmployeeList = () => {
                     setModalVisible(true);
                 }}
                 style={{
-                    flex: 1.5,
+                    flex: 0.8,
                     alignItems: 'center',
                     paddingVertical: 4,
+                    backgroundColor: "#e7e2feff",borderRadius: 6,marginHorizontal: 3
                 }}
             >
                 <Text style={{ color: '#2563eb', fontWeight: 'bold' }}>View</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-                //   onPress={} 
-                style={{
-                    flex: 0.8,
-                    alignItems: "center",
-                    paddingVertical: 4,
-                    backgroundColor: "#fee2e2",
-                    borderRadius: 6,
-                    marginHorizontal: 3,
-                }}
-            >
+            <TouchableOpacity style={{flex: 0.8, alignItems: "center", paddingVertical: 4,backgroundColor: "#fee2e2",borderRadius: 6,marginHorizontal: 3,
+                    //   onPress={} 
+                }}   >
                 <Text style={{ color: "#dc2626", fontWeight: "bold" }}>Delete</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{flex: 0.8, alignItems: "center", paddingVertical: 4,backgroundColor: "#e4fee2ff",borderRadius: 6,marginHorizontal: 3,
+                    //   onPress={} 
+                }}   >
+                <Text style={{ color: "#4CAF50", fontWeight: "bold" }}>Edit</Text>
             </TouchableOpacity>
         </View>
     );
