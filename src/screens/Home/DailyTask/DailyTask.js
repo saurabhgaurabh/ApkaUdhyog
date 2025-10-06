@@ -1,123 +1,246 @@
-import React, { useState } from "react";
-import { View, ScrollView, StyleSheet, TouchableOpacity, ToastAndroid } from "react-native";
-import { TextInput, Button, Card, Text, Menu, Divider } from "react-native-paper";
+import React from "react";
+import {
+    View,
+    ScrollView,
+    StyleSheet,
+    TouchableOpacity,
+    ToastAndroid,
+    Alert,
+} from "react-native";
+import {
+    TextInput,
+    Card,
+    Text,
+} from "react-native-paper";
 import SubHeader from "../../../components/SubHeader";
 import styles from "../../../MainStyle";
 import { useNavigation } from "@react-navigation/native";
+import { useForm, Controller } from "react-hook-form";
 
 const DailyTask = () => {
     const navigation = useNavigation();
-    const [state, setState] = useState({ employee_name: "", shift: "", remarks: "" });
-    const handleEmployee = (text) => setState(prevState => ({ ...prevState, employee_name: text }));
-    const handleShift = (text) => setState(prevState => ({ ...prevState, shift: text }));
-    const handleRemarks = (text) => setState(prevState => ({ ...prevState, remarks: text }));
-    const handleHours = (text) => setState(prevState => ({ ...prevState, total_hours: text }));
 
-    const handleSubmit = async () => {
+    // 🧩 Initialize React Hook Form
+    const {
+        control,
+        handleSubmit,
+        reset,
+        formState: { errors },
+    } = useForm({
+        defaultValues: {
+            employee_name: "",
+            shift: "",
+            total_hours: "",
+            remarks: "",
+        },
+    });
+    const onSubmit = async (data) => {
         try {
-            const { employee_name, shift, total_hours, remarks } = state;
-            const taskData = { employee_name, shift, total_hours, remarks };
-            let response = await fetch("https://30e48ae68ae9.ngrok-free.app/api/users/v1/motion-daily-tasks", {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(taskData),
-            });
+            const response = await fetch(
+                "https://30e48ae68ae9.ngrok-free.app/api/users/v1/motion-daily-tasks",
+                {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                }
+            );
             const result = await response.json();
-            console.log(result, "result");
+
             if (response.ok) {
-                ToastAndroid.show("Task added successfully!", ToastAndroid.SHORT);
+                ToastAndroid.show("✅ Task added successfully!", ToastAndroid.SHORT);
+                reset();
                 navigation.navigate("ViewTasks");
             } else {
-                console.log("Error Response:", result);
-                Alert.alert("Error", result?.message || "Failed to add task. Please try again.");
+                Alert.alert("Error", result?.message || "Failed to add task.");
             }
         } catch (error) {
-            Alert.alert("Error", "Failed to add task. Please try again.");
             console.error("Error adding task:", error);
+            Alert.alert("Error", "Something went wrong. Please try again.");
         }
     };
 
-
     return (
-        <View style={{ flex: 1, backgroundColor: "#f9fafb", }}>
-            <SubHeader />
-            <ScrollView contentContainerStyle={{ flexGrow: 1, backgroundColor: "#f9fafb", padding: 16 }}>
+        <View style={{ flex: 1, backgroundColor: "#f9fafb" }}>
+            <SubHeader title={"Add Daily Task"} />
+            <ScrollView
+                contentContainerStyle={{
+                    flexGrow: 1,
+                    backgroundColor: "#f9fafb",
+                    padding: 16,
+                }}
+            >
                 <Card style={styles.dailycard}>
-                    <Card.Title title="Daily Task Manager" titleStyle={styles.dailycardTitle} />
+                    <Card.Title
+                        title="🗓️ Daily Task Manager"
+                        titleStyle={styles.dailycardTitle}
+                    />
                     <Card.Content>
+                        <View style={localStyles.inputContainer}>
+                            <View
+                                style={[localStyles.colorBadge, { backgroundColor: "#4f46e5" }]}
+                            />
+                            <Controller
+                                control={control}
+                                name="employee_name"
+                                rules={{
+                                    required: "Employee name is required",
+                                    minLength: {
+                                        value: 3,
+                                        message: "Minimum 3 characters required",
+                                    },
+                                }}
+                                render={({ field: { onChange, value } }) => (
+                                    <TextInput
+                                        label="Employee Name"
+                                        mode="outlined"
+                                        placeholder="Enter employee name"
+                                        value={value}
+                                        onChangeText={onChange}
+                                        keyboardType="default"
+                                        autoCapitalize="words"
+                                        activeOutlineColor="#4CAF50"
+                                        outlineColor="#7f8378ff"
+                                        style={styles.input}
+                                    />
+                                )}
+                            />
+                        </View>
+                        {errors.employee_name && (
+                            <Text style={localStyles.errorText}>
+                                {errors.employee_name.message}
+                            </Text>
+                        )}
+                        <View style={localStyles.row}>
+                            <View style={{ flex: 1, marginRight: 5 }}>
+                                <View style={localStyles.inputContainer}>
+                                    <View
+                                        style={[
+                                            localStyles.colorBadge,
+                                            { backgroundColor: "#f59e0b" },
+                                        ]}
+                                    />
+                                    <Controller
+                                        control={control}
+                                        name="shift"
+                                        rules={{ required: "Shift is required" }}
+                                        render={({ field: { onChange, value } }) => (
+                                            <TextInput
+                                                label="Shift"
+                                                mode="outlined"
+                                                placeholder="Morning / Evening"
+                                                value={value}
+                                                onChangeText={onChange}
+                                                keyboardType="default"
+                                                autoCapitalize="words"
+                                                activeOutlineColor="#4CAF50"
+                                                outlineColor="#7f8378ff"
+                                                style={styles.input}
+                                            />
+                                        )}
+                                    />
+                                </View>
+                                {errors.shift && (
+                                    <Text style={localStyles.errorText}>
+                                        {errors.shift.message}
+                                    </Text>
+                                )}
+                            </View>
 
-                        {/* Employee Name */}
-                        <View style={localStyles.inputContainer}>
-                            <View style={[localStyles.colorBadge, { backgroundColor: '#4f46e5' }]} />
-                            <TextInput
-                                label="Employee Name"
-                                mode="outlined"
-                                placeholder="Enter Employee Name"
-                                onChangeText={handleEmployee}
-                                keyboardType="default"
-                                autoCapitalize="true"
-                                autoCorrect={false}
-                                activeOutlineColor="#4CAF50"
-                                outlineColor="#7f8378ff"
-                                style={styles.input}
-                            />
+                            <View style={{ flex: 1, marginRight: 5 }}>
+                                <View style={localStyles.inputContainer}>
+                                    <View
+                                        style={[
+                                            localStyles.colorBadge,
+                                        ]}
+                                    />
+                                    <Controller
+                                        control={control}
+                                        name="total_hours"
+                                        rules={{
+                                            required: "Hours required",
+                                            pattern: {
+                                                value: /^[0-9:]+$/,
+                                                message: "Enter valid time format (e.g. 08:30)",
+                                            },
+                                        }}
+                                        render={({ field: { onChange, value } }) => (
+                                            <TextInput
+                                                label="Hours"
+                                                mode="outlined"
+                                                placeholder="00:00"
+                                                value={value}
+                                                onChangeText={onChange}
+                                                keyboardType="numeric"
+                                                activeOutlineColor="#4CAF50"
+                                                outlineColor="#7f8378ff"
+                                                style={styles.input}
+                                            />
+                                        )}
+                                    />
+                                </View>
+                                {errors.total_hours && (
+                                    <Text style={localStyles.errorText}>
+                                        {errors.total_hours.message}
+                                    </Text>
+                                )}
+                            </View>
                         </View>
-                        <View style={localStyles.inputContainer}>
-                            <View style={[localStyles.colorBadge, { backgroundColor: '#f59e0b' }]} />
-                            <TextInput
-                                label="Shift"
-                                mode="outlined"
-                                placeholder="Morning / Evening "
-                                onChangeText={handleShift}
-                                keyboardType="default"
-                                autoCapitalize="true"
-                                autoCorrect={false}
-                                activeOutlineColor="#4CAF50"
-                                outlineColor="#7f8378ff"
-                                style={[styles.input, { flex: 1, marginRight: 5 }]}
-                            />
-                            <TextInput
-                                label="Hours"
-                                mode="outlined"
-                                placeholder="00:00"
-                                onChangeText={handleHours}
-                                keyboardType="numeric"
-                                autoCapitalize="none"
-                                autoCorrect={false}
-                                activeOutlineColor="#4CAF50"
-                                outlineColor="#7f8378ff"
-                                style={[styles.input, { flex: 1, marginLeft: 5 }]}
-                            />
-                        </View>
+
                         {/* Remarks */}
                         <View style={localStyles.inputContainer}>
-                            <View style={[localStyles.colorBadge, { backgroundColor: '#6366f1' }]} />
-                            <TextInput
-                                label="Remarks"
-                                mode="outlined"
-                                placeholder="Enter Remarks"
-                                multiline
-                                numberOfLines={3}
-                                onChangeText={handleRemarks}
-                                keyboardType="default"
-                                autoCapitalize="none"
-                                autoCorrect={false}
-                                activeOutlineColor="#4CAF50"
-                                outlineColor="#7f8378ff"
-                                style={styles.input}
+                            <View
+                                style={[localStyles.colorBadge, { backgroundColor: "#6366f1" }]}
+                            />
+                            <Controller
+                                control={control}
+                                name="remarks"
+                                rules={{
+                                    maxLength: {
+                                        value: 200,
+                                        message: "Remarks must be under 200 characters",
+                                    },
+                                }}
+                                render={({ field: { onChange, value } }) => (
+                                    <TextInput
+                                        label="Remarks"
+                                        mode="outlined"
+                                        placeholder="Enter remarks (optional)"
+                                        value={value}
+                                        onChangeText={onChange}
+                                        multiline
+                                        numberOfLines={3}
+                                        activeOutlineColor="#4CAF50"
+                                        outlineColor="#7f8378ff"
+                                        style={styles.input}
+                                    />
+                                )}
                             />
                         </View>
+                        {errors.remarks && (
+                            <Text style={localStyles.errorText}>
+                                {errors.remarks.message}
+                            </Text>
+                        )}
                     </Card.Content>
                 </Card>
             </ScrollView>
+
+            {/* Bottom Buttons */}
             <View style={styles.bottomButtonBody}>
-                <View style={styles.bottomButtonCancel}>
-                    <Text style={styles.bottomButtonText}>Cancel Task</Text>
-                </View>
-                <TouchableOpacity onPress={handleSubmit} style={styles.bottomButtonColumnSubmit}>
+                <TouchableOpacity
+                    onPress={() => reset()}
+                    style={styles.bottomButtonCancel}
+                >
+                    <Text style={styles.bottomButtonText}>Cancel</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    onPress={handleSubmit(onSubmit)}
+                    style={styles.bottomButtonColumnSubmit}
+                >
                     <Text style={styles.bottomButtonText}>Add Task</Text>
                 </TouchableOpacity>
             </View>
@@ -129,9 +252,13 @@ export default DailyTask;
 
 const localStyles = StyleSheet.create({
     inputContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 15,
+        flexDirection: "row",
+        alignItems: "center",
+        marginBottom: 10,
+    },
+    row: {
+        flexDirection: "row",
+        justifyContent: "space-between",
     },
     colorBadge: {
         width: 10,
@@ -142,5 +269,11 @@ const localStyles = StyleSheet.create({
     input: {
         flex: 1,
         backgroundColor: "#fff",
+    },
+    errorText: {
+        color: "red",
+        marginBottom: 8,
+        marginLeft: 18,
+        fontSize: 13,
     },
 });
