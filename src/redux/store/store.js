@@ -9,13 +9,15 @@ import addClientsReducer from "../slices/AddClientsSlice";
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  whitelist: ["addDealer", "addClients"], // only addDealer slice will be persisted
+  whitelist: ["addDealer", "addClients", "addMyDealers"], // only addDealer slice will be persisted
 };
 
 const rootReducer = combineReducers({
   items: itemReducer,
   addDealer: addDealerReducer,
   addClients: addClientsReducer,
+
+  addMyDealers: addDealerReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

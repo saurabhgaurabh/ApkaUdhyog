@@ -723,88 +723,95 @@ const styles = StyleSheet.create({
     textAlign: "right",
     top: 30
   },
-    taskcontainer: {
-        flex: 1,
-        backgroundColor: "#fff",
-        shadowColor: "#000",
-        shadowOpacity: 0.05,
-        shadowRadius: 8,
-        elevation: 3,
-        top: 10
-    },
-    searchBar: {
-        backgroundColor: "#f9fafb",
-    },
-    tableHeader: {
-        flexDirection: "row",
-        backgroundColor: "#4CAF50",
-        paddingVertical: 10,
-    },
-    headerCell: {
-        color: "#fff",
-        fontSize: 15,
-        fontWeight: "800",
-        textAlign: "center",
-    },
-    tableRow: {
-        flexDirection: "row",
-        paddingVertical: 10,
-        paddingHorizontal: 6,
-        alignItems: "center",
-        borderBottomWidth: 1,
-        borderColor: "#e5e7eb",
-    },
-    tableCell: {
-        fontSize: 13,
-        textAlign: "center",
-        color: "#374151",
-    },
-    loadingContainer: {
-        marginTop: 60,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    loadingText: {
-        marginTop: 8,
-        color: "#6b7280",
-        fontSize: 13,
-    },
-    emptyText: {
-        textAlign: "center",
-        color: "#6b7280",
-        marginTop: 40,
-    },
-    modalOverlay: {
-        flex: 1,
-        backgroundColor: "rgba(0,0,0,0.4)",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: 20,
-    },
-    modalContainer: {
-        width: "90%",
-        backgroundColor: "#fff",
-        borderRadius: 12,
-        padding: 20,
-        elevation: 10,
-    },
-    modalTitle: {
-        fontSize: 18,
-        fontWeight: "700",
-        color: "#111827",
-        marginBottom: 10,
-        textAlign: "center",
-    },
-    modalText: {
-        fontSize: 14,
-        color: "#374151",
-        lineHeight: 22,
-        textAlign: "justify",
-    },
-    modalButton: {
-        marginTop: 16,
-        backgroundColor: "#4CAF50",
-    },
+  taskcontainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 3,
+    top: 10
+  },
+  searchBar: {
+    backgroundColor: "#f9fafb",
+  },
+  tableHeader: {
+    flexDirection: "row",
+    backgroundColor: "#4CAF50",
+    paddingVertical: 10,
+  },
+  headerCell: {
+    color: "#fff",
+    fontSize: 15,
+    fontWeight: "800",
+    textAlign: "center",
+  },
+  tableRow: {
+    flexDirection: "row",
+    paddingVertical: 10,
+    paddingHorizontal: 6,
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderColor: "#e5e7eb",
+  },
+  tableCell: {
+    fontSize: 13,
+    textAlign: "center",
+    color: "#374151",
+  },
+  loadingContainer: {
+    marginTop: 60,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingText: {
+    marginTop: 8,
+    color: "#6b7280",
+    fontSize: 13,
+  },
+  emptyText: {
+    textAlign: "center",
+    color: "#6b7280",
+    marginTop: 40,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.4)",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+  modalContainer: {
+    width: "90%",
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    padding: 20,
+    elevation: 10,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: "#111827",
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  modalText: {
+    fontSize: 14,
+    color: "#374151",
+    lineHeight: 22,
+    textAlign: "justify",
+  },
+  modalButton: {
+    marginTop: 16,
+    backgroundColor: "#4CAF50",
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 13,
+    marginBottom: 6,
+    alignSelf: 'flex-start',
+    marginLeft: 15,
+  },
 
 
 })

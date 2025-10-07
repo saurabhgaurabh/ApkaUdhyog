@@ -7,7 +7,7 @@ import styles from '../../../MainStyle';
 import { useNavigation } from '@react-navigation/native';
 import Home from '../../Home';
 import NavigationStrings from '../../../constants/NavigationStrings';
-import { addDealer } from '../../../redux/slices/addDealerSlice'; // reducer
+import { addDealer, addMyDealers } from '../../../redux/slices/addDealerSlice'; // reducer
 import { useDispatch } from 'react-redux';
 import ListDealers from './ListDealers';
 import SubHeader from '../../../components/SubHeader';
@@ -16,7 +16,6 @@ import SubHeader from '../../../components/SubHeader';
 
 
 const AddDealers = () => {
-
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const [state, setState] = useState({
@@ -45,7 +44,7 @@ const AddDealers = () => {
             dealer_Code, dealer_name, dealer_GST, mobile_number, adhar_number, pan, dealing_product, email,
             country, state: addressState, city, address, postal_code
         };
-        const response = await fetch(`https://8f923e25719a.ngrok-free.app/api/users/v1/motion-add-dealer-registration-post`, {
+        const response = await fetch(`https://30e48ae68ae9.ngrok-free.app/api/users/v1/motion-add-dealer-registration-post`, {
             method: 'POST',
             headers: {
                 'Accept': 'Application/json',
@@ -54,16 +53,19 @@ const AddDealers = () => {
             body: JSON.stringify(dealerData),
         });
         const result = await response.json();
-        console.log(result, "dealer result");
-        if (result.status) {
-            dispatch(addDealer(result.data)); // addDealer is reducer name to add individual dealer
+        console.log(result?.result?.data, "dealer result");
+        if (result.status === true || result.status === 'true') {
+            // const newDealer = Array.isArray(result?.result?.data) ? result?.result?.data[0] : result?.result?.data;
+            // dispatch(addDealer(newDealer)); // addDealer is reducer name to add individual dealer
+            dispatch(addMyDealers(result));
             ToastAndroid.show("Dealer has been Registered Successfully", ToastAndroid.SHORT);
-            navigation.navigate(NavigationStrings.LISTDEALERS);
+            // navigation.navigate("ListDealer");
 
         } else {
             ToastAndroid.show("Internal Error.", ToastAndroid.SHORT);
         }
     }
+  
     return (
         <>
             <View style={{ flex: 1 }}>

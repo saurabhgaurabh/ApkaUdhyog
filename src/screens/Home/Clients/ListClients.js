@@ -31,7 +31,7 @@ const ListClients = () => {
 
     const fetchClients = async () => {
         try {
-            const response = await fetch("https://a40f5f24c80d.ngrok-free.app/api/users/v1/motion-parties-registration-get");
+            const response = await fetch("https://30e48ae68ae9.ngrok-free.app/api/users/v1/motion-parties-registration-get");
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
