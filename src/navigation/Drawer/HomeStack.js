@@ -13,6 +13,8 @@ import EmployeeRegistration from '../../screens/Home/Employees/EmployeeRegistrat
 import EmployeeList from '../../screens/Home/Employees/EmployeeList';
 import DailyTask from '../../screens/Home/DailyTask/DailyTask';
 import ViewTasks from '../../screens/Home/DailyTask/ViewTasks';
+import ListSales from '../../screens/Home/Sales/ListSales';
+import AddSales from '../../screens/Home/Sales/AddSales';
 
 
 const HomeStack = ({ navigation }) => {
@@ -27,6 +29,8 @@ const HomeStack = ({ navigation }) => {
       <Stack.Screen name='AddClients' component={AddClients} />
       <Stack.Screen name='ListClients' component={ListClients} />
       <Stack.Screen name='InfoClients' component={InfoClients} />
+      <Stack.Screen name='AddSales' component={AddSales} />
+      <Stack.Screen name='ListSales' component={ListSales} />
       <Stack.Screen name='EmployeeRegistration' component={EmployeeRegistration} />
       <Stack.Screen name='EmployeeList' component={EmployeeList} />
       <Stack.Screen name='DailyTask' component={DailyTask} />

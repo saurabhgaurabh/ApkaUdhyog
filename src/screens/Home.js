@@ -107,6 +107,7 @@ const Home = () => {
                   </TouchableOpacity>
                   <TouchableOpacity
                     activeOpacity={0.9}
+                    onPress={() => navigation.navigate('ListSales')}
                     onPressIn={() => handlePressIn('addSale')}
                     onPressOut={() => handlePressOut('addSale')}
                     style={{
