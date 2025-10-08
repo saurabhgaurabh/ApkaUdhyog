@@ -6,6 +6,8 @@ import Login from '../screens/Login/Login';
 import TabRoutes from './TabRoutes';
 import Registration from '../screens/Registration/Registration';
 import AddPurchaseItems from '../screens/Purchase/AddPurchaseItems';
+import { Provider as PaperProvider } from "react-native-paper";
+
 
 const splashRoutes = () => {
 

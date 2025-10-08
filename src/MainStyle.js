@@ -812,7 +812,47 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     marginLeft: 15,
   },
-
+  salescontainer: {
+    paddingTop: 25,
+  },
+  salescard: {
+    borderRadius: 15,
+    marginBottom: 20,
+    elevation: 2,
+    backgroundColor: "#fff",
+    top: 10,
+  },
+  salessectionTitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: Colors.primary,
+  },
+  salesrow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  halfInput: {
+    width: "48%",
+  },
+  bottomBar: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 15,
+    backgroundColor: "#fff",
+    elevation: 10,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+  },
+  bottomButton: {
+    width: "45%",
+    paddingVertical: 12,
+    borderRadius: 10,
+    alignItems: "center",
+  },
 
 })
 

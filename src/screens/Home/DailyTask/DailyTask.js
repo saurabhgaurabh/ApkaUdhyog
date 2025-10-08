@@ -8,8 +8,6 @@ import { useForm, Controller } from "react-hook-form";
 
 const DailyTask = () => {
     const navigation = useNavigation();
-
-    // 🧩 Initialize React Hook Form
     const { control, handleSubmit,reset,formState: { errors },} = useForm({defaultValues: {
          employee_name: "", shift: "", total_hours: "", remarks: "", },
     });
@@ -67,8 +65,8 @@ const DailyTask = () => {
                                 rules={{
                                     required: "Employee name is required",
                                     minLength: {
-                                        value: 3,
-                                        message: "Minimum 3 characters required",
+                                        value: 5,
+                                        message: "Minimum 5 characters required",
                                     },
                                 }}
                                 render={({ field: { onChange, value } }) => (
@@ -169,7 +167,7 @@ const DailyTask = () => {
                         </View>
 
                         {/* Remarks */}
-                        <View style={localStyles.inputContainer}>
+                        <View style={localStyles.inputContainer}> 
                             <View
                                 style={[localStyles.colorBadge, { backgroundColor: "#6366f1" }]}
                             />

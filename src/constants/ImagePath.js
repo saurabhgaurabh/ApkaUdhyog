@@ -21,4 +21,7 @@ export default {
     whats: require('../assets/whats.png'),
     gmail: require('../assets/gmail.png'),
     phone: require('../assets/phone.png'),
+    receipt: require('../assets/receipt.png'),
+    view: require('../assets/view.png'),
+    delete: require('../assets/delete.png'),
 }

@@ -1,26 +1,17 @@
 import React, { useState } from "react";
-import {
-    View,
-    Text,
-    ScrollView,
-    TouchableOpacity,
-    StyleSheet,
-    KeyboardAvoidingView,
-    Platform,
-} from "react-native";
-import { TextInput, Card } from "react-native-paper";
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform, ToastAndroid, } from "react-native";
+import { TextInput, Card, Menu } from "react-native-paper";
 import SubHeader from "../../../components/SubHeader";
 import Colors from "../../../constants/color";
+import styles from "../../../MainStyle";
+import { useNavigation } from "@react-navigation/native";
 
 const AddSales = () => {
+    const navigation = useNavigation();
+    const [menuVisible, setMenuVisible] = useState(false);
     const [form, setForm] = useState({
-        customer_name: "",
-        product_name: "",
-        quantity: "",
-        price: "",
-        total_amount: "",
-        sale_date: "",
-        remarks: "",
+        customer_name: "", company: "", product_name: "", quantity: "", price: "", total_amount: "",
+        due_amount: "", payment_status: "", remarks: ""
     });
 
     const handleChange = (key, value) => {
@@ -35,8 +26,41 @@ const AddSales = () => {
         }
     };
 
-    const handleSubmit = () => {
-        console.log("Form submitted:", form);
+    const handleSubmit = async () => {
+        try {
+            const { customer_name, company, product_name, quantity, price, total_amount, due_amount,
+                payment_status, remarks } = form;
+            const newSale = {
+                customer_name, company, product_name, quantity, price, total_amount, due_amount,
+                payment_status, remarks
+            };
+            const response = await fetch(`https://30e48ae68ae9.ngrok-free.app/api/users/v1/motion-sales`, {
+                method: "POST",
+                headers: {
+                    "Accept": "Application/json",
+                    "Content-Type": "Application/json"
+                },
+                body: JSON.stringify(newSale),
+            })
+            const result = await response.json();
+            // console.log(result, "sales");
+            if (result.status === true) {
+                ToastAndroid.show("Sale has been added successfully", ToastAndroid.SHORT);
+                setForm({
+                    customer_name: "", company: "", product_name: "", quantity: "", price: "", total_amount: "",
+                    due_amount: "", payment_status: "", remarks: ""
+                });
+                // console.log(result, "sale result");
+                navigation.navigate("ListSales");
+            } else {
+                ToastAndroid.show("Failed to add sale. Please try again.", ToastAndroid.SHORT);
+                Alert.alert("Error", "Failed to add sale. Please try again.");
+            }
+
+        } catch (error) {
+            ToastAndroid.show("Failed to add sale. Please try again.", ToastAndroid.SHORT);
+            Alert.alert("Error", "An error occurred while adding the sale.");
+        }
     };
 
     const handleCancel = () => {
@@ -54,63 +78,54 @@ const AddSales = () => {
     return (
         <View style={{ flex: 1, backgroundColor: Colors.screenBackground }}>
             <SubHeader title="Add New Sale" />
-
-            <KeyboardAvoidingView
-                behavior={Platform.OS === "ios" ? "padding" : undefined}
-                style={{ flex: 1 }}
-            >
+            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1 }} >
                 <ScrollView
-                    style={styles.container}
+                    style={styles.salescontainer}
                     showsVerticalScrollIndicator={false}
-                    contentContainerStyle={{ paddingBottom: 100 }}
-                >
-                    {/* SECTION 1: CUSTOMER DETAILS */}
-                    <Card style={styles.card}>
-                        <Card.Title title="Customer Details" titleStyle={styles.sectionTitle} />
+                    contentContainerStyle={{ paddingBottom: 100 }} >
+                    <Card style={styles.salescard}>
+                        <Card.Title title={<Text style={styles.sectionTitle}>Customer Details</Text>} />
                         <Card.Content>
                             <TextInput
                                 label="Customer Name"
                                 mode="outlined"
-                                value={form.customer_name}
+                                value={String(form.customer_name || "")}
                                 onChangeText={(val) => handleChange("customer_name", val)}
                                 style={styles.input}
                                 outlineColor="#ccc"
                                 activeOutlineColor={Colors.primary}
                             />
-
                             <TextInput
                                 label="Company/Organization"
                                 mode="outlined"
                                 placeholder="Company name (if any)"
-                                value={form.sale_date}
-                                onChangeText={(val) => handleChange("sale_date", val)}
+                                value={String(form.company || "")}
+                                onChangeText={(val) => handleChange("company", val)}
                                 style={styles.input}
                                 outlineColor="#ccc"
                                 activeOutlineColor={Colors.primary}
                             />
                         </Card.Content>
                     </Card>
-
-                    {/* SECTION 2: PRODUCT DETAILS */}
-                    <Card style={styles.card}>
-                        <Card.Title title="Product Details" titleStyle={styles.sectionTitle} />
+                    <Card style={styles.salescard}>
+                        <Card.Title title={<Text style={styles.sectionTitle}>Product Details</Text>} />
                         <Card.Content>
                             <TextInput
                                 label="Product Name"
                                 mode="outlined"
-                                value={form.product_name}
+                                value={String(form.product_name || "")}
                                 onChangeText={(val) => handleChange("product_name", val)}
                                 style={styles.input}
                                 outlineColor="#ccc"
                                 activeOutlineColor={Colors.primary}
                             />
 
-                            <View style={styles.row}>
+                            <View style={styles.salesrow}>
                                 <TextInput
                                     label="Quantity"
                                     mode="outlined"
                                     keyboardType="numeric"
-                                    value={form.quantity}
+                                    value={String(form.quantity || "")}
                                     onChangeText={(val) => handleChange("quantity", val)}
                                     style={[styles.input, styles.halfInput]}
                                     outlineColor="#ccc"
@@ -120,28 +135,25 @@ const AddSales = () => {
                                     label="Price"
                                     mode="outlined"
                                     keyboardType="numeric"
-                                    value={form.price}
+                                    value={String(form.price || "")}
                                     onChangeText={(val) => handleChange("price", val)}
                                     style={[styles.input, styles.halfInput]}
                                     outlineColor="#ccc"
                                     activeOutlineColor={Colors.primary}
                                 />
                             </View>
-
                             <TextInput
                                 label="Total Amount"
                                 mode="outlined"
-                                value={form.total_amount}
+                                value={String(form.total_amount || "")}
                                 editable={false}
                                 style={[styles.input, { backgroundColor: "#f3f4f6" }]}
                                 outlineColor="#ccc"
                             />
                         </Card.Content>
                     </Card>
-
-                    {/* SECTION 3: ADDITIONAL INFO */}
-                    <Card style={styles.card}>
-                        <Card.Title title="Additional Info" titleStyle={styles.sectionTitle} />
+                    <Card style={styles.salescard}>
+                        <Card.Title title={<Text style={styles.sectionTitle}>Additional Info</Text>} />
                         <Card.Content>
                             <TextInput
                                 label="Remarks"
@@ -149,7 +161,7 @@ const AddSales = () => {
                                 placeholder="Enter any remarks..."
                                 multiline
                                 numberOfLines={4}
-                                value={form.remarks}
+                                value={String(form.remarks || "")}
                                 onChangeText={(val) => handleChange("remarks", val)}
                                 style={[styles.input, { height: 100 }]}
                                 outlineColor="#ccc"
@@ -157,20 +169,37 @@ const AddSales = () => {
                             />
                         </Card.Content>
                     </Card>
+                    <Card style={styles.salescard}>
+                        <Card.Title title={<Text style={styles.sectionTitle}>Payment Mode</Text>} />
+                        <Menu
+                            visible={menuVisible}
+                            onDismiss={() => setMenuVisible(false)}
+                            anchor={
+                                <TouchableOpacity onPress={() => setMenuVisible(true)}>
+                                    <Card.Content>
+                                        <TextInput
+                                            label="Payment Status"
+                                            mode="outlined"
+                                            value={form.payment_status || ""}
+                                            editable={false}
+                                            style={styles.input}
+                                            outlineColor="#ccc"
+                                            activeOutlineColor={Colors.primary}
+                                        />
+                                    </Card.Content>
+                                </TouchableOpacity>
+                            }>
+                            <Menu.Item onPress={() => { handleChange("payment_status", "Active"); setMenuVisible(false); }} title="Active" />
+                            <Menu.Item onPress={() => { handleChange("payment_status", "Paid"); setMenuVisible(false); }} title="Paid" />
+                            <Menu.Item onPress={() => { handleChange("payment_status", "Unpaid"); setMenuVisible(false); }} title="Unpaid" />
+                        </Menu>
+                    </Card>
                 </ScrollView>
-
-                {/* Floating Action Buttons */}
                 <View style={styles.bottomBar}>
-                    <TouchableOpacity
-                        onPress={handleCancel}
-                        style={[styles.bottomButton, { backgroundColor: "#9CA3AF" }]}
-                    >
+                    <TouchableOpacity onPress={handleCancel} style={[styles.bottomButton, { backgroundColor: "#9CA3AF" }]}>
                         <Text style={styles.bottomButtonText}>Reset</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={handleSubmit}
-                        style={[styles.bottomButton, { backgroundColor: Colors.primary }]}
-                    >
+                    <TouchableOpacity onPress={handleSubmit} style={[styles.bottomButton, { backgroundColor: Colors.primary }]} >
                         <Text style={styles.bottomButtonText}>Add Sale</Text>
                     </TouchableOpacity>
                 </View>
@@ -180,57 +209,3 @@ const AddSales = () => {
 };
 
 export default AddSales;
-
-const styles = StyleSheet.create({
-    container: {
-        paddingHorizontal: 15,
-        paddingTop: 25,
-    },
-    card: {
-        borderRadius: 15,
-        marginBottom: 20,
-        elevation: 2,
-        backgroundColor: "#fff",
-        top: 10,
-    },
-    sectionTitle: {
-        fontSize: 18,
-        fontWeight: "600",
-        color: Colors.primary,
-    },
-    input: {
-        marginBottom: 15,
-        backgroundColor: "#fff",
-    },
-    row: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-    },
-    halfInput: {
-        width: "48%",
-    },
-    bottomBar: {
-        position: "absolute",
-        bottom: 0,
-        left: 0,
-        right: 0,
-        flexDirection: "row",
-        justifyContent: "space-around",
-        padding: 15,
-        backgroundColor: "#fff",
-        elevation: 10,
-        borderTopLeftRadius: 15,
-        borderTopRightRadius: 15,
-    },
-    bottomButton: {
-        width: "45%",
-        paddingVertical: 12,
-        borderRadius: 10,
-        alignItems: "center",
-    },
-    bottomButtonText: {
-        color: "#fff",
-        fontSize: 16,
-        fontWeight: "600",
-    },
-});
