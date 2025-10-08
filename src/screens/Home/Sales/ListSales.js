@@ -16,6 +16,7 @@ import CustomHeader from "../../../components/CustomeHeader";
 import * as Animatable from "react-native-animatable";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import ImagePath from "../../../constants/ImagePath";
+import NavigationStrings from "../../../constants/NavigationStrings";
 
 
 const ListSales = () => {
@@ -91,9 +92,10 @@ const ListSales = () => {
                 </Text>
 
                 <View style={{ flexDirection: "row", justifyContent: "flex-end", marginTop: 8, alignItems: 'baseline', gap: 15 }}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate(NavigationStrings.PRINTSALE)}>
                         <Image source={ImagePath.receipt} resizeMode="cover" style={{ height: 25, width: 25 }} />
                     </TouchableOpacity>
+
                     <TouchableOpacity>
                         <Image source={ImagePath.view} resizeMode="cover" style={{ height: 25, width: 25 }} />
                     </TouchableOpacity>

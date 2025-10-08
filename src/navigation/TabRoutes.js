@@ -27,11 +27,12 @@ const TabRoutes = () => {
           const isDealersInfo = routeName === "DealersInfo";
           const isAddClients = routeName === "AddClients";
           const isAddSales = routeName === "AddSales";
+          const isPrintSale = routeName === "PrintSale";
           const isEmployeeRegistration = routeName === "EmployeeRegistration";
           return {
             headerShown: false,
             title: 'Products',
-            tabBarStyle: isAddDealers || isDealersInfo || isAddClients || isEmployeeRegistration || isAddSales ? { display: "none" } : { display: "flex" },
+            tabBarStyle: isAddDealers || isDealersInfo || isAddClients || isEmployeeRegistration || isAddSales  || isPrintSale ? { display: "none" } : { display: "flex" },
             tabBarIcon: ({ focused }) => (
               <Image
                 style={{

@@ -15,6 +15,7 @@ import DailyTask from '../../screens/Home/DailyTask/DailyTask';
 import ViewTasks from '../../screens/Home/DailyTask/ViewTasks';
 import ListSales from '../../screens/Home/Sales/ListSales';
 import AddSales from '../../screens/Home/Sales/AddSales';
+import PrintSale from '../../screens/Home/Sales/PrintSale';
 
 
 const HomeStack = ({ navigation }) => {
@@ -31,6 +32,7 @@ const HomeStack = ({ navigation }) => {
       <Stack.Screen name='InfoClients' component={InfoClients} />
       <Stack.Screen name='AddSales' component={AddSales} />
       <Stack.Screen name='ListSales' component={ListSales} />
+      <Stack.Screen name='PrintSale' component={PrintSale} />
       <Stack.Screen name='EmployeeRegistration' component={EmployeeRegistration} />
       <Stack.Screen name='EmployeeList' component={EmployeeList} />
       <Stack.Screen name='DailyTask' component={DailyTask} />

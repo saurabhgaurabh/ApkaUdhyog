@@ -7,4 +7,5 @@ export default {
     LISTDEALERS: 'ListDealer',
     LISTCLIENTS: 'ListClients',
     EMPLOYEELIST: 'EmployeeList',
+    PRINTSALE: 'PrintSale',
 }
