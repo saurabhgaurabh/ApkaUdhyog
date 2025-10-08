@@ -32,14 +32,14 @@ const ListSales = () => {
                 `https://30e48ae68ae9.ngrok-free.app/api/users/v1/motion-sales-get`
             );
             const result = await response.json();
-            console.log(result?.result?.result, "fetched sales");
+            // console.log(result?.result?.result, "fetched sales");
             if (result.status === true) {
                 setSales(result?.result?.result || []);
             } else {
                 ToastAndroid.show("Failed to fetch sales.", ToastAndroid.SHORT);
             }
         } catch (error) {
-            console.log("Error fetching sales:", error);
+            // console.log("Error fetching sales:", error);
             ToastAndroid.show("Failed to fetch sales.", ToastAndroid.SHORT);
         } finally {
             setLoading(false);
@@ -80,21 +80,22 @@ const ListSales = () => {
                     </Text>
                 </View>
 
-                <Text style={{ marginTop: 4, color: "#555" }}>Company: {item.company || "-"}</Text>
+                <Text style={{ marginTop: 4, color: "#555" }}>Company: {item?.company || "-"}</Text>
                 <Text style={{ marginTop: 2, color: "#555" }}>
-                    Products: {item.product_name || "-"}
+                    Products: {item?.product_name || "-"}
                 </Text>
                 <Text style={{ marginTop: 2, color: "#555" }}>
-                    Total Amount: ₹{item.total_amount || "0.00"}
+                    Total Amount: ₹{item?.total_amount || "0.00"}
                 </Text>
                 <Text style={{ marginTop: 2, color: "#555" }}>
-                    Due Amount: ₹{item.due_amount || "0.00"}
+                    Due Amount: ₹{item?.due_amount || "0.00"}
                 </Text>
 
                 <View style={{ flexDirection: "row", justifyContent: "flex-end", marginTop: 8, alignItems: 'baseline', gap: 15 }}>
-                    <TouchableOpacity onPress={() => navigation.navigate(NavigationStrings.PRINTSALE)}>
+                    <TouchableOpacity onPress={() => navigation.navigate(NavigationStrings.PRINTSALE, { saleId: item?.sale_id })}>
                         <Image source={ImagePath.receipt} resizeMode="cover" style={{ height: 25, width: 25 }} />
                     </TouchableOpacity>
+
 
                     <TouchableOpacity>
                         <Image source={ImagePath.view} resizeMode="cover" style={{ height: 25, width: 25 }} />
