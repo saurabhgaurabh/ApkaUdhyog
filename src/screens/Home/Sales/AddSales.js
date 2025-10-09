@@ -13,8 +13,11 @@ import { TextInput, Card } from "react-native-paper";
 import SubHeader from "../../../components/SubHeader";
 import Colors from "../../../constants/color";
 import styles from "../../../MainStyle";
+import { useNavigation } from "@react-navigation/native";
+
 
 const AddSales = () => {
+    const navigation = useNavigation();
     const [form, setForm] = useState({
         customer_name: "",
         company: "",
@@ -89,13 +92,12 @@ const AddSales = () => {
             );
 
             const result = await response.json();
-            console.log(result, "sales result");
-
             if (result.status === true) {
                 ToastAndroid.show("Sale added successfully!", ToastAndroid.SHORT);
                 setForm({ customer_name: "", company: "", payment_status: "", remarks: "" });
                 setProducts([{ product_name: "", quantity: "", price: "", total_amount: "" }]);
                 setGrandTotal(0);
+                navigation.navigate('ListSales')
             } else {
                 ToastAndroid.show("Failed to add sale.", ToastAndroid.SHORT);
             }
@@ -169,6 +171,7 @@ const AddSales = () => {
                                                 handleProductChange(index, "quantity", val)
                                             }
                                             style={[styles.input, { flex: 1 }]}
+                                            activeOutlineColor={Colors.primary}
                                         />
                                         <TextInput
                                             label="Price"
@@ -177,6 +180,7 @@ const AddSales = () => {
                                             value={p.price}
                                             onChangeText={(val) => handleProductChange(index, "price", val)}
                                             style={[styles.input, { flex: 1 }]}
+                                            activeOutlineColor={Colors.primary}
                                         />
                                     </View>
                                     <TextInput
@@ -230,6 +234,7 @@ const AddSales = () => {
                                 value={form.payment_status}
                                 onChangeText={(val) => setForm({ ...form, payment_status: val })}
                                 style={styles.input}
+                                activeOutlineColor={Colors.primary}
                             />
                             <TextInput
                                 label="Remarks"
@@ -239,6 +244,7 @@ const AddSales = () => {
                                 value={form.remarks}
                                 onChangeText={(val) => setForm({ ...form, remarks: val })}
                                 style={[styles.input, { height: 80 }]}
+                                activeOutlineColor={Colors.primary}
                             />
                             <Text
                                 style={{
@@ -246,6 +252,7 @@ const AddSales = () => {
                                     fontWeight: "bold",
                                     textAlign: "right",
                                     marginTop: 10,
+                                    color: Colors.primary
                                 }}
                             >
                                 Grand Total: ₹{grandTotal}

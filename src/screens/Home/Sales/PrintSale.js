@@ -39,13 +39,17 @@ const InvoiceScreen = () => {
         }
     };
 
-    const generateInvoiceNumber = (name, total) => {
-        const prefix = name ? name.substring(0, 4).toUpperCase() : "CUST";
-        const date = new Date();
-        const dateStr = `${date.getFullYear()}${(date.getMonth() + 1).toString().padStart(2, "0")}${date.getDate().toString().padStart(2, "0")}`;
-        const number = `${prefix}${Math.floor(total)}-${dateStr}`;
-        setInvoiceNumber(number);
-    };
+   const generateInvoiceNumber = (name) => {
+  const prefix = name ? name.toUpperCase().replace(/\s+/g, '') : "CUST"; // remove spaces
+  const date = new Date();
+  const dateStr = `${date.getFullYear()}${(date.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}${date.getDate().toString().padStart(2, "0")}`;
+  
+  const number = `${prefix}-${dateStr}`;
+  setInvoiceNumber(number);
+};
+
 
     if (!saleData) {
         return (
@@ -56,9 +60,9 @@ const InvoiceScreen = () => {
     }
     const getPaymentStatusColor = (status) => {
         switch ((status || "").toLowerCase()) {
-            case "paid":
+            case "Paid" || "paid" :
                 return "#3BA55D"; // green
-            case "unpaid":
+            case "Unpaid" || "unpaid" :
                 return "#E63946"; // red
             default:
                 return Colors.primary; // primary color for others

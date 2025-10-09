@@ -853,6 +853,42 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: "center",
   },
+  viewcontainer: {
+    padding: 30,
+  },
+  viewinfoContainer: {
+    backgroundColor: '#f9f9f9',
+    padding: 15,
+    borderRadius: 8,
+  },
+  viewinfoText: {
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  bold: {
+    fontWeight: 'bold',
+  },
+  viewtableHeader: {
+    backgroundColor: '#bff1c2ff',
+  },
+  viewsummaryContainer: {
+    marginTop: 10,
+    backgroundColor: '#f1f5f9',
+    padding: 15,
+    borderRadius: 8,
+  },
+  viewsummaryText: {
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  tableCellData: {
+    fontSize: 16,
+    paddingVertical: 6,
+  },
+  viewtableCell: {
+    fontWeight: "bold"
+  },
+  viewtableRow: { flexDirection: "row", marginVertical: 3 },
 
 })
 

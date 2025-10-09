@@ -8,4 +8,5 @@ export default {
     LISTCLIENTS: 'ListClients',
     EMPLOYEELIST: 'EmployeeList',
     PRINTSALE: 'PrintSale',
+    VIEWSALES: 'ViewSales',
 }

@@ -106,7 +106,7 @@ const ListSales = () => {
                     <TouchableOpacity onPress={() => navigation.navigate(NavigationStrings.PRINTSALE, { saleId: item?.sale_id })}>
                         <Image source={ImagePath.receipt} resizeMode="cover" style={{ height: 25, width: 25 }} />
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate(NavigationStrings.VIEWSALES, { saleId: item?.sale_id })}>
                         <Image source={ImagePath.view} resizeMode="cover" style={{ height: 25, width: 25 }} />
                     </TouchableOpacity>
                     <TouchableOpacity>
