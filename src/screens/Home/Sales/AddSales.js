@@ -1,205 +1,264 @@
 import React, { useState } from "react";
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform, ToastAndroid, } from "react-native";
-import { TextInput, Card, Menu } from "react-native-paper";
+import {
+    View,
+    Text,
+    ScrollView,
+    TouchableOpacity,
+    StyleSheet,
+    KeyboardAvoidingView,
+    Platform,
+    ToastAndroid,
+} from "react-native";
+import { TextInput, Card } from "react-native-paper";
 import SubHeader from "../../../components/SubHeader";
 import Colors from "../../../constants/color";
 import styles from "../../../MainStyle";
-import { useNavigation } from "@react-navigation/native";
 
 const AddSales = () => {
-    const navigation = useNavigation();
-    const [menuVisible, setMenuVisible] = useState(false);
     const [form, setForm] = useState({
-        customer_name: "", company: "", product_name: "", quantity: "", price: "", total_amount: "",
-        due_amount: "", payment_status: "", remarks: ""
+        customer_name: "",
+        company: "",
+        payment_status: "",
+        remarks: "",
     });
 
-    const handleChange = (key, value) => {
-        setForm({ ...form, [key]: value });
+    const [products, setProducts] = useState([
+        { product_name: "", quantity: "", price: "", total_amount: "" },
+    ]);
 
-        // Auto-calculate total amount
+    const [grandTotal, setGrandTotal] = useState(0);
+
+    const handleProductChange = (index, key, value) => {
+        const updatedProducts = [...products];
+        updatedProducts[index][key] = value;
+
+        // Auto-calculate total for this product
         if (key === "quantity" || key === "price") {
-            const qty = key === "quantity" ? value : form.quantity;
-            const price = key === "price" ? value : form.price;
-            const total = parseFloat(qty || 0) * parseFloat(price || 0);
-            setForm((prev) => ({ ...prev, total_amount: total.toFixed(2) }));
+            const qty = parseFloat(updatedProducts[index].quantity || 0);
+            const price = parseFloat(updatedProducts[index].price || 0);
+            updatedProducts[index].total_amount = (qty * price).toFixed(2);
         }
+
+        setProducts(updatedProducts);
+        calculateGrandTotal(updatedProducts);
+    };
+
+    const calculateGrandTotal = (list) => {
+        const total = list.reduce(
+            (acc, p) => acc + parseFloat(p.total_amount || 0),
+            0
+        );
+        setGrandTotal(total.toFixed(2));
+    };
+
+    const addMoreProduct = () => {
+        setProducts([
+            ...products,
+            { product_name: "", quantity: "", price: "", total_amount: "" },
+        ]);
+    };
+
+    const removeProduct = (index) => {
+        const updated = products.filter((_, i) => i !== index);
+        setProducts(updated);
+        calculateGrandTotal(updated);
     };
 
     const handleSubmit = async () => {
         try {
-            const { customer_name, company, product_name, quantity, price, total_amount, due_amount,
-                payment_status, remarks } = form;
-            const newSale = {
-                customer_name, company, product_name, quantity, price, total_amount, due_amount,
-                payment_status, remarks
-            };
-            const response = await fetch(`https://30e48ae68ae9.ngrok-free.app/api/users/v1/motion-sales`, {
-                method: "POST",
-                headers: {
-                    "Accept": "Application/json",
-                    "Content-Type": "Application/json"
-                },
-                body: JSON.stringify(newSale),
-            })
-            const result = await response.json();
-            // console.log(result, "sales");
-            if (result.status === true) {
-                ToastAndroid.show("Sale has been added successfully", ToastAndroid.SHORT);
-                setForm({
-                    customer_name: "", company: "", product_name: "", quantity: "", price: "", total_amount: "",
-                    due_amount: "", payment_status: "", remarks: ""
-                });
-                // console.log(result, "sale result");
-                navigation.navigate("ListSales");
-            } else {
-                ToastAndroid.show("Failed to add sale. Please try again.", ToastAndroid.SHORT);
-                Alert.alert("Error", "Failed to add sale. Please try again.");
+            if (!form.customer_name) {
+                return ToastAndroid.show("Customer Name is required", ToastAndroid.SHORT);
             }
 
-        } catch (error) {
-            ToastAndroid.show("Failed to add sale. Please try again.", ToastAndroid.SHORT);
-            Alert.alert("Error", "An error occurred while adding the sale.");
-        }
-    };
+            const saleData = {
+                ...form,
+                products,
+                grand_total: grandTotal,
+            };
 
-    const handleCancel = () => {
-        setForm({
-            customer_name: "",
-            product_name: "",
-            quantity: "",
-            price: "",
-            total_amount: "",
-            sale_date: "",
-            remarks: "",
-        });
+            const response = await fetch(
+                `https://30e48ae68ae9.ngrok-free.app/api/users/v1/motion-sales`,
+                {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(saleData),
+                }
+            );
+
+            const result = await response.json();
+            console.log(result, "sales result");
+
+            if (result.status === true) {
+                ToastAndroid.show("Sale added successfully!", ToastAndroid.SHORT);
+                setForm({ customer_name: "", company: "", payment_status: "", remarks: "" });
+                setProducts([{ product_name: "", quantity: "", price: "", total_amount: "" }]);
+                setGrandTotal(0);
+            } else {
+                ToastAndroid.show("Failed to add sale.", ToastAndroid.SHORT);
+            }
+        } catch (error) {
+            console.log("Error in AddSales Submit:", error.message || error);
+            ToastAndroid.show("Error occurred while adding sale.", ToastAndroid.SHORT);
+        }
     };
 
     return (
         <View style={{ flex: 1, backgroundColor: Colors.screenBackground }}>
             <SubHeader title="Add New Sale" />
-            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1 }} >
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : undefined}
+                style={{ flex: 1 }}
+            >
                 <ScrollView
                     style={styles.salescontainer}
                     showsVerticalScrollIndicator={false}
-                    contentContainerStyle={{ paddingBottom: 100 }} >
+                    contentContainerStyle={{ paddingBottom: 120 }}
+                >
+                    {/* Customer Info */}
                     <Card style={styles.salescard}>
-                        <Card.Title title={<Text style={styles.sectionTitle}>Customer Details</Text>} />
+                        <Card.Title title="Customer Details" titleStyle={styles.sectionTitle} />
                         <Card.Content>
                             <TextInput
                                 label="Customer Name"
                                 mode="outlined"
-                                value={String(form.customer_name || "")}
-                                onChangeText={(val) => handleChange("customer_name", val)}
+                                value={form.customer_name}
+                                onChangeText={(val) => setForm({ ...form, customer_name: val })}
                                 style={styles.input}
                                 outlineColor="#ccc"
                                 activeOutlineColor={Colors.primary}
                             />
                             <TextInput
-                                label="Company/Organization"
+                                label="Company / Organization"
                                 mode="outlined"
-                                placeholder="Company name (if any)"
-                                value={String(form.company || "")}
-                                onChangeText={(val) => handleChange("company", val)}
+                                value={form.company}
+                                onChangeText={(val) => setForm({ ...form, company: val })}
                                 style={styles.input}
                                 outlineColor="#ccc"
                                 activeOutlineColor={Colors.primary}
                             />
                         </Card.Content>
                     </Card>
-                    <Card style={styles.salescard}>
-                        <Card.Title title={<Text style={styles.sectionTitle}>Product Details</Text>} />
-                        <Card.Content>
-                            <TextInput
-                                label="Product Name"
-                                mode="outlined"
-                                value={String(form.product_name || "")}
-                                onChangeText={(val) => handleChange("product_name", val)}
-                                style={styles.input}
-                                outlineColor="#ccc"
-                                activeOutlineColor={Colors.primary}
-                            />
 
-                            <View style={styles.salesrow}>
-                                <TextInput
-                                    label="Quantity"
-                                    mode="outlined"
-                                    keyboardType="numeric"
-                                    value={String(form.quantity || "")}
-                                    onChangeText={(val) => handleChange("quantity", val)}
-                                    style={[styles.input, styles.halfInput]}
-                                    outlineColor="#ccc"
-                                    activeOutlineColor={Colors.primary}
-                                />
-                                <TextInput
-                                    label="Price"
-                                    mode="outlined"
-                                    keyboardType="numeric"
-                                    value={String(form.price || "")}
-                                    onChangeText={(val) => handleChange("price", val)}
-                                    style={[styles.input, styles.halfInput]}
-                                    outlineColor="#ccc"
-                                    activeOutlineColor={Colors.primary}
-                                />
-                            </View>
-                            <TextInput
-                                label="Total Amount"
-                                mode="outlined"
-                                value={String(form.total_amount || "")}
-                                editable={false}
-                                style={[styles.input, { backgroundColor: "#f3f4f6" }]}
-                                outlineColor="#ccc"
-                            />
+                    {/* Product Info */}
+                    <Card style={styles.salescard}>
+                        <Card.Title title="Product Details" titleStyle={styles.sectionTitle} />
+                        <Card.Content>
+                            {products.map((p, index) => (
+                                <View key={index} style={{ marginBottom: 16 }}>
+                                    <TextInput
+                                        label="Product Name"
+                                        mode="outlined"
+                                        value={p.product_name}
+                                        onChangeText={(val) =>
+                                            handleProductChange(index, "product_name", val)
+                                        }
+                                        style={styles.input}
+                                        outlineColor="#ccc"
+                                        activeOutlineColor={Colors.primary}
+                                    />
+                                    <View style={{ flexDirection: "row", gap: 10 }}>
+                                        <TextInput
+                                            label="Qty"
+                                            mode="outlined"
+                                            keyboardType="numeric"
+                                            value={p.quantity}
+                                            onChangeText={(val) =>
+                                                handleProductChange(index, "quantity", val)
+                                            }
+                                            style={[styles.input, { flex: 1 }]}
+                                        />
+                                        <TextInput
+                                            label="Price"
+                                            mode="outlined"
+                                            keyboardType="numeric"
+                                            value={p.price}
+                                            onChangeText={(val) => handleProductChange(index, "price", val)}
+                                            style={[styles.input, { flex: 1 }]}
+                                        />
+                                    </View>
+                                    <TextInput
+                                        label="Total"
+                                        mode="outlined"
+                                        value={p.total_amount}
+                                        editable={false}
+                                        style={[styles.input, { backgroundColor: "#f3f4f6" }]}
+                                    />
+
+                                    {products.length > 1 && (
+                                        <TouchableOpacity
+                                            onPress={() => removeProduct(index)}
+                                            style={{
+                                                backgroundColor: "#EF4444",
+                                                borderRadius: 8,
+                                                alignItems: "center",
+                                                padding: 8,
+                                                marginTop: 4,
+                                            }}
+                                        >
+                                            <Text style={{ color: "#fff", fontWeight: "600" }}>
+                                                Remove Product
+                                            </Text>
+                                        </TouchableOpacity>
+                                    )}
+                                </View>
+                            ))}
+
+                            <TouchableOpacity
+                                onPress={addMoreProduct}
+                                style={{
+                                    backgroundColor: Colors.primary,
+                                    borderRadius: 8,
+                                    alignItems: "center",
+                                    padding: 10,
+                                }}
+                            >
+                                <Text style={{ color: "#fff", fontWeight: "600" }}>+ Add More</Text>
+                            </TouchableOpacity>
                         </Card.Content>
                     </Card>
+
+                    {/* Summary */}
                     <Card style={styles.salescard}>
-                        <Card.Title title={<Text style={styles.sectionTitle}>Additional Info</Text>} />
+                        <Card.Title title="Summary" titleStyle={styles.sectionTitle} />
                         <Card.Content>
+                            <TextInput
+                                label="Payment Status"
+                                mode="outlined"
+                                value={form.payment_status}
+                                onChangeText={(val) => setForm({ ...form, payment_status: val })}
+                                style={styles.input}
+                            />
                             <TextInput
                                 label="Remarks"
                                 mode="outlined"
-                                placeholder="Enter any remarks..."
                                 multiline
-                                numberOfLines={4}
-                                value={String(form.remarks || "")}
-                                onChangeText={(val) => handleChange("remarks", val)}
-                                style={[styles.input, { height: 100 }]}
-                                outlineColor="#ccc"
-                                activeOutlineColor={Colors.primary}
+                                numberOfLines={3}
+                                value={form.remarks}
+                                onChangeText={(val) => setForm({ ...form, remarks: val })}
+                                style={[styles.input, { height: 80 }]}
                             />
+                            <Text
+                                style={{
+                                    fontSize: 18,
+                                    fontWeight: "bold",
+                                    textAlign: "right",
+                                    marginTop: 10,
+                                }}
+                            >
+                                Grand Total: ₹{grandTotal}
+                            </Text>
                         </Card.Content>
                     </Card>
-                    <Card style={styles.salescard}>
-                        <Card.Title title={<Text style={styles.sectionTitle}>Payment Mode</Text>} />
-                        <Menu
-                            visible={menuVisible}
-                            onDismiss={() => setMenuVisible(false)}
-                            anchor={
-                                <TouchableOpacity onPress={() => setMenuVisible(true)}>
-                                    <Card.Content>
-                                        <TextInput
-                                            label="Payment Status"
-                                            mode="outlined"
-                                            value={form.payment_status || ""}
-                                            editable={false}
-                                            style={styles.input}
-                                            outlineColor="#ccc"
-                                            activeOutlineColor={Colors.primary}
-                                        />
-                                    </Card.Content>
-                                </TouchableOpacity>
-                            }>
-                            <Menu.Item onPress={() => { handleChange("payment_status", "Active"); setMenuVisible(false); }} title="Active" />
-                            <Menu.Item onPress={() => { handleChange("payment_status", "Paid"); setMenuVisible(false); }} title="Paid" />
-                            <Menu.Item onPress={() => { handleChange("payment_status", "Unpaid"); setMenuVisible(false); }} title="Unpaid" />
-                        </Menu>
-                    </Card>
                 </ScrollView>
+
                 <View style={styles.bottomBar}>
-                    <TouchableOpacity onPress={handleCancel} style={[styles.bottomButton, { backgroundColor: "#9CA3AF" }]}>
-                        <Text style={styles.bottomButtonText}>Reset</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={handleSubmit} style={[styles.bottomButton, { backgroundColor: Colors.primary }]} >
+                    <TouchableOpacity
+                        onPress={handleSubmit}
+                        style={[styles.bottomButton, { backgroundColor: Colors.primary }]}
+                    >
                         <Text style={styles.bottomButtonText}>Add Sale</Text>
                     </TouchableOpacity>
                 </View>

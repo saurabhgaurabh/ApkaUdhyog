@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, StyleSheet, ToastAndroid, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, StyleSheet, ToastAndroid, TouchableOpacity, Platform, PermissionsAndroid, Linking, Alert } from "react-native";
 import { Card, Divider } from "react-native-paper";
 import Colors from "../../../constants/color";
 import { useRoute } from "@react-navigation/native";
@@ -7,6 +7,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import Share from 'react-native-share';
 import SubHeader from "../../../components/SubHeader";
+import { handleDownload, requestStoragePermission, openAppSettings } from "../../../utils/Helper"; // for invoice
+
 
 const InvoiceScreen = () => {
     const route = useRoute();
@@ -43,54 +45,6 @@ const InvoiceScreen = () => {
         const dateStr = `${date.getFullYear()}${(date.getMonth() + 1).toString().padStart(2, "0")}${date.getDate().toString().padStart(2, "0")}`;
         const number = `${prefix}${Math.floor(total)}-${dateStr}`;
         setInvoiceNumber(number);
-    };
-
-    const handleDownloadInvoice = async () => {
-        if (!saleData) return;
-
-        const htmlContent = `
-            <h1>PATIRAM PRODUCTION</h1>
-            <p>Invoice #: ${invoiceNumber}</p>
-            <p>Date: ${new Date().toLocaleDateString()}</p>
-            <hr/>
-            <h3>Customer Info</h3>
-            <p>Name: ${saleData.customer_name}</p>
-            <p>Company: ${saleData.company || "-"}</p>
-            <p>Payment Status: ${saleData.payment_status}</p>
-            <hr/>
-            <h3>Products</h3>
-            <p>${saleData.product_name} | Qty: ${saleData.quantity} | Price: ₹${saleData.price} | Total: ₹${saleData.total_amount}</p>
-            <hr/>
-            <h3>Summary</h3>
-            <p>Total: ₹${saleData.total_amount}</p>
-            <p>Due: ₹${saleData.due_amount}</p>
-        `;
-        try {
-            const options = {
-                html: htmlContent,
-                fileName: invoiceNumber,
-                directory: 'Documents',
-            };
-            const file = await RNHTMLtoPDF.convert(options);
-            ToastAndroid.show(`Invoice saved: ${file.filePath}`, ToastAndroid.LONG);
-        } catch (error) {
-            console.log(error);
-            ToastAndroid.show("Failed to generate invoice", ToastAndroid.SHORT);
-        }
-    };
-
-    const handleShareInvoice = async () => {
-        if (!saleData) return;
-
-        const shareOptions = {
-            title: 'Share Invoice',
-            message: `Invoice #: ${invoiceNumber}\nCustomer: ${saleData.customer_name}\nTotal: ₹${saleData.total_amount}`,
-        };
-        try {
-            await Share.open(shareOptions);
-        } catch (error) {
-            console.log(error);
-        }
     };
 
     if (!saleData) {
@@ -135,24 +89,34 @@ const InvoiceScreen = () => {
 
                         <Text style={styles.section}>Product Details</Text>
                         <View style={styles.tableHeader}>
-                            <Text style={[styles.tableCell, { flex: 1 }]}>Product</Text>
+                            <Text style={[styles.tableCell, { flex: 1.5 }]}>Product</Text>
                             <Text style={styles.tableCell}>Qty</Text>
                             <Text style={styles.tableCell}>Price</Text>
                             <Text style={styles.tableCell}>Total</Text>
                         </View>
                         <Divider style={{ marginVertical: 5 }} />
-                        <View style={styles.tableRow}>
-                            <Text style={[styles.tableCellData, { flex: 1 }]}>{saleData.product_name}</Text>
-                            <Text style={styles.tableCellData}>{saleData.quantity}</Text>
-                            <Text style={styles.tableCellData}>₹{saleData.price}</Text>
-                            <Text style={styles.tableCellData}>₹{saleData.total_amount}</Text>
-                        </View>
+
+                        {Array.isArray(saleData.products) && saleData.products.length > 0 ? (
+                            saleData.products.map((prod, index) => (
+                                <View key={index} style={styles.tableRow}>
+                                    <Text style={[styles.tableCellData, { flex: 1.5 }]}>{prod.product_name}</Text>
+                                    <Text style={styles.tableCellData}>{prod.quantity}</Text>
+                                    <Text style={styles.tableCellData}>₹{prod.price}</Text>
+                                    <Text style={styles.tableCellData}>₹{prod.total_amount}</Text>
+                                </View>
+                            ))
+                        ) : (
+                            <Text style={{ color: "#999", marginVertical: 5 }}>No products found</Text>
+                        )}
 
                         <Divider style={{ marginVertical: 10 }} />
 
                         <Text style={styles.section}>Invoice Summary</Text>
-                        <Text>Total Amount: ₹{saleData.total_amount}</Text>
-                        <Text>Due Amount: ₹{saleData.due_amount}</Text>
+                        <Text style={{ marginTop: 2, color: "#555" }}>
+                            Grand Total: ₹ {saleData?.grand_total || "0.00"}
+                        </Text>
+
+                        <Text>Due Amount: ₹{saleData.due_amount || " 0.00"}</Text>
                         <Text style={{ color: getPaymentStatusColor(saleData.payment_status), fontWeight: 'bold' }}>
                             Payment Status: {saleData.payment_status}
                         </Text>
@@ -162,14 +126,14 @@ const InvoiceScreen = () => {
 
             {/* Buttons fixed at bottom */}
             <View style={styles.buttonRow}>
-                <TouchableOpacity style={styles.button} onPress={handleDownloadInvoice}>
+                <TouchableOpacity style={styles.button} onPress={{}}>
                     <Text style={styles.buttonText}>Download</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.button, { backgroundColor: Colors.secondary }]} onPress={handleShareInvoice}>
+                <TouchableOpacity style={[styles.button, { backgroundColor: Colors.secondary }]} onPress={{}}>
                     <Text style={styles.buttonText}>Share</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </View >
     );
 };
 
@@ -182,10 +146,11 @@ const styles = StyleSheet.create({
     companyName: { fontSize: 20, fontWeight: "bold", color: Colors.primary },
     companyDetails: { fontSize: 14, color: "#555" },
     section: { fontWeight: "bold", fontSize: 16, marginVertical: 5 },
-    tableHeader: { flexDirection: "row", marginVertical: 5 },
-    tableRow: { flexDirection: "row", marginVertical: 5 },
-    tableCell: { flex: 1, textAlign: "justify", fontWeight: 700 },
-    tableCellData: { flex: 1, textAlign: "justify", },
+    tableHeader: { flexDirection: "row", backgroundColor: "#bff1c2ff", paddingVertical: 5 },
+    tableRow: { flexDirection: "row", marginVertical: 3 },
+    tableCell: { flex: 1, textAlign: "center", fontWeight: "600", color: "#4CAF50" },
+    tableCellData: { flex: 1, textAlign: "center", color: "#333" },
+
     buttonRow: {
         flexDirection: "row",
         justifyContent: "space-around",

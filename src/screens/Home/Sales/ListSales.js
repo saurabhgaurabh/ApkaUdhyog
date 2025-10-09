@@ -32,7 +32,7 @@ const ListSales = () => {
                 `https://30e48ae68ae9.ngrok-free.app/api/users/v1/motion-sales-get`
             );
             const result = await response.json();
-            // console.log(result?.result?.result, "fetched sales");
+            console.log(result?.result?.result, "fetched sales");
             if (result.status === true) {
                 setSales(result?.result?.result || []);
             } else {
@@ -52,9 +52,9 @@ const ListSales = () => {
 
     const getStatusStyle = (status) => {
         switch ((status || "").toLowerCase()) {
-            case "paid":
+            case "Paid":
                 return { backgroundColor: "#E5F9E0", color: "#3BA55D" };
-            case "unpaid":
+            case "Unpaid":
                 return { backgroundColor: "#FFE5E5", color: "#E63946" };
             default:
                 return { backgroundColor: "#E0E7FF", color: "#3B5BDB" };
@@ -81,22 +81,31 @@ const ListSales = () => {
                 </View>
 
                 <Text style={{ marginTop: 4, color: "#555" }}>Company: {item?.company || "-"}</Text>
+                <View style={{ marginTop: 4 }}>
+                    <Text style={{ fontWeight: "bold", color: "#444" }}>Products:</Text>
+                    {Array.isArray(item.products) && item.products.length > 0 ? (
+                        item.products.map((prod, index) => (
+                            <Text key={index} style={{ color: "#555", marginLeft: 10 }}>
+                                • {prod.product_name} (Qty: {prod.quantity}, ₹{prod.total_amount})
+                            </Text>
+                        ))
+                    ) : (
+                        <Text style={{ color: "#777", marginLeft: 10 }}>No products</Text>
+                    )}
+                </View>
+
                 <Text style={{ marginTop: 2, color: "#555" }}>
-                    Products: {item?.product_name || "-"}
+                    Grand Total: ₹{item?.grand_total || "0.00"}
                 </Text>
+
                 <Text style={{ marginTop: 2, color: "#555" }}>
-                    Total Amount: ₹{item?.total_amount || "0.00"}
-                </Text>
-                <Text style={{ marginTop: 2, color: "#555" }}>
-                    Due Amount: ₹{item?.due_amount || "0.00"}
+                    Due Amount: ₹{item?.due_amount || " 0.00"}
                 </Text>
 
                 <View style={{ flexDirection: "row", justifyContent: "flex-end", marginTop: 8, alignItems: 'baseline', gap: 15 }}>
                     <TouchableOpacity onPress={() => navigation.navigate(NavigationStrings.PRINTSALE, { saleId: item?.sale_id })}>
                         <Image source={ImagePath.receipt} resizeMode="cover" style={{ height: 25, width: 25 }} />
                     </TouchableOpacity>
-
-
                     <TouchableOpacity>
                         <Image source={ImagePath.view} resizeMode="cover" style={{ height: 25, width: 25 }} />
                     </TouchableOpacity>
@@ -134,7 +143,7 @@ const ListSales = () => {
                 <FlatList
                     data={sales}
                     renderItem={renderSaleItem}
-                    keyExtractor={(item, index) => item.sale_id?.toString() || index.toString()}
+                    keyExtractor={(item, index) => item?.sale_id?.toString() || index.toString()}
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{ paddingVertical: 10 }}
                 />
