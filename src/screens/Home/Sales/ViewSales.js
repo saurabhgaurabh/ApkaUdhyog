@@ -19,7 +19,7 @@ const ViewSales = () => {
     const fetchSales = async () => {
         try {
             setLoading(true);
-            const response = await fetch(`https://30e48ae68ae9.ngrok-free.app/api/users/v1/motion-sales-get`);
+            const response = await fetch(`https://426f7502c717.ngrok-free.app/api/users/v1/motion-sales-get`);
             const result = await response.json();
             if (result.status) {
                 const sale = result.result?.result.find((s) => s.sale_id == saleId);
@@ -40,10 +40,13 @@ const ViewSales = () => {
     };
     // Generate dynamic invoice number if API does not provide
     const generateInvoiceNumber = (name) => {
-        const prefix = name ? name.toUpperCase() : "CUST";
+        const prefix = name ? name.toUpperCase().replace(/\s+/g, '') : "CUST"; // remove spaces
         const date = new Date();
-        const dateStr = `${date.getFullYear()}${(date.getMonth() + 1).toString().padStart(2, "0")}${date.getDate().toString().padStart(2, "0")}`;
-        // const number = `${prefix}${Math.floor(total)}-${dateStr}`;
+        const dateStr = `${date.getFullYear()}${(date.getMonth() + 1)
+            .toString()
+            .padStart(2, "0")}${date.getDate().toString().padStart(2, "0")}`;
+
+        const number = `${prefix}-${dateStr}`;
         setInvoiceNumber(number);
     };
     useEffect(() => {
@@ -74,7 +77,7 @@ const ViewSales = () => {
                 {/* Invoice Info */}
                 <View style={styles.viewinfoContainer}>
                     <Text style={styles.viewinfoText}><Text style={styles.bold}>Invoice: </Text>{invoiceNumber}</Text>
-                    <Text style={styles.viewinfoText}><Text style={styles.bold}>Date:</Text> {new Date(salesData.date).toLocaleDateString()}</Text>
+                    <Text style={styles.viewinfoText}><Text style={styles.bold}>Date:</Text> {new Date().toLocaleDateString()}</Text>
                     <Text style={styles.viewinfoText}><Text style={styles.bold}>Customer:</Text> {salesData.customer_name}</Text>
                     <Text style={styles.viewinfoText}><Text style={styles.bold}>Company:</Text> {salesData.company || "-"}</Text>
                     <Text style={styles.viewinfoText}><Text style={styles.bold}>Payment Status:</Text> {salesData.payment_status}</Text>

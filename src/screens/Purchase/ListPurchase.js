@@ -7,9 +7,10 @@ import AddPurchaseItems from "./AddPurchaseItems"
 import { useNavigation } from "@react-navigation/native"
 import * as Animatable from 'react-native-animatable';
 import Colors from "../../constants/color"
+import { ServerUrl } from "../../services/ServerUrl"
 
 
-const PurchaseItems = ({ items, handleDelete }) => {
+const ListPurchase = ({ items, handleDelete }) => {
     const navigation = useNavigation();
     const [purchaseItems, setPurchaseItems] = useState([]);
     const [menuVisibleId, setMenuVisibleId] = useState(null); // store the open menu's purchase_id
@@ -23,11 +24,11 @@ const PurchaseItems = ({ items, handleDelete }) => {
     };
     const getStatusStyle = (status) => {
         switch ((status || '').toLowerCase()) {
-            case 'pending':
+            case 'pending' || 'pending':
                 return { backgroundColor: '#FFF4E5', color: '#FF8C00' };
-            case 'approved':
+            case 'Paid' || 'Paid':
                 return { backgroundColor: '#E5F9E0', color: '#3BA55D' };
-            case 'rejected':
+            case 'Unpaid' || 'unpaid':
                 return { backgroundColor: '#FFE5E5', color: '#E63946' };
             default:
                 return { backgroundColor: '#E0E7FF', color: '#3B5BDB' };
@@ -36,15 +37,17 @@ const PurchaseItems = ({ items, handleDelete }) => {
 
     const purchaseGetApi = async () => {
         try {
-            const response = await fetch("https://a40f5f24c80d.ngrok-free.app/api/users/v1/motion-purchase-row-material-get", {
+            const response = await fetch(`${ServerUrl()}api/users/v1/motion-purchase-row-material-get`, {
                 method: 'get',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
             });
+            console.log(response, " reass")
             const data = await response.json();
-            setPurchaseItems(data.result.data);
+            setPurchaseItems(data?.result?.data);
+            console.log(purchaseItems, " purchaseItems")
         } catch (error) {
             Alert.alert("Error fetching purchase items:", error.message);
             console.error("Error fetching purchase items:", error);
@@ -110,7 +113,7 @@ const PurchaseItems = ({ items, handleDelete }) => {
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 
                         <Text style={{ fontSize: 14, color: '#999', marginTop: 10 }}>
-                            Add a new client to get started
+                            {/* Add a new client to get started {console.log(purchaseItems," purchaseItems")} */}
                         </Text>
                     </View>
                 )}
@@ -123,4 +126,4 @@ const PurchaseItems = ({ items, handleDelete }) => {
 
 
 
-export default PurchaseItems
+export default ListPurchase

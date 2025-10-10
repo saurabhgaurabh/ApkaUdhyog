@@ -21,7 +21,7 @@ const EmployeeList = () => {
         try {
             setLoading(true);
             const response = await fetch(
-                "https://30e48ae68ae9.ngrok-free.app/api/users/v1/motion-employee-registration-get"
+                "https://426f7502c717.ngrok-free.app/api/users/v1/motion-employee-registration-get"
             );
             const result = await response.json();
             setEmployees(result?.result?.result || []);

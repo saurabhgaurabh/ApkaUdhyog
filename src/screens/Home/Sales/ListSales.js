@@ -29,7 +29,7 @@ const ListSales = () => {
         setLoading(true);
         try {
             const response = await fetch(
-                `https://30e48ae68ae9.ngrok-free.app/api/users/v1/motion-sales-get`
+                `https://426f7502c717.ngrok-free.app/api/users/v1/motion-sales-get`
             );
             const result = await response.json();
             console.log(result?.result?.result, "fetched sales");
@@ -39,7 +39,7 @@ const ListSales = () => {
                 ToastAndroid.show("Failed to fetch sales.", ToastAndroid.SHORT);
             }
         } catch (error) {
-            // console.log("Error fetching sales:", error);
+            console.log("Error fetching sales:", error);
             ToastAndroid.show("Failed to fetch sales.", ToastAndroid.SHORT);
         } finally {
             setLoading(false);
