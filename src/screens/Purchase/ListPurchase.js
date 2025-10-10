@@ -24,16 +24,12 @@ const ListPurchase = ({ items, handleDelete }) => {
     };
     const getStatusStyle = (status) => {
         switch ((status || '').toLowerCase()) {
-            case 'pending' || 'pending':
-                return { backgroundColor: '#FFF4E5', color: '#FF8C00' };
-            case 'Paid' || 'Paid':
-                return { backgroundColor: '#E5F9E0', color: '#3BA55D' };
-            case 'Unpaid' || 'unpaid':
-                return { backgroundColor: '#FFE5E5', color: '#E63946' };
-            default:
-                return { backgroundColor: '#E0E7FF', color: '#3B5BDB' };
+            case 'pending': return { backgroundColor: '#FFF4E5', color: '#FF8C00' };
+            case 'paid': return { backgroundColor: '#E5F9E0', color: '#3BA55D' };
+            case 'unpaid': return { backgroundColor: '#FFE5E5', color: '#E63946' };
+            default: return { backgroundColor: '#E0E7FF', color: '#3B5BDB' };
         }
-    }
+    };
 
     const purchaseGetApi = async () => {
         try {
@@ -103,9 +99,21 @@ const ListPurchase = ({ items, handleDelete }) => {
                                     <Text style={styles.value}>{capitalizeFirst(items?.dealer_name)}</Text>
                                 </View>
                                 <View style={styles.row}>
-                                    <Text style={styles.label}>Material Type</Text>
-                                    <Text style={styles.value}>{capitalizeFirst(items?.material_type)}</Text>
+                                    <Text style={styles.label}>Product</Text>
+                                    <View style={{ marginLeft: 10 }}>
+                                        {Array.isArray(items.products) && items.products.length > 0 ? (
+                                            console.log(items," items"),
+                                            items.products.map((prod, index) => (
+                                                <Text key={index} style={{ color: "#555", marginVertical: 2 }}>
+                                                    • {prod.product_name} (Qty: {prod.quantity}, ₹{prod.total_amount})
+                                                </Text>
+                                            ))
+                                        ) : (
+                                            <Text style={{ color: "#777" }}>No products</Text>
+                                        )}
+                                    </View>
                                 </View>
+
                             </View>
                         </TouchableOpacity>
                     ))

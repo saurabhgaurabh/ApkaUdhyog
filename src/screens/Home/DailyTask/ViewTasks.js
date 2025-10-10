@@ -85,7 +85,8 @@ const ViewTasks = () => {
 
         return (
             <View style={[styles.tableRow, { backgroundColor: index % 2 === 0 ? "#f9fafb" : "#ffffff" },]}  >
-                <Text style={[styles.tableCell, { flex: 1.5 }]}>{item?.employee_name}</Text>
+                <Text style={[styles.tableCell, {  }]}>{item?.task_id}.</Text>
+                <Text style={[styles.tableCell, { flex: 1.2 }]}>{item?.employee_name}</Text>
                 <Text style={[styles.tableCell, { flex: 1, color: shiftColor, fontWeight: "600" },]}> {item?.shift}</Text>
                 <Text style={[styles.tableCell, { flex: 1 }]}>{item.total_hours || "-"}</Text>
                 <TouchableOpacity style={[styles.tableCell, { flex: 2 }]} onPress={() => setSelectedRemark(item?.remarks || "No remarks")} >

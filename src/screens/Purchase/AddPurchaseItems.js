@@ -1,14 +1,8 @@
 import React, { useState } from 'react';
 import {
-    View,
-    ScrollView,
-    TouchableOpacity,
-    ToastAndroid,
-    KeyboardAvoidingView,
-    Text,
-    Platform,
+  View, ScrollView, TouchableOpacity, ToastAndroid, KeyboardAvoidingView, Text, Platform,
 } from 'react-native';
-import { Card, TextInput } from 'react-native-paper';
+import { Card, TextInput, Divider } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import Colors from '../../constants/color';
 import CustomHeader from '../../components/CustomeHeader';
@@ -17,241 +11,182 @@ import { ServerUrl } from '../../services/ServerUrl';
 import PurchaseItems from './ListPurchase';
 
 const AddPurchaseItems = () => {
-    const navigation = useNavigation();
-    const [state, setState] = useState({
-        dealer_name: '',
-        material_type: '',
-        postal_code: '',
-        country: '',
-        state: '',
-        city: '',
-        address: '',
-        freight: '',
-        material_amount: '',
-        totalAmount: '',
-        material_amount_pending: '',
-    });
+  const navigation = useNavigation();
+  const [state, setState] = useState({
+    dealer_name: '',
+    postal_code: '',
+    country: '',
+    state: '',
+    city: '',
+    address: '',
+    freight: '',
+    totalAmount: '0',
+    paidAmount: '0',
+    pendingAmount: '0',
+  });
 
-    const handleChange = (key, value) => {
-        setState(prev => ({ ...prev, [key]: value }));
-    };
+  const [products, setProducts] = useState([
+    { product_name: '', quantity: '', price: '', total_amount: '' },
+  ]);
 
-    // 🔹 Auto calculate pending amount
-    const handleAmount = (text) => {
-        setState(prev => {
-            const amount = parseFloat(text) || 0;
-            const total = parseFloat(prev.totalAmount) || 0;
-            const pending = total - amount;
-            return { ...prev, material_amount: text, material_amount_pending: pending.toString() };
-        });
-    };
+  // Add new product row
+  const addProductRow = () => {
+    setProducts(prev => [...prev, { product_name: '', quantity: '', price: '', total_amount: '' }]);
+  };
 
-    const handleTotalAmount = (text) => {
-        setState(prev => {
-            const total = parseFloat(text) || 0;
-            const amount = parseFloat(prev.material_amount) || 0;
-            const pending = total - amount;
-            return { ...prev, totalAmount: text, material_amount_pending: pending.toString() };
-        });
-    };
+  // Handle product change
+  const handleProductChange = (index, key, value) => {
+    const updated = [...products];
+    updated[index][key] = value;
 
-    const AddPurchaseHandle = async () => {
-        try {
-            const {
-                dealer_name,
-                material_type,
-                postal_code,
-                country,
-                state: addressState,
-                city,
-                address,
-                freight,
-                material_amount,
-                material_amount_pending,
-                totalAmount
-            } = state;
+    // Auto calculate total_amount per product
+    const quantity = parseFloat(updated[index].quantity) || 0;
+    const price = parseFloat(updated[index].price) || 0;
+    updated[index].total_amount = (quantity * price).toString();
 
-            if (!dealer_name || !material_type || !city || !totalAmount) {
-                ToastAndroid.show('Please fill all required fields.', ToastAndroid.SHORT);
-                return;
-            }
+    setProducts(updated);
+    calculateGrandTotal(updated);
+  };
 
-            // const order_id = Math.random();
-
-            const response = await fetch(`${ServerUrl()}api/users/v1/motion-purchase-row-material-post`, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    dealer_name,
-                    material_type,
-                    postal_code,
-                    country,
-                    state: addressState,
-                    city,
-                    address,
-                    freight,
-                    material_amount,
-                    material_amount_pending,
-                    totalAmount,
-                    // order_id,
-                }),
-            });
-
-            const result = await response.json();
-            // console.log('Add Purchase Result:', result);
-
-            if (result.status) {
-                ToastAndroid.show('Purchase added successfully!', ToastAndroid.SHORT);
-                navigation.navigate(PurchaseItems);
-            } else {
-                ToastAndroid.show('Failed to insert data.', ToastAndroid.SHORT);
-            }
-        } catch (error) {
-            console.log('Error:', error);
-            ToastAndroid.show('Internal Server Error', ToastAndroid.SHORT);
-        }
-    };
-
-    return (
-        <View style={{ flex: 1, backgroundColor: Colors.screenBackground }}>
-            <CustomHeader title="Add Purchase Items" />
-
-            <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-                style={{ flex: 1 }}
-            >
-                <ScrollView
-                    style={styles.salescontainer}
-                    showsVerticalScrollIndicator={false}
-                    contentContainerStyle={{ paddingBottom: 100 }}
-                >
-                    {/* Dealer Info */}
-                    <Card style={styles.salescard}>
-                        <Card.Title title="Dealer Details" titleStyle={styles.sectionTitle} />
-                        <Card.Content>
-                            <TextInput
-                                label="Dealer Name"
-                                mode="outlined"
-                                value={state.dealer_name}
-                                onChangeText={text => handleChange('dealer_name', text)}
-                                activeOutlineColor="#4CAF50"
-                                outlineColor="#7f8378ff"
-                                style={styles.input}
-                            />
-                            <TextInput
-                                label="Material"
-                                mode="outlined"
-                                value={state.material_type}
-                                onChangeText={text => handleChange('material_type', text)}
-                                activeOutlineColor="#4CAF50"
-                                outlineColor="#7f8378ff"
-                                style={styles.input}
-                            />
-                            <TextInput
-                                label="Postal Code"
-                                mode="outlined"
-                                keyboardType="numeric"
-                                value={state.postal_code}
-                                onChangeText={text => handleChange('postal_code', text)}
-                                activeOutlineColor="#4CAF50"
-                                outlineColor="#7f8378ff"
-                                style={styles.input}
-                            />
-                        </Card.Content>
-                    </Card>
-
-                    {/* Address Info */}
-                    <Card style={[styles.salescard, { marginTop: 10 }]}>
-                        <Card.Title title="Address Details" titleStyle={styles.sectionTitle} />
-                        <Card.Content>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <TextInput
-                                    label="City"
-                                    mode="outlined"
-                                    value={state.city}
-                                    onChangeText={text => handleChange('city', text)}
-                                    activeOutlineColor="#4CAF50"
-                                    outlineColor="#7f8378ff"
-                                    style={[styles.input, { width: '48%' }]}
-                                />
-                                <TextInput
-                                    label="Address"
-                                    mode="outlined"
-                                    value={state.address}
-                                    onChangeText={text => handleChange('address', text)}
-                                    activeOutlineColor="#4CAF50"
-                                    outlineColor="#7f8378ff"
-                                    style={[styles.input, { width: '48%' }]}
-                                />
-                            </View>
-                        </Card.Content>
-                    </Card>
-
-                    {/* Payment Info */}
-                    <Card style={[styles.salescard, { marginTop: 10 }]}>
-                        <Card.Title title="Payment Details" titleStyle={styles.sectionTitle} />
-                        <Card.Content>
-                            <TextInput
-                                label="Freight"
-                                mode="outlined"
-                                keyboardType="numeric"
-                                value={state.freight}
-                                onChangeText={text => handleChange('freight', text)}
-                                activeOutlineColor="#4CAF50"
-                                outlineColor="#7f8378ff"
-                                style={styles.input}
-                            />
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <TextInput
-                                    label="Total Amount"
-                                    mode="outlined"
-                                    keyboardType="numeric"
-                                    value={state.totalAmount}
-                                    onChangeText={handleTotalAmount}
-                                    activeOutlineColor="#4CAF50"
-                                    outlineColor="#7f8378ff"
-                                    style={[styles.input, { width: '48%' }]}
-                                />
-                                <TextInput
-                                    label="Paid Amount"
-                                    mode="outlined"
-                                    keyboardType="numeric"
-                                    value={state.material_amount}
-                                    onChangeText={handleAmount}
-                                    activeOutlineColor="#4CAF50"
-                                    outlineColor="#7f8378ff"
-                                    style={[styles.input, { width: '48%' }]}
-                                />
-                            </View>
-                            <TextInput
-                                label="Pending Amount"
-                                mode="outlined"
-                                keyboardType="numeric"
-                                value={state.material_amount_pending}
-                                onChangeText={text => handleChange('material_amount_pending', text)}
-                                activeOutlineColor="#4CAF50"
-                                outlineColor="#7f8378ff"
-                                style={styles.input}
-                            />
-                        </Card.Content>
-                    </Card>
-                </ScrollView>
-            </KeyboardAvoidingView>
-
-            {/* Bottom Buttons */}
-            <View style={styles.bottomButtonBody}>
-                <TouchableOpacity style={styles.bottomButtonCancel}>
-                    <Text style={styles.bottomButtonText}>Cancel</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={AddPurchaseHandle} style={styles.bottomButtonColumnSubmit}>
-                    <Text style={styles.bottomButtonText}>Submit</Text>
-                </TouchableOpacity>
-            </View>
-        </View>
+  // Calculate grand total
+  const calculateGrandTotal = (productList) => {
+    const total = productList.reduce(
+      (sum, item) => sum + (parseFloat(item.total_amount) || 0), 0
     );
+    const paid = parseFloat(state.paidAmount) || 0;
+    setState(prev => ({
+      ...prev,
+      totalAmount: total.toString(),
+      pendingAmount: (total - paid).toString(),
+    }));
+  };
+
+  // Handle paid amount
+  const handlePaidAmountChange = (text) => {
+    const paid = parseFloat(text) || 0;
+    const total = parseFloat(state.totalAmount) || 0;
+    setState(prev => ({
+      ...prev,
+      paidAmount: text,
+      pendingAmount: (total - paid).toString(),
+    }));
+  };
+
+  // Submit
+  const handleSubmit = async () => {
+    const {
+      dealer_name, postal_code, country, state: addressState, city, address, freight, paidAmount, pendingAmount, totalAmount,
+    } = state;
+
+    if (!dealer_name || !city || products.some(p => !p.product_name)) {
+      ToastAndroid.show('Please fill all required fields.', ToastAndroid.SHORT);
+      return;
+    }
+
+    try {
+      const response = await fetch(`${ServerUrl()}api/users/v1/motion-purchase-row-material-post`, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          dealer_name,
+          postal_code,
+          country,
+          state: addressState,
+          city,
+          address,
+          freight,
+          total_amount: totalAmount,
+          material_amount: paidAmount,
+          material_amount_pending: pendingAmount,
+          products, // important!
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.status) {
+        ToastAndroid.show('Purchase added successfully!', ToastAndroid.SHORT);
+        navigation.navigate(PurchaseItems);
+      } else {
+        ToastAndroid.show(result.message || 'Failed to insert data.', ToastAndroid.SHORT);
+      }
+    } catch (error) {
+      console.log('Error:', error);
+      ToastAndroid.show('Internal Server Error', ToastAndroid.SHORT);
+    }
+  };
+
+  return (
+    <View style={{ flex: 1, backgroundColor: Colors.screenBackground }}>
+      <CustomHeader title="Add Purchase Items" />
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
+        <ScrollView style={styles.salescontainer} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 100 }}>
+          {/* Dealer Info */}
+          <Card style={styles.salescard}>
+            <Card.Title title="Dealer Details" titleStyle={styles.sectionTitle} />
+            <Card.Content>
+              <TextInput label="Dealer Name" mode="outlined" value={state.dealer_name} onChangeText={text => setState({ ...state, dealer_name: text })} activeOutlineColor="#4CAF50" outlineColor="#7f8378ff" style={styles.input} />
+              <TextInput label="Postal Code" mode="outlined" keyboardType="numeric" value={state.postal_code} onChangeText={text => setState({ ...state, postal_code: text })} activeOutlineColor="#4CAF50" outlineColor="#7f8378ff" style={styles.input} />
+            </Card.Content>
+          </Card>
+
+          {/* Address Info */}
+          <Card style={[styles.salescard, { marginTop: 10 }]}>
+            <Card.Title title="Address Details" titleStyle={styles.sectionTitle} />
+            <Card.Content>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <TextInput label="City" mode="outlined" value={state.city} onChangeText={text => setState({ ...state, city: text })} activeOutlineColor="#4CAF50" outlineColor="#7f8378ff" style={[styles.input, { width: '48%' }]} />
+                <TextInput label="Address" mode="outlined" value={state.address} onChangeText={text => setState({ ...state, address: text })} activeOutlineColor="#4CAF50" outlineColor="#7f8378ff" style={[styles.input, { width: '48%' }]} />
+              </View>
+            </Card.Content>
+          </Card>
+
+          {/* Products Info */}
+          <Card style={[styles.salescard, { marginTop: 10 }]}>
+            <Card.Title title="Products" titleStyle={styles.sectionTitle} />
+            <Card.Content>
+              {products.map((p, index) => (
+                <View key={index}>
+                  <TextInput label={`Product Name ${index + 1}`} mode="outlined" value={p.product_name} onChangeText={text => handleProductChange(index, 'product_name', text)} activeOutlineColor="#4CAF50" outlineColor="#7f8378ff" style={styles.input} />
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <TextInput label="Quantity" mode="outlined" keyboardType="numeric" value={p.quantity} onChangeText={text => handleProductChange(index, 'quantity', text)} activeOutlineColor="#4CAF50" outlineColor="#7f8378ff" style={[styles.input, { width: '48%' }]} />
+                    <TextInput label="Price" mode="outlined" keyboardType="numeric" value={p.price} onChangeText={text => handleProductChange(index, 'price', text)} activeOutlineColor="#4CAF50" outlineColor="#7f8378ff" style={[styles.input, { width: '48%' }]} />
+                  </View>
+                  <TextInput label="Total" mode="outlined" value={p.total_amount} editable={false} style={styles.input} />
+                  {index < products.length - 1 && <Divider />}
+                </View>
+              ))}
+
+              <TouchableOpacity onPress={addProductRow} style={{ backgroundColor: '#4CAF50', padding: 10, borderRadius: 8, alignItems: 'center', marginTop: 10 }}>
+                <Text style={{ color: 'white', fontWeight: 'bold' }}>+ Add Product</Text>
+              </TouchableOpacity>
+            </Card.Content>
+          </Card>
+
+          {/* Payment Info */}
+          <Card style={[styles.salescard, { marginTop: 10 }]}>
+            <Card.Title title="Payment Details" titleStyle={styles.sectionTitle} />
+            <Card.Content>
+              <TextInput label="Freight" mode="outlined" keyboardType="numeric" value={state.freight} onChangeText={text => setState({ ...state, freight: text })} activeOutlineColor="#4CAF50" outlineColor="#7f8378ff" style={styles.input} />
+              <TextInput label="Grand Total" mode="outlined" value={state.totalAmount} editable={false} style={styles.input} />
+              <TextInput label="Paid Amount" mode="outlined" keyboardType="numeric" value={state.paidAmount} onChangeText={handlePaidAmountChange} activeOutlineColor="#4CAF50" outlineColor="#7f8378ff" style={styles.input} />
+              <TextInput label="Pending Amount" mode="outlined" value={state.pendingAmount} editable={false} style={styles.input} />
+            </Card.Content>
+          </Card>
+        </ScrollView>
+      </KeyboardAvoidingView>
+
+      {/* Bottom Buttons */}
+      <View style={styles.bottomButtonBody}>
+        <TouchableOpacity style={styles.bottomButtonCancel}>
+          <Text style={styles.bottomButtonText}>Cancel</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleSubmit} style={styles.bottomButtonColumnSubmit}>
+          <Text style={styles.bottomButtonText}>Submit</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
 };
 
 export default AddPurchaseItems;
