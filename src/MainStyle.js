@@ -143,10 +143,10 @@ const styles = StyleSheet.create({
   column: {
     marginRight: 30,
   },
-  label: {
-    fontSize: 13,
-    color: "#666",
-  },
+  // label: {
+  //   fontSize: 13,
+  //   color: "#666",
+  // },
   value: {
     fontSize: 15,
     fontWeight: "600",
@@ -215,10 +215,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#7f8378ff",
   },
-  label: {
-    fontSize: 14,
-    color: "#333",
-  },
+  // label: {
+  //   fontSize: 14,
+  //   color: "#333",
+  // },
   cost: {
     fontSize: 16,
     fontWeight: "bold",
@@ -299,20 +299,21 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 15,
     right: 20,
-    backgroundColor: "#82AB7D",
+    backgroundColor: "#E5F9E0",
+    // backgroundColor: Colors.primary,
     paddingVertical: 12,
     paddingHorizontal: 20,
-    borderRadius: 10,
+    borderRadius: 20,
     elevation: 5,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     borderWidth: 1,
-    borderColor: '#fff'
+    borderColor: '#3BA55D'
   },
   purchaseButtonText: {
-    color: '#fff',
+    color: '#3BA55D',
     fontFamily: Fonts.large,
     fontWeight: 'bold',
   },
@@ -582,11 +583,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginVertical: 4,
   },
-  label: {
-    fontSize: 15,
-    fontWeight: "600",
-    color: "#555",
-  },
+  // label: {
+  //   fontSize: 15,
+  //   fontWeight: "600",
+  //   color: "#555",
+  // },
   value: {
     fontSize: 15,
     color: "#333",
@@ -669,9 +670,9 @@ const styles = StyleSheet.create({
     marginVertical: 4,
   },
   label: {
-    fontSize: 14,
-    color: '#666',
-    fontWeight: '500',
+    fontSize: 15,
+    color: '#000',
+    fontWeight: '600',
   },
   value: {
     fontSize: 14,

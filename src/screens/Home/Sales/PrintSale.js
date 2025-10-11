@@ -4,10 +4,11 @@ import { Card, Divider } from "react-native-paper";
 import Colors from "../../../constants/color";
 import { useRoute } from "@react-navigation/native";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import Share from 'react-native-share';
 import SubHeader from "../../../components/SubHeader";
-import { handleDownload, requestStoragePermission, openAppSettings } from "../../../utils/Helper"; // for invoice
+import RNFS from 'react-native-fs'
+import { ServerUrl } from "../../../services/ServerUrl";
+
 
 
 const InvoiceScreen = () => {
@@ -22,7 +23,7 @@ const InvoiceScreen = () => {
 
     const fetchInvoiceData = async () => {
         try {
-            const response = await fetch(`https://426f7502c717.ngrok-free.app/api/users/v1/motion-sales-get`);
+            const response = await fetch(`${ServerUrl}/api/users/v1/motion-sales-get`);
             const result = await response.json();
             if (result.status) {
                 const sale = result.result?.result.find((s) => s.sale_id == saleId);
@@ -39,16 +40,16 @@ const InvoiceScreen = () => {
         }
     };
 
-   const generateInvoiceNumber = (name) => {
-  const prefix = name ? name.toUpperCase().replace(/\s+/g, '') : "CUST"; // remove spaces
-  const date = new Date();
-  const dateStr = `${date.getFullYear()}${(date.getMonth() + 1)
-    .toString()
-    .padStart(2, "0")}${date.getDate().toString().padStart(2, "0")}`;
-  
-  const number = `${prefix}-${dateStr}`;
-  setInvoiceNumber(number);
-};
+    const generateInvoiceNumber = (name) => {
+        const prefix = name ? name.toUpperCase().replace(/\s+/g, '') : "CUST"; // remove spaces
+        const date = new Date();
+        const dateStr = `${date.getFullYear()}${(date.getMonth() + 1)
+            .toString()
+            .padStart(2, "0")}${date.getDate().toString().padStart(2, "0")}`;
+
+        const number = `${prefix}-${dateStr}`;
+        setInvoiceNumber(number);
+    };
 
 
     if (!saleData) {
@@ -60,12 +61,23 @@ const InvoiceScreen = () => {
     }
     const getPaymentStatusColor = (status) => {
         switch ((status || "").toLowerCase()) {
-            case "Paid" || "paid" :
+            case "Paid" || "paid":
                 return "#3BA55D"; // green
-            case "Unpaid" || "unpaid" :
+            case "Unpaid" || "unpaid":
                 return "#E63946"; // red
             default:
                 return Colors.primary; // primary color for others
+        }
+    };
+
+
+
+
+
+    const shareInvoice = async () => {
+        const pdfPath = await generateInvoicePdf(saleData, invoiceNumber);
+        if (pdfPath) {
+            await sharePdf(pdfPath);
         }
     };
 
@@ -133,10 +145,15 @@ const InvoiceScreen = () => {
                 <TouchableOpacity style={styles.button} onPress={{}}>
                     <Text style={styles.buttonText}>Download</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.button, { backgroundColor: Colors.secondary }]} onPress={{}}>
+
+                <TouchableOpacity
+                    style={[styles.button, { backgroundColor: Colors.secondary }]}
+                    onPress={shareInvoice}>
                     <Text style={styles.buttonText}>Share</Text>
                 </TouchableOpacity>
             </View>
+
+
         </View >
     );
 };

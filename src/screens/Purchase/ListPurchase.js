@@ -15,6 +15,7 @@ const ListPurchase = ({ items, handleDelete }) => {
     const [purchaseItems, setPurchaseItems] = useState([]);
     const [menuVisibleId, setMenuVisibleId] = useState(null); // store the open menu's purchase_id
     const [menuVisible, setMenuVisible] = useState(false);
+
     const toggleMenu = (id) => {
         setMenuVisibleId(menuVisibleId === id ? null : id);
     };
@@ -24,9 +25,9 @@ const ListPurchase = ({ items, handleDelete }) => {
     };
     const getStatusStyle = (status) => {
         switch ((status || '').toLowerCase()) {
-            case 'pending': return { backgroundColor: '#FFF4E5', color: '#FF8C00' };
-            case 'paid': return { backgroundColor: '#E5F9E0', color: '#3BA55D' };
-            case 'unpaid': return { backgroundColor: '#FFE5E5', color: '#E63946' };
+            case 'pending' || 'Pending': return { backgroundColor: '#FFF4E5', color: '#FF8C00' };
+            case 'paid' || 'Paid': return { backgroundColor: '#E5F9E0', color: '#3BA55D' };
+            case 'unpaid' || 'Unpaid': return { backgroundColor: '#FFE5E5', color: '#E63946' };
             default: return { backgroundColor: '#E0E7FF', color: '#3B5BDB' };
         }
     };
@@ -40,7 +41,7 @@ const ListPurchase = ({ items, handleDelete }) => {
                     'Content-Type': 'application/json'
                 },
             });
-            console.log(response, " reass")
+            // console.log(response, " reass")
             const data = await response.json();
             setPurchaseItems(data?.result?.data);
             console.log(purchaseItems, " purchaseItems")
@@ -67,32 +68,56 @@ const ListPurchase = ({ items, handleDelete }) => {
                     purchaseItems?.map((items, index) => (
                         <TouchableOpacity key={index} style={styles.purchaseCardBody} activeOpacity={0.9}>
                             <View style={styles.purchaseCardHeader}>
-                                <Text style={[styles.status, getStatusStyle(items?.status)]}>
-                                    {capitalizeFirst(items?.status)}
+                                <Text style={[styles.status, getStatusStyle(items?.payment_status)]}>
+                                    {capitalizeFirst(items?.payment_status)}
                                 </Text>
-                                <TouchableOpacity onPress={toggleMenu}>
-                                    <Text style={styles.dots}>⋮</Text>
-                                </TouchableOpacity>
-                            </View>
-                            <Modal
-                                visible={menuVisible}
-                                transparent
-                                animationType="fade"
-                                onRequestClose={() => setMenuVisible(false)}>
-                                <Pressable style={styles.overlay} onPress={() => setMenuVisible(false)}>
-                                    <View style={styles.menuBox}>
-                                        <TouchableOpacity
-                                            style={styles.menuItem}
-                                            onPress={() => {
-                                                setMenuVisible(false);
-                                                handleDelete(items?.purchase_id);
-                                            }}>
-                                            <Text style={styles.menuText}>Delete</Text>
+                                <Menu
+                                    visible={menuVisibleId === items.purchase_id}
+                                    onDismiss={() => setMenuVisibleId(null)}
+                                    anchor={
+                                        <TouchableOpacity onPress={() => toggleMenu(items.purchase_id)}>
+                                            <Text style={styles.dots}>⋮</Text>
                                         </TouchableOpacity>
-                                    </View>
-                                </Pressable>
-                            </Modal>
+                                    }
+                                >
+                                    {/* Edit Button */}
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            setMenuVisibleId(null);
+                                            navigation.navigate("AddPurchaseItems", { purchaseData: items });
+                                        }}
+                                        style={{
+                                            backgroundColor: '#E5F9E0',
+                                            paddingVertical: 10,
+                                            paddingHorizontal: 30,
+                                            flexDirection: 'row',
+                                            alignItems: 'center',
+                                        }}
+                                    >
+                                        <Text style={{ color: Colors.primary, fontWeight: 'bold', fontSize: 16 }}> Edit</Text>
+                                    </TouchableOpacity>
 
+                                    {/* Divider */}
+                                    <View style={{ height: 1, backgroundColor: '#ddd', marginVertical: 2 }} />
+
+                                    {/* Delete Button */}
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            setMenuVisibleId(null);
+                                            handleDelete(items.purchase_id);
+                                        }}
+                                        style={{
+                                            backgroundColor: '#FFEBEE',
+                                            paddingVertical: 10,
+                                            paddingHorizontal: 30,
+                                            flexDirection: 'row',
+                                            alignItems: 'center',
+                                        }}
+                                    >
+                                        <Text style={{ color: '#E53935', fontWeight: 'bold', fontSize: 16 }}> Delete</Text>
+                                    </TouchableOpacity>
+                                </Menu>
+                            </View>
                             <View style={styles.purchaseCardContent}>
                                 <View style={styles.row}>
                                     <Text style={styles.label}>Name</Text>
@@ -102,7 +127,6 @@ const ListPurchase = ({ items, handleDelete }) => {
                                     <Text style={styles.label}>Product</Text>
                                     <View style={{ marginLeft: 10 }}>
                                         {Array.isArray(items.products) && items.products.length > 0 ? (
-                                            console.log(items," items"),
                                             items.products.map((prod, index) => (
                                                 <Text key={index} style={{ color: "#555", marginVertical: 2 }}>
                                                     • {prod.product_name} (Qty: {prod.quantity}, ₹{prod.total_amount})
@@ -113,19 +137,19 @@ const ListPurchase = ({ items, handleDelete }) => {
                                         )}
                                     </View>
                                 </View>
-
+                                <View style={styles.row}>
+                                    <Text style={styles.label}>Total</Text>
+                                    <Text style={[styles.value, {color: Colors.primary, fontWeight: 'bold'}]}>{items?.total_amount}</Text>
+                                </View>
                             </View>
                         </TouchableOpacity>
                     ))
                 ) : (
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-
                         <Text style={{ fontSize: 14, color: '#999', marginTop: 10 }}>
-                            {/* Add a new client to get started {console.log(purchaseItems," purchaseItems")} */}
                         </Text>
                     </View>
                 )}
-
             </ScrollView>
 
         </View>

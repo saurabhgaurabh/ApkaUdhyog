@@ -17,6 +17,7 @@ import * as Animatable from "react-native-animatable";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import ImagePath from "../../../constants/ImagePath";
 import NavigationStrings from "../../../constants/NavigationStrings";
+import { ServerUrl } from "../../../services/ServerUrl";
 
 
 const ListSales = () => {
@@ -29,7 +30,7 @@ const ListSales = () => {
         setLoading(true);
         try {
             const response = await fetch(
-                `https://426f7502c717.ngrok-free.app/api/users/v1/motion-sales-get`
+                `https://868493e69f60.ngrok-free.app/api/users/v1/motion-sales-get`
             );
             const result = await response.json();
             console.log(result?.result?.result, "fetched sales");

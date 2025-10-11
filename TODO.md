@@ -1,4 +1,5 @@
-- [x] Add font sizes to src/constants/fonts.js
-- [x] Apply regular font size to Text components in src/screens/Dashboard/Dashboard.js
-- [x] Integrate redux-persist to persist dealers data locally in Redux to fix "data is not defined" error on app reload
-- [x] Display dealers data in descending order by name in ListDealers.js
+- [x] Remove the local requestStoragePermission function in PrintSale.js
+- [x] Update generatePdf to request storage permission before generating PDF
+- [x] Add error handling for permission denial in generatePdf
+- [x] Add react-native-html-to-pdf dependency to android/app/build.gradle for proper linking
+- [ ] Rebuild the Android app (run npx react-native run-android) to apply native changes

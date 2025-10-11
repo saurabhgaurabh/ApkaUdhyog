@@ -20,6 +20,7 @@ const AddPurchaseItems = () => {
     city: '',
     address: '',
     freight: '',
+    payment_status: '',
     totalAmount: '0',
     paidAmount: '0',
     pendingAmount: '0',
@@ -72,11 +73,10 @@ const AddPurchaseItems = () => {
     }));
   };
 
-  // Submit
   const handleSubmit = async () => {
     const {
-      dealer_name, postal_code, country, state: addressState, city, address, freight, paidAmount, pendingAmount, totalAmount,
-    } = state;
+      dealer_name, postal_code, country, state: addressState, city, address, freight, paidAmount, pendingAmount, 
+      totalAmount, payment_status } = state;
 
     if (!dealer_name || !city || products.some(p => !p.product_name)) {
       ToastAndroid.show('Please fill all required fields.', ToastAndroid.SHORT);
@@ -95,6 +95,7 @@ const AddPurchaseItems = () => {
           city,
           address,
           freight,
+          payment_status,
           total_amount: totalAmount,
           material_amount: paidAmount,
           material_amount_pending: pendingAmount,
@@ -173,12 +174,16 @@ const AddPurchaseItems = () => {
               <TextInput label="Pending Amount" mode="outlined" value={state.pendingAmount} editable={false} style={styles.input} />
             </Card.Content>
           </Card>
+          <Card style={[styles.salescard, { marginTop: 10 }]}>
+            <Card.Title title="Payment Status" titleStyle={styles.sectionTitle} />
+            <Card.Content>
+              <TextInput label="Payment Status" placeholder='Paid/Unpaid/Pending' mode="outlined" value={state.payment_status}  onChangeText={text => setState({...state, payment_status: text})} style={styles.input} activeOutlineColor="#4CAF50" outlineColor="#7f8378ff" />
+            </Card.Content>
+          </Card>
         </ScrollView>
       </KeyboardAvoidingView>
-
-      {/* Bottom Buttons */}
       <View style={styles.bottomButtonBody}>
-        <TouchableOpacity style={styles.bottomButtonCancel}>
+        <TouchableOpacity onPress={()=> navigation.navigate('ListPurchase')} style={styles.bottomButtonCancel}>
           <Text style={styles.bottomButtonText}>Cancel</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={handleSubmit} style={styles.bottomButtonColumnSubmit}>
