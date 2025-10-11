@@ -91,9 +91,10 @@ const TabRoutes = () => {
         <Tab.Screen name="Purchase" component={PurchaseStack} options={({ route }) => {
           const routeName = getFocusedRouteNameFromRoute(route) ?? "";
           const isAddPurchaseItems = routeName === "AddPurchaseItems";
+          const isViewPurchase = routeName === "ViewPurchase";
           return {
             headerShown: false,
-            tabBarStyle: isAddPurchaseItems ? { display: "none" } : { display: "flex" },
+            tabBarStyle: isAddPurchaseItems || isViewPurchase ? { display: "none" } : { display: "flex" },
             tabBarIcon: ({ focused }) => (
               <Image
                 style={{

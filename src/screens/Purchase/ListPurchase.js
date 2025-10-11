@@ -139,8 +139,15 @@ const ListPurchase = ({ items, handleDelete }) => {
                                 </View>
                                 <View style={styles.row}>
                                     <Text style={styles.label}>Total</Text>
-                                    <Text style={[styles.value, {color: Colors.primary, fontWeight: 'bold'}]}>{items?.total_amount}</Text>
+                                    <Text style={styles.value}>{items?.total_amount}</Text>
                                 </View>
+                                <TouchableOpacity style={styles.row}
+                                    onPress={() => {
+                                        navigation.navigate("ViewPurchase", { purchaseData: items });
+                                    }}>
+                                    <Text></Text>
+                                    <Text style={[styles.value, { color: Colors.primary, fontWeight: 'bold' }]}>More Info</Text>
+                                </TouchableOpacity>
                             </View>
                         </TouchableOpacity>
                     ))
