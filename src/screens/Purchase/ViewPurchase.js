@@ -50,13 +50,25 @@ const ViewPurchase = () => {
                             <Text style={styles.label}>Dealer Name</Text>
                             <Text style={styles.value}>{purchaseData?.dealer_name}</Text>
                         </View>
-
+                        <View style={styles.row}>
+                            <Text style={styles.label}>Country</Text>
+                            <Text style={styles.value}>{purchaseData?.country} </Text>
+                        </View>
+                        <View style={styles.row}>
+                            <Text style={styles.label}>State</Text>
+                            <Text style={styles.value}>{purchaseData?.state} </Text>
+                        </View>
+                        <View style={styles.row}>
+                            <Text style={styles.label}>City</Text>
+                            <Text style={styles.value}>{purchaseData?.city} </Text>
+                        </View>
                         <View style={styles.row}>
                             <Text style={styles.label}>Address</Text>
-                            <Text style={styles.value}>
-                                {purchaseData?.address}, {purchaseData?.city}, {purchaseData?.state},{" "}
-                                {purchaseData?.country} - {purchaseData?.postal_code}
-                            </Text>
+                            <Text style={styles.value}>{purchaseData?.address} </Text>
+                        </View>
+                        <View style={styles.row}>
+                            <Text style={styles.label}>Postal Code</Text>
+                            <Text style={styles.value}> {purchaseData?.postal_code} </Text>
                         </View>
                         <Divider style={{ marginVertical: 8 }} />
                         <Text style={[styles.label, { fontWeight: "bold", marginBottom: 6 }]}>Products:</Text>
@@ -93,11 +105,15 @@ const ViewPurchase = () => {
                                 ₹{purchaseData?.material_amount_pending}
                             </Text>
                         </View>
-                         <Divider style={{ marginVertical: 8 }} />
+                        <Divider style={{ marginVertical: 8 }} />
                         <View style={styles.row}>
                             <Text style={styles.label}>Total Amount</Text>
                             <Text style={[styles.value, { fontWeight: "bold", color: Colors.primary }]}>
-                                ₹{purchaseData?.total_amount - purchaseData?.material_amount}.00
+                                ₹{(
+                                    (Number(purchaseData?.total_amount || 0) -
+                                        Number(purchaseData?.material_amount || 0) +
+                                        Number(purchaseData?.freight || 0))
+                                ).toFixed(2)}
                             </Text>
                         </View>
                     </View>
