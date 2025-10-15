@@ -41,10 +41,9 @@ const ListPurchase = ({ items, handleDelete }) => {
                     'Content-Type': 'application/json'
                 },
             });
-            // console.log(response, " reass")
             const data = await response.json();
             setPurchaseItems(data?.result?.data);
-            console.log(purchaseItems, " purchaseItems")
+            // console.log(purchaseItems, " purchaseItems")
         } catch (error) {
             Alert.alert("Error fetching purchase items:", error.message);
             console.error("Error fetching purchase items:", error);
@@ -68,8 +67,8 @@ const ListPurchase = ({ items, handleDelete }) => {
                     purchaseItems?.map((items, index) => (
                         <TouchableOpacity key={index} style={styles.purchaseCardBody} activeOpacity={0.9}>
                             <View style={styles.purchaseCardHeader}>
-                                <Text style={[styles.status, getStatusStyle(items?.payment_status)]}>
-                                    {capitalizeFirst(items?.payment_status)}
+                                <Text style={[styles.status, getStatusStyle(items?.payment_status ? items?.payment_status : "unpaid")]}>
+                                    {capitalizeFirst(items?.payment_status ? items?.payment_status : "unpaid")}
                                 </Text>
                                 <Menu
                                     visible={menuVisibleId === items.purchase_id}
@@ -126,10 +125,10 @@ const ListPurchase = ({ items, handleDelete }) => {
                                 <View style={styles.row}>
                                     <Text style={styles.label}>Product</Text>
                                     <View style={{ marginLeft: 10 }}>
-                                        {Array.isArray(items.products) && items.products.length > 0 ? (
+                                        {Array.isArray(items?.products) && items?.products?.length > 0 ? (
                                             items.products.map((prod, index) => (
                                                 <Text key={index} style={{ color: "#555", marginVertical: 2 }}>
-                                                    • {prod.product_name} (Qty: {prod.quantity}, ₹{prod.total_amount})
+                                                    • {prod?.product_name} (Qty: {prod?.quantity}, ₹{prod?.total_amount})
                                                 </Text>
                                             ))
                                         ) : (
@@ -158,7 +157,6 @@ const ListPurchase = ({ items, handleDelete }) => {
                     </View>
                 )}
             </ScrollView>
-
         </View>
     )
 }

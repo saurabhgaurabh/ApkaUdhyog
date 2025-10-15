@@ -34,45 +34,46 @@ const ViewPurchase = () => {
             <ScrollView style={{ padding: 10, top: 20 }} showsVerticalScrollIndicator={false}>
                 <Card style={styles.purchaseCardBody}>
                     <View style={styles.purchaseCardHeader}>
-                        <Text style={[styles.status, getStatusStyle(purchaseData?.payment_status)]}>
-                            {purchaseData?.payment_status}
+                        <Text style={[styles.status, getStatusStyle(purchaseData?.payment_status ? purchaseData?.payment_status : "unpaid")]}>
+                            {purchaseData?.payment_status ? purchaseData?.payment_status : "unpaid"}
                         </Text>
+                        <Text style={[styles.status,]}> # Purchase </Text>
                     </View>
 
                     <View style={styles.purchaseCardContent}>
                         <View style={styles.row}>
                             <Text style={styles.label}>Status</Text>
                             <Text style={[styles.value, { color: Colors.primary }]}>
-                                {purchaseData?.status || "Active"}
+                                {purchaseData?.status ? purchaseData?.status : "Active"}
                             </Text>
                         </View>
                         <View style={styles.row}>
                             <Text style={styles.label}>Dealer Name</Text>
-                            <Text style={styles.value}>{purchaseData?.dealer_name}</Text>
+                            <Text style={styles.value}>{purchaseData?.dealer_name ? purchaseData?.dealer_name : "N/A"}</Text>
                         </View>
                         <View style={styles.row}>
                             <Text style={styles.label}>Country</Text>
-                            <Text style={styles.value}>{purchaseData?.country} </Text>
+                            <Text style={styles.value}>{purchaseData?.country ? purchaseData?.country : "N/A"} </Text>
                         </View>
                         <View style={styles.row}>
                             <Text style={styles.label}>State</Text>
-                            <Text style={styles.value}>{purchaseData?.state} </Text>
+                            <Text style={styles.value}>{purchaseData?.state ? purchaseData?.state : "N/A"} </Text>
                         </View>
                         <View style={styles.row}>
                             <Text style={styles.label}>City</Text>
-                            <Text style={styles.value}>{purchaseData?.city} </Text>
+                            <Text style={styles.value}>{purchaseData?.city ? purchaseData?.city : "N/A"} </Text>
                         </View>
                         <View style={styles.row}>
                             <Text style={styles.label}>Address</Text>
-                            <Text style={styles.value}>{purchaseData?.address} </Text>
+                            <Text style={styles.value}>{purchaseData?.address ? purchaseData?.address : "N/A"} </Text>
                         </View>
                         <View style={styles.row}>
                             <Text style={styles.label}>Postal Code</Text>
-                            <Text style={styles.value}> {purchaseData?.postal_code} </Text>
+                            <Text style={styles.value}> {purchaseData?.postal_code ? purchaseData?.postal_code : "N/A"} </Text>
                         </View>
                         <Divider style={{ marginVertical: 8 }} />
                         <Text style={[styles.label, { fontWeight: "bold", marginBottom: 6 }]}>Products:</Text>
-                        {Array.isArray(purchaseData.products) && purchaseData.products.length > 0 ? (
+                        {Array.isArray(purchaseData?.products) && purchaseData?.products?.length > 0 ? (
                             purchaseData.products.map((prod, index) => (
                                 <View key={index} style={styles.row}>
                                     <Text style={styles.value}>
@@ -96,13 +97,13 @@ const ViewPurchase = () => {
                         <View style={styles.row}>
                             <Text style={styles.label}>Freight</Text>
                             <Text style={[styles.value, { color: Colors.primary }]}>
-                                ₹{purchaseData?.freight}
+                                ₹{purchaseData?.freight ? purchaseData?.freight : "N/A"}
                             </Text>
                         </View>
                         <View style={styles.row}>
                             <Text style={styles.label}>Pending Amount</Text>
                             <Text style={[styles.value, { color: "#E63946" }]}>
-                                ₹{purchaseData?.material_amount_pending}
+                                ₹{purchaseData?.material_amount_pending ? purchaseData?.material_amount_pending : "N/A"}
                             </Text>
                         </View>
                         <Divider style={{ marginVertical: 8 }} />
