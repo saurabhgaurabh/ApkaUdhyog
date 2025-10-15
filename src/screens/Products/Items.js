@@ -7,7 +7,7 @@ import AddNewItem from './AddNewItem';
 import { useDispatch } from 'react-redux';
 import { addItem } from '../../redux/slices/itemSlice';
 import Colors from '../../constants/color';
-
+import * as Animatable from 'react-native-animatable';
 
 
 
@@ -20,7 +20,7 @@ const Items = () => {
     const fetchData = async () => {
         try {
             const response = await fetch(
-                "https://d5021510c8e8.ngrok-free.app/api/users/v1/product-manufacturing-get"
+                "https://868493e69f60.ngrok-free.app/api/users/v1/product-manufacturing-get"
             );
             const data = await response.json();
             if (data.status && Array.isArray(data.result.result)) {
@@ -53,33 +53,11 @@ const Items = () => {
     return (
         <>
             <CustomHeader backgroundColor="#ffffff" textColor="#8a4949ff" />
-            {/* <StatusBar backgroundColor="#fff" barStyle="dark-content" translucent={false} /> */}
-            {/* <View style={{ flex: 1, top: 0, backgroundColor: '#DCEDC8' }}>
-                <Animated.ScrollView
-                    style={{ flex: 1, backgroundColor: "#DCEDC8" }}
-                    contentContainerStyle={{ paddingBottom: 100 }}
-                    onScroll={Animated.event(
-                        [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-                        { useNativeDriver: true }
-                    )}
-                >
-
-                    {Array.from({ length: 5 }, (_, i) => (
-                        <View key={i} style={styles.itemBox}>
-                            <Text>Item {i + 1}</Text>
-                        </View>
-                    ))}
-                </Animated.ScrollView>
-
-           
-                <Animated.View
-                    style={[styles.floatingBtn, { transform: [{ translateY }] }]}
-                >
-                    <TouchableOpacity style={styles.btn} onPress={() => { navigation.navigate('AddNewItem') }}>
-                        <Text style={styles.btnText}>📦 Add Item</Text>
-                    </TouchableOpacity>
-                </Animated.View>
-            </View> */}
+            <Animatable.View animation="slideInRight" duration={800} easing="ease-in-circ" style={{ height: 65 }}>
+                <TouchableOpacity style={styles.purchaseButton} onPress={() => navigation.navigate('AddNewItem')}>
+                    <Text style={styles.purchaseButtonText}>{`New Product`}</Text>
+                </TouchableOpacity>
+            </Animatable.View>
             <View style={{ flex: 1, backgroundColor: Colors.screenBackground, padding: 10 }}>
                 <FlatList
                     data={itemList}
@@ -101,14 +79,6 @@ const Items = () => {
                     )}
                     ListEmptyComponent={<Text>No items found</Text>}
                 />
-
-                {/* Floating Add Button */}
-                <TouchableOpacity
-                    style={styles.floatingBtn}
-                    onPress={() => navigation.navigate('AddNewItem')}
-                >
-                    <Text style={styles.btnText}>📦 Add Item</Text>
-                </TouchableOpacity>
             </View>
         </>
     )

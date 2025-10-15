@@ -1,238 +1,192 @@
-import { View, Text, SafeAreaView, StatusBar, TouchableOpacity, Alert, ToastAndroid, ScrollView } from 'react-native'
-import React, { useState } from 'react'
-import CustomHeader from '../../components/CustomeHeader'
-import { TextInput } from 'react-native-paper'
-import styles from '../../MainStyle'
-import { useNavigation } from '@react-navigation/native'
-import Home from '../Home'
-import Items from './Items'
-import { useDispatch } from 'react-redux'
-import { addItem } from '../../redux/slices/itemSlice'
-import Colors from '../../constants/color'
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+  ToastAndroid,
+} from "react-native";
+import SubHeader from "../../components/SubHeader";
+import { ServerUrl } from "../../services/ServerUrl";
 
 const AddNewItem = () => {
-    const navigation = useNavigation();
-    const dispatch = useDispatch();
-    const [state, setState] = useState({
-        product_name: '',
-        material_type_one: '',
-        material_quantity: '',
-        material_quality: '',
-        batch_number: '',
-        unit: '',
-        supervisor_name: '',
-        total_cost: '',
-        remarks: ''
-    });
-    const handleProductName = (text) => { setState({ ...state, product_name: text }); };
-    const handleMaterialTypeOne = (text) => { setState({ ...state, material_type_one: text }); };
-    const handleMaterialQuantity = (text) => { setState({ ...state, material_quantity: text }); };
-    const handleMaterialQuality = (text) => { setState({ ...state, material_quality: text }); };
-    const handleBatchNumber = (text) => { setState({ ...state, batch_number: text }); };
-    const handleUnit = (text) => { setState({ ...state, unit: text }); };
-    const handleSuperviser = (text) => { setState({ ...state, supervisor_name: text }); };
-    const handleCost = (text) => { setState({ ...state, total_cost: text }); };
-    const handleRemarks = (text) => { setState({ ...state, remarks: text }); };
+  const [state, setState] = useState({ category_name: "", description: "" });
+  const [errors, setErrors] = useState({});
+  const [categories, setCategories] = useState([]);
 
-    const handleNewItem = async () => {
-        try {
-            // console.log('api responding')
-            const { product_name, material_type_one, material_quantity, material_quality, batch_number, unit, supervisor_name, total_cost, remarks } = state;
-            const response = await fetch(`https://d5021510c8e8.ngrok-free.app/api/users/v1/motion-product-manufacturing`, {
-                method: 'POST',
-                headers: {
-                    accept: 'application/json',
-                    'Content-type': 'application/json',
-                },
-                body: JSON.stringify({ product_name, material_type_one, material_quantity, material_quality, batch_number, unit, supervisor_name, total_cost, remarks }),
-            })
-            console.log("Response status: ", response.status, "ok: ", response.ok);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const data = await response.json();
-            console.log("Response data in adding new item: ", data);
-            if (data.status) {
-                ToastAndroid.show("New item added successfully!", ToastAndroid.SHORT);
-                dispatch(addItem(data.result || state)); // Add the new item from API response to Redux store
-                navigation.navigate('Items'); // Navigate to Items screen
-            } else {
-                ToastAndroid.show("Failed to add new item", ToastAndroid.SHORT);
-            }
-        } catch (error) {
-            console.log("Error in adding new item: ", error.message);
-            ToastAndroid.show("An error occurred while adding the items", ToastAndroid.SHORT);
-        }
+  const handleChange = (field, value) => {
+    setState((prev) => ({ ...prev, [field]: value }));
+    setErrors((prev) => ({ ...prev, [field]: "" })); // clear error while typing
+  };
 
+  const handleCategory = async () => {
+    let newErrors = {};
+    const { category_name, description } = state;
+
+    // ✅ Basic validation
+    if (!category_name.trim()) newErrors.category_name = "Category name is required.";
+    if (!description.trim()) newErrors.description = "Description is required.";
+
+    // ✅ Duplicate check (case insensitive)
+    const isDuplicate = categories.some(
+      (cat) => cat.toLowerCase() === category_name.trim().toLowerCase()
+    );
+    if (isDuplicate) newErrors.category_name = "This category already exists.";
+
+    // ✅ If there are any errors, stop here
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
     }
-    return (
-        <>
-            <SafeAreaView style={{ flex: 1 }}>
-                <CustomHeader />
-                <View style={{ flex: 1, backgroundColor: Colors.screenBackground, gap: 0 }}>
-                    <ScrollView>
-                        <View style={{ display: 'flex', top: 10, paddingLeft: 10, backgroundColor: '#fff', padding: 10 }}>
-                            <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#7f8378ff', }}>Create New Items</Text>
-                            <View style={{ paddingTop: 10 }}></View>
-                            <TextInput
-                                label="New Item" 
-                                placeholder="Enter item name"
-                                mode="outlined"
-                                onChangeText={handleProductName}
-                                keyboardType="default"
-                                autoCapitalize="none"
-                                autoCorrect={false}
-                                returnKeyLabel="next"
-                                activeOutlineColor="#4CAF50"
-                                outlineColor="#7f8378ff"
-                                textColor="#7f8378ff"
-                                outlineStyle={{ borderWidth: 1, borderRadius: 5 }}
-                                style={styles.input}
-                            />
-                            <TextInput
-                                label="Product Material"
-                                placeholder="Enter product material"
-                                mode="outlined"
-                                // value={itemCode}
-                                onChangeText={handleMaterialTypeOne}
-                                keyboardType="default"
-                                autoCapitalize="none"
-                                autoCorrect={false}
-                                returnKeyLabel="done"
-                                activeOutlineColor="#4CAF50"
-                                outlineColor="#7f8378ff"
-                                textColor="#000"
-                                outlineStyle={{ borderWidth: 1, borderRadius: 8 }}
-                                style={styles.input}
-                            />
-                            <TextInput
-                                label="Material Quantity"
-                                placeholder="Enter material quantity"
-                                mode="outlined"
-                                // value={itemCategory}
-                                onChangeText={handleMaterialQuantity}
-                                keyboardType="numeric"
-                                autoCapitalize="none"
-                                autoCorrect={false}
-                                returnKeyLabel="done"
-                                activeOutlineColor="#4CAF50"
-                                outlineColor="#7f8378ff"
-                                textColor="#000"
-                                outlineStyle={{ borderWidth: 1, borderRadius: 8 }}
-                                style={styles.input}
-                            />
-                            <TextInput
-                                label="Material Quality"
-                                placeholder="Enter material quality"
-                                mode="outlined"
-                                // value={itemCategory}
-                                onChangeText={handleMaterialQuality}
-                                keyboardType="default"
-                                autoCapitalize="none"
-                                autoCorrect={false}
-                                returnKeyLabel="done"
-                                activeOutlineColor="#4CAF50"
-                                outlineColor="#7f8378ff"
-                                textColor="#000"
-                                outlineStyle={{ borderWidth: 1, borderRadius: 8 }}
-                                style={styles.input}
-                            />
-                            <TextInput
-                                label="HNS/SAC Code" //hsn_sac_code OR batch number
-                                placeholder="Enter HNS/SAC code"
-                                mode="outlined"
-                                // value={itemCategory}
-                                onChangeText={handleBatchNumber}
-                                keyboardType="numeric"
-                                autoCapitalize="none"
-                                autoCorrect={false}
-                                returnKeyLabel="done"
-                                activeOutlineColor="#4CAF50"
-                                outlineColor="#7f8378ff"
-                                textColor="#000"
-                                outlineStyle={{ borderWidth: 1, borderRadius: 8 }}
-                                style={styles.input}
-                            />
-                            <TextInput
-                                label="Unit" //unit
-                                placeholder="Enter unit"
-                                mode="outlined"
-                                // value={itemCategory}
-                                onChangeText={handleUnit}
-                                keyboardType="numeric"
-                                autoCapitalize="none"
-                                autoCorrect={false}
-                                returnKeyLabel="done"
-                                activeOutlineColor="#4CAF50"
-                                outlineColor="#7f8378ff"
-                                textColor="#000"
-                                outlineStyle={{ borderWidth: 1, borderRadius: 8 }}
-                                style={styles.input}
-                            />
-                            <TextInput
-                                label="Superviser" //superviser or product handler
-                                placeholder="Enter superviser"
-                                mode="outlined"
-                                // value={itemCategory}
-                                onChangeText={handleSuperviser}
-                                keyboardType="default"
-                                autoCapitalize="none"
-                                autoCorrect={false}
-                                returnKeyLabel="done"
-                                activeOutlineColor="#4CAF50"
-                                outlineColor="#7f8378ff"
-                                textColor="#000"
-                                outlineStyle={{ borderWidth: 1, borderRadius: 8 }}
-                                style={styles.input}
-                            />
-                            <TextInput
-                                label="total cost"
-                                placeholder="Enter total cost"
-                                mode="outlined"
-                                // value={itemCategory}
-                                onChangeText={handleCost}
-                                keyboardType="numeric"
-                                autoCapitalize="none"
-                                autoCorrect={false}
-                                returnKeyLabel="done"
-                                activeOutlineColor="#4CAF50"
-                                outlineColor="#7f8378ff"
-                                textColor="#000"
-                                outlineStyle={{ borderWidth: 1, borderRadius: 8 }}
-                                style={styles.input}
-                            />
-                            <TextInput
-                                label="remarks"
-                                placeholder="Enter remarks"
-                                mode="outlined"
-                                // value={itemCategory}
-                                onChangeText={handleRemarks}
-                                keyboardType="default"
-                                autoCapitalize="none"
-                                autoCorrect={false}
-                                returnKeyLabel="done"
-                                activeOutlineColor="#4CAF50"
-                                outlineColor="#7f8378ff"
-                                textColor="#000"
-                                outlineStyle={{ borderWidth: 1, borderRadius: 8 }}
-                                style={styles.input}
-                            />
-                        </View>
-                    </ScrollView>
-                </View>
 
-                <View style={styles.btnBody}>
-                    <TouchableOpacity style={styles.cancelBtn} onPress={() => console.log("Cancel pressed")}           >
-                        <Text style={{ color: "#fff", fontSize: 16, fontWeight: "600" }}>Cancel</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.submitBtn} onPress={handleNewItem} >
-                        <Text style={{ color: "#fff", fontSize: 16, fontWeight: "600" }}>Submit</Text>
-                    </TouchableOpacity>
-                </View>
+    try {
+      const baseUrl = ServerUrl();
+      const apiUrl = baseUrl + "api/users/v1/motion-product-category-post";
 
-            </SafeAreaView>
-        </>
-    )
-}
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(state),
+      });
 
-export default AddNewItem
+      const result = await response.json();
+      console.log(result, "category result");
+
+      if (result?.status === true) {
+        ToastAndroid.show('Category Added Successfully.', ToastAndroid.SHORT);
+        setCategories((prev) => [...prev, category_name.trim()]);
+        setState({ category_name: "", description: "" });
+        setErrors({});
+      } else if (result?.message?.includes("exists")) {
+        setErrors({ category_name: "This category already exists in database." });
+      } else {
+        setErrors({ category_name: "Something went wrong, please try again." });
+      }
+    } catch (error) {
+      console.error("API Error:", error);
+      setErrors({ category_name: "Network error, please try later." });
+    }
+  };
+
+  return (
+    <ScrollView contentContainerStyle={styles.container}>
+      <SubHeader title="Categories" />
+
+      {/* -------- CATEGORY SECTION -------- */}
+      <View style={styles.card}>
+        <Text style={styles.sectionTitle}>Add Category</Text>
+
+        {/* Category Input */}
+        <TextInput
+          style={[styles.input, errors.category_name && styles.inputError]}
+          placeholder="Enter category name"
+          placeholderTextColor="#999"
+          value={state.category_name}
+          onChangeText={(text) => handleChange("category_name", text)}
+        />
+        {errors.category_name && (
+          <Text style={styles.errorText}>{errors.category_name}</Text>
+        )}
+
+        {/* Description Input */}
+        <TextInput
+          style={[styles.input, styles.textArea, errors.description && styles.inputError]}
+          placeholder="Enter description"
+          placeholderTextColor="#999"
+          value={state.description}
+          onChangeText={(text) => handleChange("description", text)}
+          multiline
+          numberOfLines={3}
+        />
+        {errors.description && (
+          <Text style={styles.errorText}>{errors.description}</Text>
+        )}
+
+        {/* Add Button */}
+        <TouchableOpacity style={styles.buttonPrimary} onPress={handleCategory}>
+          <Text style={styles.buttonText}>Add Category</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* -------- SUBCATEGORY SECTION -------- */}
+      <View style={styles.card}>
+        <Text style={styles.sectionTitle}>Add Subcategory</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter subcategory name"
+          placeholderTextColor="#999"
+        />
+
+        <TouchableOpacity
+          style={styles.buttonSecondary}
+          onPress={() => {}}
+        >
+          <Text style={styles.buttonText}>Add Subcategory</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {},
+  card: {
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    padding: 15,
+    marginBottom: 20,
+    elevation: 3,
+    top: 30,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#1C2833",
+    marginBottom: 10,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    fontSize: 15,
+    color: "#000",
+    marginBottom: 5,
+  },
+  textArea: {
+    height: 80,
+    textAlignVertical: "top",
+  },
+  inputError: {
+    borderColor: "#ff4d4d",
+  },
+  errorText: {
+    color: "#ff4d4d",
+    fontSize: 13,
+    marginBottom: 10,
+    marginLeft: 3,
+  },
+  buttonPrimary: {
+    backgroundColor: "#007AFF",
+    paddingVertical: 10,
+    borderRadius: 10,
+    marginTop: 10,
+  },
+  buttonSecondary: {
+    backgroundColor: "#28a745",
+    paddingVertical: 10,
+    borderRadius: 10,
+    marginTop: 10,
+  },
+  buttonText: {
+    color: "#fff",
+    textAlign: "center",
+    fontWeight: "600",
+    fontSize: 15,
+  },
+});
+
+export default AddNewItem;

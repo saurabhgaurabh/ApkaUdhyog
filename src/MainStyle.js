@@ -169,13 +169,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 2,
   },
-  floatingBtn: {
-    position: "absolute",
-    bottom: 20,
-    left: 20,
-    right: 20,
-    alignItems: "center",
-  },
+  // floatingBtn: {
+  //   position: "absolute",
+  //   bottom: 20,
+  //   left: 20,
+  //   right: 20,
+  //   alignItems: "center",
+  // },
   btn: {
     backgroundColor: "#66BB6A",
     paddingVertical: 15,
@@ -237,15 +237,15 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     elevation: 3,
   },
-  floatingBtn: {
-    position: "absolute",
-    bottom: 20,
-    right: 20,
-    backgroundColor: "#4CAF50",
-    padding: 15,
-    borderRadius: 50,
-    elevation: 5,
-  },
+  // floatingBtn: {
+  //   position: "absolute",
+  //   bottom: 20,
+  //   right: 20,
+  //   backgroundColor: "#4CAF50",
+  //   padding: 15,
+  //   borderRadius: 50,
+  //   elevation: 5,
+  // },
   btnText: {
     color: "#fff",
     fontWeight: "bold",
@@ -890,6 +890,33 @@ const styles = StyleSheet.create({
     fontWeight: "bold"
   },
   viewtableRow: { flexDirection: "row", marginVertical: 3 },
+  categoryChip: {
+  borderWidth: 1,
+  borderColor: "#ccc",
+  borderRadius: 20,
+  paddingHorizontal: 10,
+  paddingVertical: 6,
+  marginRight: 8,
+},
+categoryChipSelected: {
+  backgroundColor: "#007AFF",
+  borderColor: "#007AFF",
+},
+categoryChipTextSelected: {
+  color: "#fff",
+},
+textMuted: {
+  color: "#888",
+},
+categoryTitle: {
+  fontWeight: "bold",
+  color: "#333",
+},
+subCategoryText: {
+  marginLeft: 10,
+  color: "#555",
+},
+
 
 })
 
