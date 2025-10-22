@@ -32,7 +32,7 @@ const TabRoutes = () => {
           const isEmployeeRegistration = routeName === "EmployeeRegistration";
           return {
             headerShown: false,
-            title: 'Products',
+            title: 'Home',
             tabBarStyle: isAddDealers || isDealersInfo || isAddClients || isEmployeeRegistration || isAddSales || isPrintSale || isViewSales ? { display: "none" } : { display: "flex" },
             tabBarIcon: ({ focused }) => (
               <Image

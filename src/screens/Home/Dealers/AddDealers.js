@@ -44,7 +44,7 @@ const AddDealers = () => {
             dealer_Code, dealer_name, dealer_GST, mobile_number, adhar_number, pan, dealing_product, email,
             country, state: addressState, city, address, postal_code
         };
-        const response = await fetch(`https://30e48ae68ae9.ngrok-free.app/api/users/v1/motion-add-dealer-registration-post`, {
+        const response = await fetch(`https://motion.patiramproduction.com/home/motion_add_dealer_registration_post`, {
             method: 'POST',
             headers: {
                 'Accept': 'Application/json',
@@ -53,14 +53,11 @@ const AddDealers = () => {
             body: JSON.stringify(dealerData),
         });
         const result = await response.json();
-        console.log(result?.result?.data, "dealer result");
+        console.log(result, "dealer result");
         if (result.status === true || result.status === 'true') {
-            // const newDealer = Array.isArray(result?.result?.data) ? result?.result?.data[0] : result?.result?.data;
-            // dispatch(addDealer(newDealer)); // addDealer is reducer name to add individual dealer
             dispatch(addMyDealers(result));
             ToastAndroid.show("Dealer has been Registered Successfully", ToastAndroid.SHORT);
-            // navigation.navigate("ListDealer");
-
+            navigation.navigate("ListDealer");
         } else {
             ToastAndroid.show("Internal Error.", ToastAndroid.SHORT);
         }
@@ -91,7 +88,7 @@ const AddDealers = () => {
                             label="Email"
                             placeholder="Enter Your Email"
                             mode="outlined"
-                            onChangeText={handleGST}
+                            onChangeText={handleEmail}
                             keyboardType="email-address"
                             autoCapitalize="none"
                             autoCorrect={false}
@@ -103,7 +100,7 @@ const AddDealers = () => {
                             label="GST"
                             placeholder="Enter GST Number"
                             mode="outlined"
-                            onChangeText={handleMobile}
+                            onChangeText={handleGST}
                             keyboardType="visible-password"
                             autoCapitalize="none"
                             autoCorrect={false}
@@ -115,7 +112,7 @@ const AddDealers = () => {
                             label="Mobile"
                             placeholder="+91 Enter Mobile"
                             mode="outlined"
-                            onChangeText={handleAdhar}
+                            onChangeText={handleMobile}
                             keyboardType="phone-pad"
                             autoCapitalize="none"
                             autoCorrect={false}
@@ -127,7 +124,7 @@ const AddDealers = () => {
                             label="Dealing Product"
                             placeholder="Enter Dealing Product Name"
                             mode="outlined"
-                            onChangeText={handlePan}
+                            onChangeText={handleDealingProduct}
                             keyboardType="default"
                             autoCapitalize="none"
                             autoCorrect={false}
@@ -143,7 +140,7 @@ const AddDealers = () => {
                                 label="Adhar"
                                 placeholder="Adhar Card No"
                                 mode="outlined"
-                                onChangeText={handleDealingProduct}
+                                onChangeText={handleAdhar}
                                 keyboardType="number-pad"
                                 autoCapitalize="none"
                                 autoCorrect={false}
@@ -155,9 +152,9 @@ const AddDealers = () => {
                                 label="Pan Card"
                                 placeholder="Enter Pan Card No"
                                 mode="outlined"
-                                onChangeText={handleEmail}
-                                keyboardType="number-pad"
-                                autoCapitalize="none"
+                                onChangeText={handlePan}
+                                keyboardType="default"
+                                autoCapitalize="true"
                                 autoCorrect={false}
                                 activeOutlineColor="#4CAF50"
                                 outlineColor="#7f8378ff"

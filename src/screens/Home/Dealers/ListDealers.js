@@ -36,10 +36,11 @@ const ListDealers = () => {
     const getDealers = async () => {
         try {
             const response = await fetch(
-                `https://30e48ae68ae9.ngrok-free.app/api/users/v1/motion-add-dealer-registration-get`
+                `https://motion.patiramproduction.com/api/v1/motion-add-dealer-registration-get`
+                // `https://2b2a87af0b79.ngrok-free.app/api/users/v1/motion-add-dealer-registration-get`
             );
             const result = await response.json();
-            console.log(result.result, "dealers darta")
+            console.log(result?.result, "dealers darta")
             setDealers(result?.result || []);
         } catch (error) {
             ToastAndroid.show('Failed to fetch dealers.', ToastAndroid.SHORT);
@@ -90,9 +91,9 @@ const ListDealers = () => {
 
             {loading ? (
                 <ActivityIndicator size="large" color={Colors.primary} style={{ marginTop: 30 }} />
-            ) : dealers?.result?.length > 0 ? (
+            ) : dealers?.length > 0 ? (
                 <FlatList
-                    data={dealers?.result}
+                    data={dealers}
                     renderItem={renderDealerItem}
                     keyExtractor={(item, index) => item?.dealer_id?.toString() || index.toString()}
                     showsVerticalScrollIndicator={false}
