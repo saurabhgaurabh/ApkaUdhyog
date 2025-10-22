@@ -19,7 +19,7 @@ const ViewSales = () => {
     const fetchSales = async () => {
         try {
             setLoading(true);
-            const response = await fetch(`https://426f7502c717.ngrok-free.app/api/users/v1/motion-sales-get`);
+            const response = await fetch(`https://motion.patiramproduction.com/api/v1/motion-sales-get`);
             const result = await response.json();
             if (result.status) {
                 const sale = result.result?.result.find((s) => s.sale_id == saleId);

@@ -26,7 +26,7 @@ const ViewTasks = () => {
         try {
             setLoading(true);
             const response = await fetch(
-                "https://426f7502c717.ngrok-free.app/api/users/v1/motion-daily-tasks-get"
+                "https://2b2a87af0b79.ngrok-free.app/api/users/v1/motion-daily-tasks-get"
             );
             const result = await response.json();
             setTasks(result?.result?.result || []);

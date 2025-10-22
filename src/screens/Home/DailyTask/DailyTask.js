@@ -14,7 +14,7 @@ const DailyTask = () => {
     const onSubmit = async (data) => {
         try {
             const response = await fetch(
-                "https://426f7502c717.ngrok-free.app/api/users/v1/motion-daily-tasks",
+                "https://2b2a87af0b79.ngrok-free.app/api/users/v1/motion-daily-tasks",
                 {
                     method: "POST",
                     headers: {

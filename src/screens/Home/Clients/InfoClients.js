@@ -60,14 +60,14 @@ const InfoClients = () => {
                         </View>
                     </View>
                     <View style={styles.infocard}>
-                        <Text style={styles.clientName}>{capitalizeFirst(client.owner_name)}</Text>
-                        <Text style={styles.clientSub}>Company: {client.organization_name}</Text>
+                        <Text style={styles.clientName}>{capitalizeFirst(client?.owner_name ?? 'N/A')}</Text>
+                        <Text style={styles.clientSub}>Company: {client?.organization_name ?? 'N/A'}</Text>
 
                         <View style={styles.divider} />
 
                         <View style={styles.infoRow}>
                             <Text style={styles.label}>GSTIN:</Text>
-                            <Text style={styles.value}>{capitalizeFirst(client.gst)}</Text>
+                            <Text style={styles.value}>{capitalizeFirst(client?.gst ?? 'N/A')}</Text>
                         </View>
                         {/* <View style={styles.infoRow}>
                             <Text style={styles.label}>Dealer Type:</Text>
@@ -75,23 +75,23 @@ const InfoClients = () => {
                         </View> */}
                         <View style={styles.infoRow}>
                             <Text style={styles.label}>Client Type:</Text>
-                            <Text style={styles.value}>{capitalizeFirst(client.registration_type)}</Text>
+                            <Text style={styles.value}>{capitalizeFirst(client?.registration_type ?? 'N/A')}</Text>
                         </View>
                         <View style={styles.infoRow}>
                             <Text style={styles.label}>Email:</Text>
-                            <Text style={styles.value}>{capitalizeFirst(client.email)}</Text>
+                            <Text style={styles.value}>{capitalizeFirst(client?.email ?? 'N/A')}</Text>
                         </View>
                         <View style={styles.infoRow}>
                             <Text style={styles.label}>Mobile:</Text>
-                            <Text style={styles.value}>+91 {client.mobile}</Text>
+                            <Text style={styles.value}>+91 {client?.mobile ?? 'N/A'}</Text>
                         </View>
                         <View style={styles.infoRow}>
                             <Text style={styles.label}>Pan:</Text>
-                            <Text style={styles.value}>{client.pan}</Text>
+                            <Text style={styles.value}>{client?.pan ?? 'N/A'}</Text>
                         </View>
                         <View style={styles.infoRow}>
                             <Text style={styles.label}>Adhar:</Text>
-                            <Text style={styles.value}>{client.adhar}</Text>
+                            <Text style={styles.value}>{client?.adhar ?? 'N/A'}</Text>
                         </View>
                     </View>
                     <View style={styles.socialBody}>

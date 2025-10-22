@@ -31,13 +31,13 @@ const ListClients = () => {
 
     const fetchClients = async () => {
         try {
-            const response = await fetch("https://30e48ae68ae9.ngrok-free.app/api/users/v1/motion-parties-registration-get");
+            const response = await fetch(`https://motion.patiramproduction.com/api/v1/motion-parties-registration-get`);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const data = await response.json();
-            setClients(data.result.result);
-            console.log("Fetched clients:", data.result.result);
+            setClients(data?.result);
+            console.log("Fetched clients:", data?.result);
         } catch (err) {
             console.error("API error:", err);
             Alert.alert(err);
@@ -65,7 +65,7 @@ const ListClients = () => {
                                     <Text style={[styles.listStatus, getStatusStyle(client?.status)]}>
                                         {capitalizeFirst(client?.status ?? '')}
                                     </Text>
-                                    <Text style={styles.subcardId}>#{client?.party_id ?? ''}</Text>
+                                    <Text style={styles.subcardId}>#ID: {client?.party_id ?? ''}</Text>
                                 </View>
 
                                 {/* Middle Section - Dealer Name + GST */}

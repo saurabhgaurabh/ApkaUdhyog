@@ -21,11 +21,12 @@ const EmployeeList = () => {
         try {
             setLoading(true);
             const response = await fetch(
-                "https://426f7502c717.ngrok-free.app/api/users/v1/motion-employee-registration-get"
+                `https://motion.patiramproduction.com/api/v1/motion-employee-registration-get`
             );
             const result = await response.json();
-            setEmployees(result?.result?.result || []);
-            setFilteredEmployees(result?.result?.result || []);
+            console.log(result?.result, ".............")
+            setEmployees(result?.result || []);
+            setFilteredEmployees(result?.result || []);
         } catch (error) {
             console.error("Error fetching employees:", error.message);
         } finally {

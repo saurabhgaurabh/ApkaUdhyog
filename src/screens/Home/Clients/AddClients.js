@@ -25,9 +25,9 @@ const AddClients = () => {
         try {
             const { organization_name, owner_name, mobile, email, gst, address, pan, } = state;
             const clientData = { organization_name, owner_name, mobile, email, gst, address, pan, };
-            console.log(clientData, "sending clientData");
+            // console.log(clientData, "sending clientData");
 
-            let response = await fetch(`https://cdeed6ab33c1.ngrok-free.app/api/users/v1/motion-parties-registration`, {
+            let response = await fetch(`https://motion.patiramproduction.com/api/v1/motion-parties-registration`, {
                 method: "POST",
                 headers: {
                     'Accept': 'application/json',
@@ -60,7 +60,7 @@ const AddClients = () => {
                 <ScrollView
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{ paddingBottom: 0, paddingHorizontal: 0 }} >
-                    <View style={{ paddingTop: 0, justifyContent: "center", alignItems: "center" }}>
+                    <View style={{ paddingTop: 10, justifyContent: "center", alignItems: "center" }}>
                         <Text style={styles.sectionTitle}>Personal Details</Text>
                         <TextInput
                             onChangeText={handleOrganizationName}
@@ -69,7 +69,7 @@ const AddClients = () => {
                             mode='outlined'
                             keyboardAppearance='next'
                             keyboardType='default'
-                            autoCapitalize="none"
+                            autoCapitalize="true"
                             autoCorrect={false}
                             activeOutlineColor="#4CAF50"
                             outlineColor="#7f8378ff"
@@ -82,7 +82,7 @@ const AddClients = () => {
                             mode='outlined'
                             keyboardAppearance='next'
                             keyboardType='default'
-                            autoCapitalize="none"
+                            autoCapitalize="true"
                             autoCorrect={false}
                             activeOutlineColor="#4CAF50"
                             outlineColor="#7f8378ff"

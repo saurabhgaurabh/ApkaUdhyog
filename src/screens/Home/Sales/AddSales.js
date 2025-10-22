@@ -80,7 +80,7 @@ const AddSales = () => {
             };
 
             const response = await fetch(
-                `https://426f7502c717.ngrok-free.app/api/users/v1/motion-sales`,
+                `https://motion.patiramproduction.com/api/v1/motion-sales`,
                 {
                     method: "POST",
                     headers: {
@@ -92,6 +92,7 @@ const AddSales = () => {
             );
 
             const result = await response.json();
+            console.log(result, "........")
             if (result.status === true) {
                 ToastAndroid.show("Sale added successfully!", ToastAndroid.SHORT);
                 setForm({ customer_name: "", company: "", payment_status: "", remarks: "" });

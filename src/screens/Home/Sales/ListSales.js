@@ -30,7 +30,7 @@ const ListSales = () => {
         setLoading(true);
         try {
             const response = await fetch(
-                `https://868493e69f60.ngrok-free.app/api/users/v1/motion-sales-get`
+                `https://motion.patiramproduction.com/api/v1/motion-sales-get`
             );
             const result = await response.json();
             console.log(result?.result?.result, "fetched sales");

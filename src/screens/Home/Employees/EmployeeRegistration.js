@@ -52,7 +52,7 @@ const EmployeeRegistration = () => {
 
     try {
       const response = await fetch(
-        `https://30e48ae68ae9.ngrok-free.app/api/users/v1/motion-employee-registration`,
+        `https://motion.patiramproduction.com/api/v1/motion-employee-registration`,
         {
           method: "POST",
           headers: {

@@ -23,7 +23,7 @@ const InvoiceScreen = () => {
 
     const fetchInvoiceData = async () => {
         try {
-            const response = await fetch(`${ServerUrl}/api/users/v1/motion-sales-get`);
+            const response = await fetch(`https://motion.patiramproduction.com/api/v1/motion-sales-get`);
             const result = await response.json();
             if (result.status) {
                 const sale = result.result?.result.find((s) => s.sale_id == saleId);
