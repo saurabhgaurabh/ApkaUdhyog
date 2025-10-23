@@ -160,8 +160,8 @@ const ListSales = () => {
                         <RefreshControl
                             refreshing={refreshing}
                             onRefresh={onRefresh}
-                            colors={[Colors.primary]}      // ✅ Spinner color (Android)
-                            tintColor={Colors.primary}     // ✅ Spinner color (iOS)
+                            colors={[Colors.primary]}
+                            tintColor={Colors.primary}
                             title="Refreshing..."
                             titleColor={Colors.primary}
                         />

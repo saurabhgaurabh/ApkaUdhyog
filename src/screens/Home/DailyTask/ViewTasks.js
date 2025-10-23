@@ -12,6 +12,7 @@ import { Text, ActivityIndicator, Divider, Button, TextInput } from "react-nativ
 import SubHeader from "../../../components/SubHeader";
 import { useNavigation } from "@react-navigation/native";
 import styles from "../../../MainStyle";
+import Colors from "../../../constants/color";
 
 const ViewTasks = () => {
     const navigation = useNavigation();
@@ -125,9 +126,16 @@ const ViewTasks = () => {
                             data={tasks}
                             renderItem={renderRow}
                             keyExtractor={(item, index) => index.toString()}
-                            refreshControl={
-                                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-                            }
+                              refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                            colors={[Colors.primary]}      // ✅ Spinner color (Android)
+                            tintColor={Colors.primary}     // ✅ Spinner color (iOS)
+                            title="Refreshing..."
+                            titleColor={Colors.primary}
+                        />
+                    }
                             showsVerticalScrollIndicator={false}
                         />
                     </>

@@ -97,19 +97,21 @@ const EmployeeList = () => {
                     flex: 0.8,
                     alignItems: 'center',
                     paddingVertical: 4,
-                    backgroundColor: "#e7e2feff",borderRadius: 6,marginHorizontal: 3
+                    backgroundColor: "#e7e2feff", borderRadius: 6, marginHorizontal: 3
                 }}
             >
                 <Text style={{ color: '#2563eb', fontWeight: 'bold' }}>View</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={{flex: 0.8, alignItems: "center", paddingVertical: 4,backgroundColor: "#fee2e2",borderRadius: 6,marginHorizontal: 3,
-                    //   onPress={} 
-                }}   >
+            <TouchableOpacity style={{
+                flex: 0.8, alignItems: "center", paddingVertical: 4, backgroundColor: "#fee2e2", borderRadius: 6, marginHorizontal: 3,
+                //   onPress={} 
+            }}   >
                 <Text style={{ color: "#dc2626", fontWeight: "bold" }}>Delete</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={{flex: 0.8, alignItems: "center", paddingVertical: 4,backgroundColor: "#e4fee2ff",borderRadius: 6,marginHorizontal: 3,
-                    //   onPress={} 
-                }}   >
+            <TouchableOpacity style={{
+                flex: 0.8, alignItems: "center", paddingVertical: 4, backgroundColor: "#e4fee2ff", borderRadius: 6, marginHorizontal: 3,
+                //   onPress={} 
+            }}   >
                 <Text style={{ color: "#4CAF50", fontWeight: "bold" }}>Edit</Text>
             </TouchableOpacity>
         </View>
@@ -150,7 +152,7 @@ const EmployeeList = () => {
             />
 
             {loading ? (
-                <ActivityIndicator color="#4f46e5" size="large" style={{ marginTop: 50 }} />
+                <ActivityIndicator color="#4CAF50" size="large" style={{ marginTop: 50 }} />
             ) : filteredEmployees.length === 0 ? (
                 <Text style={{ textAlign: "center", marginTop: 40, color: "#6b7280", fontSize: 16 }}>
                     No employees found.
@@ -163,7 +165,16 @@ const EmployeeList = () => {
                         data={filteredEmployees}
                         renderItem={renderRow}
                         keyExtractor={(item, index) => index.toString()}
-                        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={onRefresh}
+                                colors={[Colors.primary]}      // ✅ Spinner color (Android)
+                                tintColor={Colors.primary}     // ✅ Spinner color (iOS)
+                                title="Refreshing..."
+                                titleColor={Colors.primary}
+                            />
+                        }
                     />
                 </>
             )}
