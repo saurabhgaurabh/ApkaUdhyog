@@ -9,7 +9,7 @@ import { useRoute } from "@react-navigation/native";
 const ViewPurchase = () => {
     const route = useRoute();
     const { purchaseData } = route.params || {};
-
+ 
     if (!purchaseData) {
         return (
             <View style={[styles.container, { alignItems: "center", justifyContent: "center" }]}>

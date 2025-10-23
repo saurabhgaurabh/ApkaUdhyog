@@ -26,7 +26,7 @@ const ViewTasks = () => {
         try {
             setLoading(true);
             const response = await fetch(
-                "https://2b2a87af0b79.ngrok-free.app/api/users/v1/motion-daily-tasks-get"
+                `https://motion.patiramproduction.com/api/v1/motion-daily-tasks-get`
             );
             const result = await response.json();
             setTasks(result?.result?.result || []);
@@ -63,7 +63,7 @@ const ViewTasks = () => {
     const renderHeader = () => (
         <View style={styles.tableHeader}>
             <Text style={[styles.headerCell, { flex: 1.5 }]}>Employee</Text>
-            <Text style={[styles.headerCell, { flex: 1 }]}>Shift</Text>
+            <Text style={[styles.headerCell, { flex: 1.2 }]}>Shift</Text>
             <Text style={[styles.headerCell, { flex: 1 }]}>Hours</Text>
             <Text style={[styles.headerCell, { flex: 2 }]}>Remarks</Text>
             <Text style={[styles.headerCell, { flex: 1.2 }]}>Date</Text>
@@ -72,9 +72,9 @@ const ViewTasks = () => {
 
     const renderRow = ({ item, index }) => {
         const shiftColor =
-            item.shift === "Morning"
+            item.shift === "Morning" || "morning"
                 ? "#f59e0b"
-                : item.shift === "Evening"
+                : item.shift === "Evening" || "evening"
                     ? "#6366f1"
                     : "#10b981";
 
@@ -86,10 +86,10 @@ const ViewTasks = () => {
         return (
             <View style={[styles.tableRow, { backgroundColor: index % 2 === 0 ? "#f9fafb" : "#ffffff" },]}  >
                 <Text style={[styles.tableCell, {  }]}>{item?.task_id}.</Text>
-                <Text style={[styles.tableCell, { flex: 1.2 }]}>{item?.employee_name}</Text>
-                <Text style={[styles.tableCell, { flex: 1, color: shiftColor, fontWeight: "600" },]}> {item?.shift}</Text>
+                <Text style={[styles.tableCell, { flex: 1 }]}>{item?.employee_name}</Text>
+                <Text style={[styles.tableCell, { flex: 1.1, color: shiftColor, fontWeight: "600" },]}> {item?.shift}</Text>
                 <Text style={[styles.tableCell, { flex: 1 }]}>{item.total_hours || "-"}</Text>
-                <TouchableOpacity style={[styles.tableCell, { flex: 2 }]} onPress={() => setSelectedRemark(item?.remarks || "No remarks")} >
+                <TouchableOpacity style={[styles.tableCell, { flex: 1.2 }]} onPress={() => setSelectedRemark(item?.remarks || "No remarks")} >
                     <Text numberOfLines={1} ellipsizeMode="tail"> {displayText}</Text>
                 </TouchableOpacity>
                 <Text style={[styles.tableCell, { flex: 1.2 }]}>{new Date(item?.created_at || item?.task_date).toLocaleDateString()}</Text>

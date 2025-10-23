@@ -12,7 +12,8 @@ const DealersInfo = () => {
     const navigation = useNavigation();
     const route = useRoute();
     const { dealer } = route.params;
-    
+    const [refreshing, setRefreshing] = useState(false);
+
     const handleCall = (phone) => {
         if (phone) {
             Linking.openURL(`tel:${phone}`);
@@ -108,10 +109,6 @@ const DealersInfo = () => {
                             <Text style={{ marginTop: 5, fontSize: 14 }}>WhatsApp</Text>
                         </TouchableOpacity>
                     </View>
-                    {/* <TouchableOpacity style={styles.deletebutton} onPress={{}} activeOpacity={0.7}>
-                        <Text style={styles.deletetext}>{'Delete this account'}</Text>
-                    </TouchableOpacity> */}
-
                 </ScrollView>
             </View>
         </>

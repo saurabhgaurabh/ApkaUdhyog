@@ -14,7 +14,7 @@ const DailyTask = () => {
     const onSubmit = async (data) => {
         try {
             const response = await fetch(
-                "https://2b2a87af0b79.ngrok-free.app/api/users/v1/motion-daily-tasks",
+                "https://motion.patiramproduction.com/api/v1/motion-daily-tasks",
                 {
                     method: "POST",
                     headers: {
@@ -208,7 +208,7 @@ const DailyTask = () => {
             {/* Bottom Buttons */}
             <View style={styles.bottomButtonBody}>
                 <TouchableOpacity
-                    onPress={() => reset()}
+                    onPress={() => navigation.navigate("ViewTasks")}
                     style={styles.bottomButtonCancel}
                 >
                     <Text style={styles.bottomButtonText}>Cancel</Text>

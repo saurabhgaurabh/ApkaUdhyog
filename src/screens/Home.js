@@ -137,14 +137,14 @@ const Home = () => {
               <Text style={styles.menuCardHeading}  >Add/Register </Text>
               <Text style={styles.menuCardSubHeading}>Employee</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.homeCardInnerBody}>
+            {/* <TouchableOpacity style={styles.homeCardInnerBody}>
               <View style={styles.menuColumnCss} >
                 <Image source={ImagePath.partyRegistration} style={{ width: 30, height: 30 }} resizeMode="contain" />
               </View>
-              {/* <Text style={styles.menuCardHeading}   >Client </Text>
-              <Text style={styles.menuCardSubHeading}>Registration</Text> */}
+              <Text style={styles.menuCardHeading}   >Client </Text>
+              <Text style={styles.menuCardSubHeading}>Registration</Text>
 
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity style={styles.homeCardInnerBody}>
               <View style={styles.menuColumnCss} >
                 <Image source={ImagePath.manufacturing} style={{ width: 30, height: 30 }} resizeMode="contain" />

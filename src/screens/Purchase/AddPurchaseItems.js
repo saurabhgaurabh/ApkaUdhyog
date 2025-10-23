@@ -84,7 +84,7 @@ const AddPurchaseItems = () => {
     }
 
     try {
-      const response = await fetch(`${ServerUrl()}api/users/v1/motion-purchase-row-material-post`, {
+      const response = await fetch(`https://motion.patiramproduction.com/api/v1/motion-purchase-row-material-post`, {
         method: 'POST',
         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
         body: JSON.stringify({

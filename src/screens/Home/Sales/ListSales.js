@@ -6,7 +6,7 @@ import {
     TouchableOpacity,
     ToastAndroid,
     ActivityIndicator,
-    Image,
+    Image, RefreshControl
 } from "react-native";
 import { Card, IconButton } from "react-native-paper";
 import styles from "../../../MainStyle";
@@ -24,11 +24,13 @@ const ListSales = () => {
     const navigation = useNavigation();
     const [sales, setSales] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
 
     // Fetch sales from API
     const getSales = async () => {
         setLoading(true);
         try {
+            if (!refreshing) setLoading(true);
             const response = await fetch(
                 `https://motion.patiramproduction.com/api/v1/motion-sales-get`
             );
@@ -44,12 +46,19 @@ const ListSales = () => {
             ToastAndroid.show("Failed to fetch sales.", ToastAndroid.SHORT);
         } finally {
             setLoading(false);
+            setRefreshing(false);
         }
     };
 
     useEffect(() => {
         getSales();
     }, []);
+
+    // 🔄 Pull to refresh handler
+    const onRefresh = () => {
+        setRefreshing(true);
+        getSales();
+    };
 
     const getStatusStyle = (status) => {
         switch ((status || "").toLowerCase()) {
@@ -147,6 +156,16 @@ const ListSales = () => {
                     keyExtractor={(item, index) => item?.sale_id?.toString() || index.toString()}
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{ paddingVertical: 10 }}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                            colors={[Colors.primary]}      // ✅ Spinner color (Android)
+                            tintColor={Colors.primary}     // ✅ Spinner color (iOS)
+                            title="Refreshing..."
+                            titleColor={Colors.primary}
+                        />
+                    }
                 />
             ) : (
                 <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>

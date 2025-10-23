@@ -34,7 +34,7 @@ const ListPurchase = ({ items, handleDelete }) => {
 
     const purchaseGetApi = async () => {
         try {
-            const response = await fetch(`${ServerUrl()}api/users/v1/motion-purchase-row-material-get`, {
+            const response = await fetch(`https://motion.patiramproduction.com/api/v1/motion-purchase-row-material-get`, {
                 method: 'get',
                 headers: {
                     'Accept': 'application/json',
@@ -42,8 +42,8 @@ const ListPurchase = ({ items, handleDelete }) => {
                 },
             });
             const data = await response.json();
-            setPurchaseItems(data?.result?.data);
-            // console.log(purchaseItems, " purchaseItems")
+            setPurchaseItems(data?.result);
+            console.log(data?.result, " ....purchaseItems")
         } catch (error) {
             Alert.alert("Error fetching purchase items:", error.message);
             console.error("Error fetching purchase items:", error);
