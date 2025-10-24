@@ -145,7 +145,7 @@ const Home = () => {
               <Text style={styles.menuCardSubHeading}>Registration</Text>
 
             </TouchableOpacity> */}
-            <TouchableOpacity style={styles.homeCardInnerBody}>
+            <TouchableOpacity style={styles.homeCardInnerBody} onPress={()=> navigation.navigate('ListProductManufacturing')}>
               <View style={styles.menuColumnCss} >
                 <Image source={ImagePath.manufacturing} style={{ width: 30, height: 30 }} resizeMode="contain" />
               </View>

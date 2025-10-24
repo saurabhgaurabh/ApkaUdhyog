@@ -1,8 +1,6 @@
-import { View, Text } from 'react-native'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Home from '../../screens/Home';
-import CustomHeader from '../../components/CustomeHeader';
 import AddDealers from '../../screens/Home/Dealers/AddDealers';
 import ListDealers from '../../screens/Home/Dealers/ListDealers';
 import DealersInfo from '../../screens/Home/Dealers/DealersInfo';
@@ -17,6 +15,8 @@ import ListSales from '../../screens/Home/Sales/ListSales';
 import AddSales from '../../screens/Home/Sales/AddSales';
 import PrintSale from '../../screens/Home/Sales/PrintSale';
 import ViewSales from '../../screens/Home/Sales/ViewSales';
+import ProductManufacturing from '../../screens/Home/Manufacture/ProductManufacturing';
+import ListProductManufacturing from '../../screens/Home/Manufacture/ListProductManufacturing';
 
 
 const HomeStack = ({ navigation }) => {
@@ -39,6 +39,8 @@ const HomeStack = ({ navigation }) => {
       <Stack.Screen name='EmployeeList' component={EmployeeList} />
       <Stack.Screen name='DailyTask' component={DailyTask} />
       <Stack.Screen name='ViewTasks' component={ViewTasks} />
+      <Stack.Screen name='ProductManufacturing' component={ProductManufacturing} />
+      <Stack.Screen name='ListProductManufacturing' component={ListProductManufacturing} />
     </Stack.Navigator>
   )
 }

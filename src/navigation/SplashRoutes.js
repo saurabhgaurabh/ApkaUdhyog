@@ -21,7 +21,6 @@ const splashRoutes = () => {
         <Stack.Screen name={NavigationStrings.TABROUTES} component={TabRoutes} options={{ headerShown: false }} />
         <Stack.Screen name={NavigationStrings.LOGIN} component={Login} options={{ headerShown: false }} />
         <Stack.Screen name="Registration" component={Registration} options={{ headerShown: false }} />
-        {/* <Stack.Screen name="AddPurchaseItems" component={AddPurchaseItems} options={{ headerShown: false }} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   )
