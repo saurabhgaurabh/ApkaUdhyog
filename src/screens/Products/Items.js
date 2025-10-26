@@ -12,6 +12,8 @@ import * as Animatable from "react-native-animatable";
 import { useNavigation } from "@react-navigation/native";
 import SubHeader from "../../components/SubHeader";
 import Colors from "../../constants/color";
+import { ServerUrl } from "../../services/ServerUrl";
+
 
 const ProductCategoryScreen = () => {
     const navigation = useNavigation();
@@ -27,11 +29,11 @@ const ProductCategoryScreen = () => {
             const baseUrl = ServerUrl();
             const response = await fetch(baseUrl + "api/v1/motion-product-category-get");
             const data = await response.json();
-            console.log("Fetched Categories:", data?.result?.result);
-            setCategories(data?.result?.result || []);
+            console.log("Fetched Categories:", data?.result);
+            setCategories(data?.result || []);
         } catch (error) {
             console.log("Category fetch error:", error);
-            Alert.alert("Error", "Failed to fetch categories");
+            Alert.alert("Error", "Failed to fetch Categories");
         } finally {
             setLoading(false);
         }
@@ -39,19 +41,19 @@ const ProductCategoryScreen = () => {
 
     // Fetch subcategories
     const fetchSubcategories = async (category_id) => {
-        // setLoading(true);
         try {
-            const response = await fetch(
-                `https://2b2a87af0b79.ngrok-free.app/api/users/v1/motion-product-subcategories-get?category_id=${category_id}`
-            );
+            const baseUrl = ServerUrl();
+            const response = await fetch(`${baseUrl}api/v1/motion-product-subcategories-get?category_id=${category_id}`);
             const data = await response.json();
-            console.log("Fetched Sub categories:", data?.result?.result);
-            setSubcategories(data?.result?.result || []);
+            console.log("Fetched Subcategories:", data);
+            if (Array.isArray(data?.result)) {
+                setSubcategories(data?.result);
+            } else {
+                setSubcategories([]);
+            }
         } catch (error) {
             console.log("Subcategory fetch error:", error);
             Alert.alert("Error", "Failed to fetch subcategories");
-        } finally {
-            // setLoading(false);
         }
     };
 
@@ -68,19 +70,10 @@ const ProductCategoryScreen = () => {
         const isSelected = selectedCategory === item.category_id;
         return (
             <TouchableOpacity
-                style={[
-                    styles.categoryCard,
-                    isSelected && styles.selectedCategoryCard,
-                ]}
+                style={[styles.categoryCard, isSelected && styles.selectedCategoryCard, ]}
                 onPress={() => handleCategoryPress(item)}
-                activeOpacity={0.8}
-            >
-                <Text
-                    style={[
-                        styles.categoryText,
-                        isSelected && styles.selectedCategoryText,
-                    ]}
-                >
+                activeOpacity={0.8} >
+                <Text style={[ styles.categoryText, isSelected && styles.selectedCategoryText, ]} >
                     {item.category_name}
                 </Text>
             </TouchableOpacity>
@@ -164,15 +157,15 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         paddingHorizontal: 16,
-        marginTop: 20,
+        marginTop: 30,
     },
     header: {
         fontSize: 22,
         fontWeight: "700",
-        color: "#1C3F60",
+        color: Colors.primary,
     },
     addButton: {
-        backgroundColor: "#1C3F60",
+        backgroundColor: Colors.primary,
         paddingVertical: 10,
         paddingHorizontal: 18,
         borderRadius: 8,
@@ -190,8 +183,8 @@ const styles = StyleSheet.create({
     },
     categoryCard: {
         backgroundColor: "#fff",
-        height: 90,
-        minWidth: 150,
+        height: 60,
+        minWidth: 100,
         justifyContent: "center",
         alignItems: "center",
         marginRight: 12,
@@ -200,22 +193,24 @@ const styles = StyleSheet.create({
         borderColor: "#D6DEE5",
     },
     selectedCategoryCard: {
-        backgroundColor: "#1C3F60",
-        borderColor: "#1C3F60",
+        backgroundColor: "transparent",
+        borderColor: Colors.primary,
         transform: [{ scale: 1.05 }],
+        
     },
     categoryText: {
         fontSize: 16,
         fontWeight: "600",
-        color: "#2E4A62",
+        color: Colors.primary,
     },
     selectedCategoryText: {
-        color: "#fff",
+        color: Colors.primary,
+        fontSize: 20
     },
     subHeader: {
         fontSize: 20,
         fontWeight: "600",
-        color: "#1C3F60",
+        color: Colors.primary,
         marginTop: 10,
         marginBottom: 12,
         paddingHorizontal: 16,
@@ -232,7 +227,7 @@ const styles = StyleSheet.create({
     subText: {
         fontSize: 16,
         fontWeight: "500",
-        color: "#334E68",
+        color: Colors.primary,
     },
     subListContainer: {
         paddingBottom: 20,

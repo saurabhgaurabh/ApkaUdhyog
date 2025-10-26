@@ -11,8 +11,11 @@ import {
 import { Picker } from "@react-native-picker/picker";
 import SubHeader from "../../components/SubHeader";
 import { ServerUrl } from "../../services/ServerUrl";
+import { useNavigation } from "@react-navigation/native";
+
 
 const AddNewItem = () => {
+    const navigation = useNavigation();
     const [state, setState] = useState({ category_name: "", description: "" });
     const [subCategory, setSubCategory] = useState({
         sub_category_name: "",
@@ -33,14 +36,12 @@ const AddNewItem = () => {
             const res = await fetch(baseUrl + "api/v1/motion-product-category-get");
             // const res = await fetch(`https://37224c0b64d9.ngrok-free.app/api/users/v1/motion-product-category-get`);
             const data = await res.json();
-            console.log(data?.result, "data.....")
             if (data?.status === true && Array.isArray(data?.result)) {
                 const normalized = data?.result.map((item) => ({
                     id: item.category_id,
                     category_name: item.category_name,
                 }));
                 setCategories(normalized);
-                console.log(normalized, "normalized...")
             }
 
         } catch (error) {
@@ -76,7 +77,6 @@ const AddNewItem = () => {
         try {
             const baseUrl = ServerUrl();
             const apiUrl = baseUrl + "api/v1/motion-product-category-post";
-            // const apiUrl = `https://37224c0b64d9.ngrok-free.app/api/users/v1/motion-product-category-post`;
             const response = await fetch(apiUrl, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -84,7 +84,6 @@ const AddNewItem = () => {
             });
 
             const result = await response.json();
-            console.log(result, "add category....")
             if (result?.status === true) {
                 ToastAndroid.show("Category Added Successfully.", ToastAndroid.SHORT);
                 await fetchCategories();
@@ -122,8 +121,6 @@ const AddNewItem = () => {
         try {
             const baseUrl = ServerUrl();
             const apiUrl = baseUrl + "api/v1/motion-product-subcategories-post";
-            // const apiUrl = "https://37224c0b64d9.ngrok-free.app/api/users/v1/motion-product-subcategories-post";
-
             const response = await fetch(apiUrl, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -251,7 +248,6 @@ const AddNewItem = () => {
                         try {
                             const baseUrl = ServerUrl();
                             const apiUrl = baseUrl + "api/v1/motion-product-subcategories-post";
-                            // const apiUrl = `https://37224c0b64d9.ngrok-free.app/api/users/v1/motion-product-subcategories-post`;
 
                             // 👇 FIX: match backend expected field names
                             const payload = {
@@ -267,13 +263,10 @@ const AddNewItem = () => {
                             });
 
                             const result = await response.json();
-                            console.log("Subcategory result:", result);
 
                             if (result?.status === true) {
-                                ToastAndroid.show(
-                                    "Subcategory Added Successfully.",
-                                    ToastAndroid.SHORT
-                                );
+                                ToastAndroid.show("Subcategory Added Successfully.",ToastAndroid.SHORT);
+                                navigation.navigate('Items')
                                 setSubCategory({ sub_category_name: "", category_id: "", description: "" });
                                 setSubErrors({});
                             } else if (result?.message?.includes("exists")) {
@@ -287,7 +280,6 @@ const AddNewItem = () => {
                                 });
                             }
                         } catch (error) {
-                            console.error("API Error:", error);
                             setSubErrors({ sub_category_name: "Network error, please try later new." });
                         }
                     }}
