@@ -24,9 +24,8 @@ const ProductCategoryScreen = () => {
     const fetchCategories = async () => {
         setLoading(true);
         try {
-            const response = await fetch(
-                "https://2b2a87af0b79.ngrok-free.app/api/users/v1/motion-product-category-get"
-            );
+            const baseUrl = ServerUrl();
+            const response = await fetch(baseUrl + "api/v1/motion-product-category-get");
             const data = await response.json();
             console.log("Fetched Categories:", data?.result?.result);
             setCategories(data?.result?.result || []);

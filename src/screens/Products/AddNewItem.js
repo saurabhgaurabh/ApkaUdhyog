@@ -15,7 +15,7 @@ import { ServerUrl } from "../../services/ServerUrl";
 const AddNewItem = () => {
     const [state, setState] = useState({ category_name: "", description: "" });
     const [subCategory, setSubCategory] = useState({
-        subcategory_name: "",
+        sub_category_name: "",
         category_id: "",
     });
     const [errors, setErrors] = useState({});
@@ -30,11 +30,19 @@ const AddNewItem = () => {
     const fetchCategories = async () => {
         try {
             const baseUrl = ServerUrl();
-            const res = await fetch(baseUrl + "api/users/v1/motion-product-category-get");
+            const res = await fetch(baseUrl + "api/v1/motion-product-category-get");
+            // const res = await fetch(`https://37224c0b64d9.ngrok-free.app/api/users/v1/motion-product-category-get`);
             const data = await res.json();
-            if (data?.status === true && Array.isArray(data?.result?.result)) {
-                setCategories(data?.result?.result);
+            console.log(data?.result, "data.....")
+            if (data?.status === true && Array.isArray(data?.result)) {
+                const normalized = data?.result.map((item) => ({
+                    id: item.category_id,
+                    category_name: item.category_name,
+                }));
+                setCategories(normalized);
+                console.log(normalized, "normalized...")
             }
+
         } catch (error) {
             console.error("Fetch categories error:", error);
         }
@@ -50,7 +58,7 @@ const AddNewItem = () => {
     const handleCategory = async () => {
         let newErrors = {};
         const { category_name, description } = state;
-
+        console.log(category_name, description, "category_name, description")
         if (!category_name.trim()) newErrors.category_name = "Category name is required.";
         if (!description.trim()) newErrors.description = "Description is required.";
 
@@ -67,7 +75,8 @@ const AddNewItem = () => {
 
         try {
             const baseUrl = ServerUrl();
-            const apiUrl = baseUrl + "api/users/v1/motion-product-category-post";
+            const apiUrl = baseUrl + "api/v1/motion-product-category-post";
+            // const apiUrl = `https://37224c0b64d9.ngrok-free.app/api/users/v1/motion-product-category-post`;
             const response = await fetch(apiUrl, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -75,8 +84,10 @@ const AddNewItem = () => {
             });
 
             const result = await response.json();
+            console.log(result, "add category....")
             if (result?.status === true) {
                 ToastAndroid.show("Category Added Successfully.", ToastAndroid.SHORT);
+                await fetchCategories();
                 setCategories((prev) => [
                     ...prev,
                     { category_name, id: result?.insertId || Date.now() },
@@ -97,10 +108,10 @@ const AddNewItem = () => {
     // 🟩 Add subcategory
     const handleSubCategory = async () => {
         let newErrors = {};
-        const { subcategory_name, category_id } = subCategory;
+        const { sub_category_name, category_id } = subCategory;
 
-        if (!subcategory_name.trim())
-            newErrors.subcategory_name = "Subcategory name is required.";
+        if (!sub_category_name.trim())
+            newErrors.sub_category_name = "Subcategory name is required.";
         if (!category_id) newErrors.category_id = "Please select a category.";
 
         if (Object.keys(newErrors).length > 0) {
@@ -110,7 +121,8 @@ const AddNewItem = () => {
 
         try {
             const baseUrl = ServerUrl();
-            const apiUrl = baseUrl + "api/users/v1/motion-product-subcategories-post";
+            const apiUrl = baseUrl + "api/v1/motion-product-subcategories-post";
+            // const apiUrl = "https://37224c0b64d9.ngrok-free.app/api/users/v1/motion-product-subcategories-post";
 
             const response = await fetch(apiUrl, {
                 method: "POST",
@@ -119,22 +131,23 @@ const AddNewItem = () => {
             });
 
             const result = await response.json();
+            console.log(result, ".......")
             if (result?.status === true) {
                 ToastAndroid.show("Subcategory Added Successfully.", ToastAndroid.SHORT);
-                setSubCategory({ subcategory_name: "", category_id: "" });
+                setSubCategory({ sub_category_name: "", category_id: "" });
                 setSubErrors({});
             } else if (result?.message?.includes("exists")) {
                 setSubErrors({
-                    subcategory_name: "This subcategory already exists in database.",
+                    sub_category_name: "This subcategory already exists in database.",
                 });
             } else {
                 setSubErrors({
-                    subcategory_name: "Something went wrong, please try again Subcategory.",
+                    sub_category_name: "Something went wrong, please try again Subcategory.",
                 });
             }
         } catch (error) {
             console.error("API Error:", error);
-            setSubErrors({ subcategory_name: "Network error, please try later." });
+            setSubErrors({ sub_category_name: "Network error, please try later sub." });
         }
     };
 
@@ -178,13 +191,13 @@ const AddNewItem = () => {
             <View style={styles.card}>
                 <Text style={styles.sectionTitle}>Add Subcategory</Text>
                 <View style={[styles.pickerContainer, subErrors.category_id && styles.inputError,]}>
-                    <Picker selectedValue={subCategory?.category_id} onValueChange={(value) => setSubCategory((prev) => ({ ...prev, category_id: value }))}>
+                    <Picker selectedValue={subCategory?.category_id} onValueChange={(value) => setSubCategory((prev) => ({ ...prev, category_id: Number(value) }))}>
                         <Picker.Item label="Select Category" value="" />
                         {categories.map((cat, index) => (
                             <Picker.Item
                                 key={index}
                                 label={cat.category_name}
-                                value={cat.id || cat.category_id}
+                                value={cat.id}
                             />
                         ))}
                     </Picker>
@@ -194,16 +207,16 @@ const AddNewItem = () => {
                 )}
 
                 {/* Subcategory Name */}
-                <TextInput style={[styles.input, subErrors.subcategory_name && styles.inputError, ]}
+                <TextInput style={[styles.input, subErrors.sub_category_name && styles.inputError,]}
                     placeholder="Enter subcategory name"
                     placeholderTextColor="#999"
-                    value={subCategory.subcategory_name}
+                    value={subCategory.sub_category_name}
                     onChangeText={(text) =>
-                        setSubCategory((prev) => ({ ...prev, subcategory_name: text }))
+                        setSubCategory((prev) => ({ ...prev, sub_category_name: text }))
                     }
                 />
-                {subErrors.subcategory_name && (
-                    <Text style={styles.errorText}>{subErrors.subcategory_name}</Text>
+                {subErrors.sub_category_name && (
+                    <Text style={styles.errorText}>{subErrors.sub_category_name}</Text>
                 )}
 
                 {/* Description Field */}
@@ -220,13 +233,14 @@ const AddNewItem = () => {
                 />
 
                 <TouchableOpacity
+                    // onPress={handleSubCategory}
                     style={styles.buttonSecondary}
                     onPress={async () => {
                         let newErrors = {};
-                        const { subcategory_name, category_id } = subCategory;
+                        const { sub_category_name, category_id } = subCategory;
 
-                        if (!subcategory_name.trim())
-                            newErrors.subcategory_name = "Subcategory name is required.";
+                        if (!sub_category_name.trim())
+                            newErrors.sub_category_name = "Subcategory name is required.";
                         if (!category_id) newErrors.category_id = "Please select a category.";
 
                         if (Object.keys(newErrors).length > 0) {
@@ -236,12 +250,12 @@ const AddNewItem = () => {
 
                         try {
                             const baseUrl = ServerUrl();
-                            const apiUrl =
-                                baseUrl + "api/users/v1/motion-product-subcategories-post";
+                            const apiUrl = baseUrl + "api/v1/motion-product-subcategories-post";
+                            // const apiUrl = `https://37224c0b64d9.ngrok-free.app/api/users/v1/motion-product-subcategories-post`;
 
                             // 👇 FIX: match backend expected field names
                             const payload = {
-                                sub_category_name: subCategory.subcategory_name,
+                                sub_category_name: subCategory.sub_category_name,
                                 description: subCategory.description || "",
                                 category_id: subCategory.category_id,
                             };
@@ -260,21 +274,21 @@ const AddNewItem = () => {
                                     "Subcategory Added Successfully.",
                                     ToastAndroid.SHORT
                                 );
-                                setSubCategory({ subcategory_name: "", category_id: "", description: "" });
+                                setSubCategory({ sub_category_name: "", category_id: "", description: "" });
                                 setSubErrors({});
                             } else if (result?.message?.includes("exists")) {
                                 setSubErrors({
-                                    subcategory_name:
+                                    sub_category_name:
                                         "This subcategory already exists in this category.",
                                 });
                             } else {
                                 setSubErrors({
-                                    subcategory_name: "Something went wrong, please try again.",
+                                    sub_category_name: "Something went wrong, please try again. ok ",
                                 });
                             }
                         } catch (error) {
                             console.error("API Error:", error);
-                            setSubErrors({ subcategory_name: "Network error, please try later." });
+                            setSubErrors({ sub_category_name: "Network error, please try later new." });
                         }
                     }}
                 >

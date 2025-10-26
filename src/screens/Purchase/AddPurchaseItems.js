@@ -107,7 +107,8 @@ const AddPurchaseItems = () => {
 
       if (result.status) {
         ToastAndroid.show('Purchase added successfully!', ToastAndroid.SHORT);
-        navigation.navigate(PurchaseItems);
+        // navigation.navigate('PurchaseItems');
+        navigation.navigate('ProductCategoryScreen');
       } else {
         ToastAndroid.show(result.message || 'Failed to insert data.', ToastAndroid.SHORT);
       }
