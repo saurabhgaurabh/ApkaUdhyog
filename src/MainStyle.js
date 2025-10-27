@@ -300,7 +300,6 @@ const styles = StyleSheet.create({
     top: 15,
     right: 20,
     backgroundColor: "#E5F9E0",
-    // backgroundColor: Colors.primary,
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 20,
@@ -316,6 +315,7 @@ const styles = StyleSheet.create({
     color: '#3BA55D',
     fontFamily: Fonts.large,
     fontWeight: 'bold',
+    letterSpacing: 0.5,
   },
   cardHeading: { display: 'flex', paddingTop: 1, justifyContent: 'center', alignItems: 'center', },
   cardButton: { borderRadius: 10, backgroundColor: Colors.sweetGreen, width: '90%', justifyContent: 'center', alignItems: 'center', height: 60, paddingHorizontal: 10, borderColor: '#f2f2f2', borderWidth: 2 },
@@ -891,31 +891,31 @@ const styles = StyleSheet.create({
   },
   viewtableRow: { flexDirection: "row", marginVertical: 3 },
   categoryChip: {
-  borderWidth: 1,
-  borderColor: "#ccc",
-  borderRadius: 20,
-  paddingHorizontal: 10,
-  paddingVertical: 6,
-  marginRight: 8,
-},
-categoryChipSelected: {
-  backgroundColor: "#007AFF",
-  borderColor: "#007AFF",
-},
-categoryChipTextSelected: {
-  color: "#fff",
-},
-textMuted: {
-  color: "#888",
-},
-categoryTitle: {
-  fontWeight: "bold",
-  color: "#333",
-},
-subCategoryText: {
-  marginLeft: 10,
-  color: "#555",
-},
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    marginRight: 8,
+  },
+  categoryChipSelected: {
+    backgroundColor: "#007AFF",
+    borderColor: "#007AFF",
+  },
+  categoryChipTextSelected: {
+    color: "#fff",
+  },
+  textMuted: {
+    color: "#888",
+  },
+  categoryTitle: {
+    fontWeight: "bold",
+    color: "#333",
+  },
+  subCategoryText: {
+    marginLeft: 10,
+    color: "#555",
+  },
 
 
 })

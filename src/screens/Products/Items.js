@@ -13,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import SubHeader from "../../components/SubHeader";
 import Colors from "../../constants/color";
 import { ServerUrl } from "../../services/ServerUrl";
+import Fonts from "../../constants/fonts";
 
 
 const ProductCategoryScreen = () => {
@@ -70,10 +71,10 @@ const ProductCategoryScreen = () => {
         const isSelected = selectedCategory === item.category_id;
         return (
             <TouchableOpacity
-                style={[styles.categoryCard, isSelected && styles.selectedCategoryCard, ]}
+                style={[styles.categoryCard, isSelected && styles.selectedCategoryCard,]}
                 onPress={() => handleCategoryPress(item)}
                 activeOpacity={0.8} >
-                <Text style={[ styles.categoryText, isSelected && styles.selectedCategoryText, ]} >
+                <Text style={[styles.categoryText, isSelected && styles.selectedCategoryText,]} >
                     {item.category_name}
                 </Text>
             </TouchableOpacity>
@@ -100,7 +101,7 @@ const ProductCategoryScreen = () => {
             <SubHeader title="Item Management" />
 
             {/* Header and Add Button */}
-            <View style={styles.headerContainer}>
+            <Animatable.View animation="slideInRight" duration={500} style={styles.headerContainer}>
                 <Text style={styles.header}>Product Categories</Text>
                 <TouchableOpacity
                     style={styles.addButton}
@@ -108,7 +109,7 @@ const ProductCategoryScreen = () => {
                 >
                     <Text style={styles.addButtonText}>+ Add New Item</Text>
                 </TouchableOpacity>
-            </View>
+            </Animatable.View>
 
             {/* Categories */}
             <FlatList
@@ -117,7 +118,8 @@ const ProductCategoryScreen = () => {
                 keyExtractor={(item, index) =>
                     item.category_id?.toString() || index.toString()
                 }
-                horizontal
+                numColumns={3}
+                // horizontal
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.categoryListContainer}
             />
@@ -165,38 +167,45 @@ const styles = StyleSheet.create({
         color: Colors.primary,
     },
     addButton: {
-        backgroundColor: Colors.primary,
-        paddingVertical: 10,
-        paddingHorizontal: 18,
-        borderRadius: 8,
-        elevation: 2,
+        backgroundColor: "#E5F9E0",
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+        borderRadius: 20,
+        elevation: 5,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        borderWidth: 1,
+        borderColor: '#3BA55D'
     },
     addButtonText: {
-        color: "#fff",
-        fontWeight: "600",
-        fontSize: 14,
+        color: '#3BA55D',
+        fontFamily: Fonts.large,
+        fontWeight: 'bold',
         letterSpacing: 0.5,
     },
     categoryListContainer: {
-        paddingHorizontal: 12,
-        paddingVertical: 16,
+        padding: 10,
+        justifyContent: "center",
     },
     categoryCard: {
-        backgroundColor: "#fff",
-        height: 60,
-        minWidth: 100,
-        justifyContent: "center",
-        alignItems: "center",
-        marginRight: 12,
         borderRadius: 12,
         borderWidth: 1,
         borderColor: "#D6DEE5",
+        flex: 1, // important for equal spacing in numColumns
+        margin: 5,
+        backgroundColor: "#f4f4f4",
+        borderRadius: 10,
+        paddingVertical: 15,
+        alignItems: "center",
+        justifyContent: "center",
     },
     selectedCategoryCard: {
         backgroundColor: "transparent",
         borderColor: Colors.primary,
         transform: [{ scale: 1.05 }],
-        
+
     },
     categoryText: {
         fontSize: 16,

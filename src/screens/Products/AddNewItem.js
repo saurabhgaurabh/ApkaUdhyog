@@ -263,7 +263,6 @@ const AddNewItem = () => {
                             });
 
                             const result = await response.json();
-
                             if (result?.status === true) {
                                 ToastAndroid.show("Subcategory Added Successfully.",ToastAndroid.SHORT);
                                 navigation.navigate('Items')
@@ -280,7 +279,7 @@ const AddNewItem = () => {
                                 });
                             }
                         } catch (error) {
-                            setSubErrors({ sub_category_name: "Network error, please try later new." });
+                            setSubErrors({ sub_category_name: "Network error, please try later." });
                         }
                     }}
                 >
