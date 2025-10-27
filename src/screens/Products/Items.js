@@ -119,8 +119,7 @@ const ProductCategoryScreen = () => {
                     item.category_id?.toString() || index.toString()
                 }
                 numColumns={3}
-                // horizontal
-                showsHorizontalScrollIndicator={false}
+                showsVerticalScrollIndicator={false}
                 contentContainerStyle={styles.categoryListContainer}
             />
 
@@ -137,6 +136,7 @@ const ProductCategoryScreen = () => {
                                 item.sub_category_id?.toString() || index.toString()
                             }
                             contentContainerStyle={styles.subListContainer}
+                            showsVerticalScrollIndicator={false}
                         />
                     ) : (
                         <Text style={styles.noDataText}>

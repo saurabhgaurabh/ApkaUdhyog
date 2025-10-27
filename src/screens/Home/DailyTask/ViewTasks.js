@@ -31,6 +31,7 @@ const ViewTasks = () => {
             );
             const result = await response.json();
             setTasks(result?.result?.result || []);
+            setFilteredTasks(result?.result?.result);
         } catch (error) {
             console.error("Error fetching tasks:", error.message);
         } finally {
@@ -48,7 +49,6 @@ const ViewTasks = () => {
         setRefreshing(false);
     };
 
-    // 🔍 Search logic
     const handleSearch = (text) => {
         setSearchQuery(text);
         const query = text.toLowerCase();
@@ -123,7 +123,7 @@ const ViewTasks = () => {
                         {renderHeader()}
                         <Divider />
                         <FlatList
-                            data={tasks}
+                            data={searchQuery ? filteredTasks : tasks}
                             renderItem={renderRow}
                             keyExtractor={(item, index) => index.toString()}
                               refreshControl={
