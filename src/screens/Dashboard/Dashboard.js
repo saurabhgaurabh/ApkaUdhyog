@@ -14,11 +14,11 @@ const Dashboard = () => {
             <CustomHeader />
             <ScrollView showsVerticalScrollIndicator={false} >
                 <View style={styles.dashTopBox}>
-                    <TouchableOpacity style={styles.dashBoxes}>
+                    <TouchableOpacity style={styles.dashGetBoxes}>
                         <Text style={styles.dashTextOne}>You'll Get</Text>
                         <Text style={styles.dashTextOne}>0.00</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.dashBoxes}>
+                    <TouchableOpacity style={styles.dashGiveBoxes}>
                         <Text style={styles.dashTextTwo}>You'll Give</Text>
                         <Text style={styles.dashTextTwo}>0.00</Text>
                     </TouchableOpacity>
@@ -28,11 +28,11 @@ const Dashboard = () => {
                         colors={[Colors.lightGreen, Colors.sweetGreen]}
                         start={{ x: 0, y: 0 }}
                         end={{ x: 1, y: 0 }}
-                        style={{ borderRadius: 8 }}
+                        style={{ borderRadius: 7 }}
                     >
                         <Card.Content>
-                            <Text style={styles.CardText}>Total Sales</Text>
-                            <Text style={styles.CardText}>₹150</Text>
+                            <Text style={styles.cardText}>Total Sales</Text>
+                            <Text style={styles.cardText}>₹150</Text>
                         </Card.Content>
                     </LinearGradient>
                 </Card>

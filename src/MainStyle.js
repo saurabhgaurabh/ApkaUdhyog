@@ -370,7 +370,8 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   dashTopBox: { display: 'flex', flexDirection: 'row', gap: 10, padding: 20, },
-  dashBoxes: { flexDirection: 'column', flex: 1, backgroundColor: Colors.light, justifyContent: 'center', alignItems: 'center', borderRadius: 8, height: 60 },
+  dashGetBoxes: { flexDirection: 'column', flex: 1, backgroundColor: Colors.smoothGreen, justifyContent: 'center', alignItems: 'center', borderRadius: 8, height: 60, borderColor: Colors.primary, borderWidth: 0.7 },
+  dashGiveBoxes: { flexDirection: 'column', flex: 1, backgroundColor: Colors.smoothRed, justifyContent: 'center', alignItems: 'center', borderRadius: 8, height: 60, borderColor: Colors.danger, borderWidth: 0.7},
   dashTextOne: { fontFamily: Fonts.boldItalic, fontSize: Fonts.sizes.regular, fontWeight: Fonts.weights.bold, color: Colors.primary },
   dashTextTwo: { fontFamily: Fonts.boldItalic, fontSize: Fonts.sizes.regular, fontWeight: Fonts.weights.bold, color: Colors.danger },
 

@@ -5,9 +5,11 @@ const Colors = {
   inactiveOutlineOrTextColor: "#7f8378ff",
   lightGreen: "#a3f0a7ff",
   sweetGreen: "#bff1c2ff",
+  smoothGreen: "#d7ffd9ff",
   dashboardGreen: "#DCEDC8",
   secondary: "#2196F3",    // blue
   danger: "#f44336",       // red
+  smoothRed: "#ffe2e0ff",       // red
   warning: "#FFC107",      // yellow
   success: "#388E3C",      // dark green
   info: "#03A9F4",         // light blue

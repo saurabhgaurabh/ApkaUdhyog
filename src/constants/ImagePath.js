@@ -1,6 +1,6 @@
 export default {
     Home: require('../assets/home.png'),
-    user: require('../assets/PrIMG.png'),
+    user: require('../assets/logo.png'),
     dashboard: require('../assets/Dash.png'),
     product: require('../assets/new-product.png'),
     service: require('../assets/service.png'),
