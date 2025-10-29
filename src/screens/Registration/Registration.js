@@ -2,18 +2,20 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
-  StyleSheet,
   ScrollView,
   Alert,
   StatusBar,
   SafeAreaView,
   Platform,
 } from 'react-native';
+import styles from '../../MainStyle'; // ✅ your existing style
 import { ServerUrl } from '../../services/ServerUrl';
+import { Card, TextInput } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 
 const RegistrationScreen = () => {
+  const navigation = useNavigation();
   const [formData, setFormData] = useState({
     company_name: '',
     owner_name: '',
@@ -34,248 +36,303 @@ const RegistrationScreen = () => {
   const handleChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
+  const gotoverify = () => { navigation.navigate('VerifyOtp') }
+
+  // const handleRegister = async () => {
+  //   const requiredFields = Object.keys(formData);
+  //   for (let field of requiredFields) {
+  //     if (!formData[field]) {
+  //       Alert.alert('Validation Error', `Please enter ${field.replace('_', ' ')}`);
+  //       return;
+  //     }
+  //   }
+
+  //   if (formData.password !== formData.confirm_password) {
+  //     Alert.alert('Error', 'Passwords do not match');
+  //     return;
+  //   }
+
+  //   try {
+  //     const baseUrl = ServerUrl();
+  //     const apiUrl = 'https://37224c0b64d9.ngrok-free.app/api/users/v1/motion-user-registration';
+  //     // const apiUrl = baseUrl + 'api/users/v1/motion-user-registration';
+  //     const response = await fetch(apiUrl, {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify(formData),
+  //     });
+
+  //     const text = await response.text();
+  //     console.log(text, 'Raw API response text:');
+
+  //     let data;
+  //     try {
+  //       data = JSON.parse(text);
+  //     } catch {
+  //       Alert.alert('Error', 'Invalid JSON response from server');
+  //       return;
+  //     }
+
+  //     if (data.status) Alert.alert('Success', data.message);
+  //     else Alert.alert('Error', data.message || 'Registration failed');
+  //   } catch (error) {
+  //     Alert.alert('Error', 'Something went wrong. Try again.');
+  //     console.log(error);
+  //   }
+  // };
 
   const handleRegister = async () => {
-    const {
-      company_name,
-      owner_name,
-      industry_type,
-      GST_number,
-      registration_email,
-      mobile_number,
-      password,
-      confirm_password,
-      country,
-      state,
-      city,
-      address,
-      postal_code,
-      website,
-    } = formData;
-
-    if (
-      !company_name ||
-      !owner_name ||
-      !industry_type ||
-      !GST_number ||
-      !registration_email ||
-      !mobile_number ||
-      !password ||
-      !confirm_password ||
-      !country ||
-      !state ||
-      !city ||
-      !address ||
-      !postal_code ||
-      !website
-    ) {
-      Alert.alert('Validation Error', 'All fields are required');
-      return;
+    for (let key in formData) {
+      if (!formData[key]) {
+        Alert.alert('Validation Error', `Please enter ${key.replace('_', ' ')}`);
+        return;
+      }
     }
 
-    if (password !== confirm_password) {
+    if (formData.password !== formData.confirm_password) {
       Alert.alert('Error', 'Passwords do not match');
       return;
     }
 
     try {
       const baseUrl = ServerUrl();
-      const apiUrl = baseUrl + 'api/users/v1/motion-user-registration';
-
+      // const apiUrl = baseUrl + 'api/users/v1/motion-user-registration';
+      const apiUrl = baseUrl + 'api/v1/motion-user-registration';
       const response = await fetch(apiUrl, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
-      const text = await response.text();
-      console.log('Raw API response text:', text);
+      const result = await response.json();
+      console.log('Register Response:', result);
 
-      let data;
-      try {
-        data = JSON.parse(text);
-      } catch (e) {
-        console.log('JSON parse error:', e);
-        Alert.alert('Error', 'Invalid JSON response from server');
-        return;
-      }
-      console.log('API response:', data);
-
-      if (data.status) {
-        Alert.alert('Success', data.message);
-        // navigate or clear form
+      if (result.status) {
+        Alert.alert('Success', result.message);
+        // Navigate to VerifyOtp screen with email or user_id
+        navigation.navigate('VerifyOtp', {
+          email: formData.registration_email,
+          user_id: result.user_id, // if backend returns user_id
+        });
       } else {
-        Alert.alert('Error', data.message || 'Registration failed');
+        Alert.alert('Error', result.message || 'Registration failed');
       }
     } catch (error) {
-      console.log('Fetch error:', error);
+      console.error('Error:', error);
       Alert.alert('Error', 'Something went wrong. Try again.');
     }
   };
-
   return (
     <SafeAreaView style={styles.safeArea}>
-      <StatusBar backgroundColor="transparent" translucent />
+      <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
 
-      <ScrollView
-        contentContainerStyle={styles.container}
-        keyboardShouldPersistTaps="handled"
-      >
-        <Text style={styles.heading}>Register</Text>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <Text style={styles.loginHeading}>Registration</Text>
+        <Card style={styles.salescard}>
+          <Card.Title title="Business Details" titleStyle={styles.sectionTitle} />
+          <Card.Content>
+            <TextInput
+              label="Company Name"
+              placeholder='Enter Company Name'
+              mode="outlined"
+              value={formData.company_name}
+              onChangeText={(text) => handleChange('company_name', text)}
+              keyboardType="default"
+              autoCapitalize="none"
+              autoCorrect={false}
+              activeOutlineColor="#4CAF50"
+              outlineColor="#7f8378ff"
+              style={styles.input} />
 
-        <TextInput
-          style={styles.input}
-          placeholder="Company Name"
-          value={formData.company_name}
-          onChangeText={(text) => handleChange('company_name', text)}
-        />
+            <TextInput
+              label="Industry Type"
+              placeholder='Enter Industry Type'
+              mode="outlined"
+              value={formData.industry_type}
+              onChangeText={(text) => handleChange('industry_type', text)}
+              keyboardType="default"
+              autoCapitalize="none"
+              autoCorrect={false}
+              activeOutlineColor="#4CAF50"
+              outlineColor="#7f8378ff"
+              style={styles.input} />
 
-        <TextInput
-          style={styles.input}
-          placeholder="Owner Name"
-          value={formData.owner_name}
-          onChangeText={(text) => handleChange('owner_name', text)}
-        />
+            <TextInput
+              label="GST"
+              placeholder='Enter GST Number'
+              mode="outlined"
+              value={formData.GST_number}
+              onChangeText={(text) => handleChange('GST_number', text)}
+              keyboardType="default"
+              autoCapitalize="none"
+              autoCorrect={false}
+              activeOutlineColor="#4CAF50"
+              outlineColor="#7f8378ff"
+              style={styles.input} />
+          </Card.Content>
+        </Card>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Industry Type"
-          value={formData.industry_type}
-          onChangeText={(text) => handleChange('industry_type', text)}
-        />
+        <Card style={styles.salescard}>
+          <Card.Title title="Personal Details" titleStyle={styles.sectionTitle} />
+          <Card.Content>
+            <TextInput
+              label="Owner Name"
+              placeholder='Enter Owner Name'
+              mode="outlined"
+              value={formData.owner_name}
+              onChangeText={(text) => handleChange('owner_name', text)}
+              keyboardType="default"
+              autoCapitalize="none"
+              autoCorrect={false}
+              activeOutlineColor="#4CAF50"
+              outlineColor="#7f8378ff"
+              style={styles.input} />
 
-        <TextInput
-          style={styles.input}
-          placeholder="GST Number"
-          value={formData.GST_number}
-          onChangeText={(text) => handleChange('GST_number', text)}
-        />
+            <TextInput
+              label="Email"
+              placeholder='Enter Your Email'
+              mode="outlined"
+              value={formData.registration_email}
+              onChangeText={(text) => handleChange('registration_email', text)}
+              keyboardType="default"
+              autoCapitalize="none"
+              autoCorrect={false}
+              activeOutlineColor="#4CAF50"
+              outlineColor="#7f8378ff"
+              style={styles.input} />
 
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          value={formData.registration_email}
-          onChangeText={(text) => handleChange('registration_email', text)}
-        />
+            <TextInput
+              label="Mobile"
+              placeholder='Enter Mobile Number'
+              mode="outlined"
+              value={formData.mobile_number}
+              onChangeText={(text) => handleChange('mobile_number', text)}
+              keyboardType="number-pad"
+              autoCapitalize="none"
+              autoCorrect={false}
+              activeOutlineColor="#4CAF50"
+              outlineColor="#7f8378ff"
+              style={styles.input} />
 
-        <TextInput
-          style={styles.input}
-          placeholder="Mobile Number"
-          keyboardType="phone-pad"
-          value={formData.mobile_number}
-          onChangeText={(text) => handleChange('mobile_number', text)}
-        />
+            <TextInput
+              label="Password"
+              placeholder='Enter Password'
+              mode="outlined"
+              value={formData.password}
+              onChangeText={(text) => handleChange('password', text)}
+              keyboardType="default"
+              autoCapitalize="none"
+              autoCorrect={false}
+              activeOutlineColor="#4CAF50"
+              outlineColor="#7f8378ff"
+              style={styles.input} />
 
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          secureTextEntry={true}
-          value={formData.password}
-          onChangeText={(text) => handleChange('password', text)}
-        />
+            <TextInput
+              label="Confirm Password"
+              placeholder='Enter Confirm Password'
+              mode="outlined"
+              value={formData.confirm_password}
+              onChangeText={(text) => handleChange('confirm_password', text)}
+              keyboardType="default"
+              autoCapitalize="none"
+              autoCorrect={false}
+              activeOutlineColor="#4CAF50"
+              outlineColor="#7f8378ff"
+              style={styles.input} />
+          </Card.Content>
+        </Card>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Confirm Password"
-          secureTextEntry={true}
-          value={formData.confirm_password}
-          onChangeText={(text) => handleChange('confirm_password', text)}
-        />
+        <Card style={styles.salescard}>
+          <Card.Title title="Residance Details" titleStyle={styles.sectionTitle} />
+          <Card.Content>
+            <TextInput
+              label="Country"
+              placeholder='Enter Your Country'
+              mode="outlined"
+              value={formData.country}
+              onChangeText={(text) => handleChange('country', text)}
+              keyboardType="default"
+              autoCapitalize="none"
+              autoCorrect={false}
+              activeOutlineColor="#4CAF50"
+              outlineColor="#7f8378ff"
+              style={styles.input} />
 
-        <TextInput
-          style={styles.input}
-          placeholder="Country"
-          value={formData.country}
-          onChangeText={(text) => handleChange('country', text)}
-        />
+            <TextInput
+              label="State"
+              placeholder='Enter Your State'
+              mode="outlined"
+              value={formData.state}
+              onChangeText={(text) => handleChange('state', text)}
+              keyboardType="default"
+              autoCapitalize="none"
+              autoCorrect={false}
+              activeOutlineColor="#4CAF50"
+              outlineColor="#7f8378ff"
+              style={styles.input} />
 
-        <TextInput
-          style={styles.input}
-          placeholder="State"
-          value={formData.state}
-          onChangeText={(text) => handleChange('state', text)}
-        />
+            <TextInput
+              label="City"
+              placeholder='Enter Your City'
+              mode="outlined"
+              value={formData.city}
+              onChangeText={(text) => handleChange('city', text)}
+              keyboardType="default"
+              autoCapitalize="none"
+              autoCorrect={false}
+              activeOutlineColor="#4CAF50"
+              outlineColor="#7f8378ff"
+              style={styles.input} />
 
-        <TextInput
-          style={styles.input}
-          placeholder="City"
-          value={formData.city}
-          onChangeText={(text) => handleChange('city', text)}
-        />
+            <TextInput
+              label="Address"
+              placeholder='Enter Your Address'
+              mode="outlined"
+              value={formData.address}
+              onChangeText={(text) => handleChange('address', text)}
+              keyboardType="default"
+              autoCapitalize="none"
+              autoCorrect={false}
+              activeOutlineColor="#4CAF50"
+              outlineColor="#7f8378ff"
+              style={styles.input} />
 
-        <TextInput
-          style={styles.input}
-          placeholder="Address"
-          value={formData.address}
-          onChangeText={(text) => handleChange('address', text)}
-        />
+            <TextInput
+              label="Postal Code"
+              placeholder='Enter Postal Code'
+              mode="outlined"
+              value={formData.postal_code}
+              onChangeText={(text) => handleChange('postal_code', text)}
+              keyboardType="number-pad"
+              autoCapitalize="none"
+              autoCorrect={false}
+              activeOutlineColor="#4CAF50"
+              outlineColor="#7f8378ff"
+              style={styles.input} />
 
-        <TextInput
-          style={styles.input}
-          placeholder="Postal Code"
-          value={formData.postal_code}
-          onChangeText={(text) => handleChange('postal_code', text)}
-        />
+            <TextInput
+              label="Website"
+              placeholder='Enter website'
+              mode="outlined"
+              value={formData.website}
+              onChangeText={(text) => handleChange('website', text)}
+              keyboardType="default"
+              autoCapitalize="none"
+              autoCorrect={false}
+              activeOutlineColor="#4CAF50"
+              outlineColor="#7f8378ff"
+              style={styles.input} />
+          </Card.Content>
+        </Card>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Website"
-          value={formData.website}
-          onChangeText={(text) => handleChange('website', text)}
-        />
 
-        <TouchableOpacity style={styles.button} onPress={handleRegister}>
-          <Text style={styles.buttonText}>Register</Text>
+        {/* <TouchableOpacity onPress={gotoverify} style={styles.LoginButton}> */}
+          <TouchableOpacity onPress={handleRegister} style={styles.LoginButton}>
+          <Text style={styles.LoginButtonText}>Register</Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: '#f4f6fc',
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-  },
-  container: {
-    flexGrow: 1,
-    padding: 20,
-    justifyContent: 'center',
-    backgroundColor: '#f4f6fc',
-  },
-  heading: {
-    fontSize: 26,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 30,
-    textAlign: 'center',
-  },
-  input: {
-    height: 50,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    paddingHorizontal: 15,
-    marginBottom: 15,
-    borderColor: '#ddd',
-    borderWidth: 1,
-  },
-  button: {
-    backgroundColor: '#4a6cf7',
-    paddingVertical: 15,
-    borderRadius: 10,
-    marginTop: 10,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: '600',
-    textAlign: 'center',
-  },
-});
 
 export default RegistrationScreen;

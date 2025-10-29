@@ -7,7 +7,7 @@ const SplashScreen = () => {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            navigation.replace('TabRoutes'); 
+            navigation.replace('Onboarding'); 
         }, 3000);
 
         return () => clearTimeout(timer);
@@ -15,7 +15,7 @@ const SplashScreen = () => {
 
     return (
         <View style={{ flex: 1 }}>
-            <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
+            {/* <StatusBar translucent backgroundColor="transparent" barStyle="light-content" /> */}
             <ImageBackground
                 source={require('../assets/patiramPro.png')}
                 style={{ height: '100%', width: '100%' }}

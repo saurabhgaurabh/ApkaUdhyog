@@ -92,7 +92,7 @@ const AddSales = () => {
             );
 
             const result = await response.json();
-            console.log(result, "........")
+            // console.log(result, "........")
             if (result.status === true) {
                 ToastAndroid.show("Sale added successfully!", ToastAndroid.SHORT);
                 setForm({ customer_name: "", company: "", payment_status: "", remarks: "" });

@@ -1,0 +1,133 @@
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, Alert, ToastAndroid } from 'react-native';
+import Colors from '../../constants/color';
+import { useNavigation } from '@react-navigation/native';
+
+const VerifyOtp = () => {
+    const route = useRoute();
+    const navigation = useNavigation();
+    const { email, user_id } = route.params || {};
+    const [otp, setOtp] = useState('');
+
+    const handleVerify = async () => {
+        console.log("opening")
+        if (!otp) {
+            Alert.alert('Error', 'Please enter OTP');
+            return;
+        }
+        console.log(otp, "otp")
+        try {
+            let response = fetch(`https://b1920df43928.ngrok-free.app/api/users/v1/verify-user-otp`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                 body: JSON.stringify({ otp, email, user_id }),
+            });
+            const result = await response.json();
+            console.log(result, "result, verify otp...")
+            if (result.status) {
+                ToastAndroid.show(`Continue with login`, ToastAndroid.SHORT);
+                navigation.navigate('Login');
+            }
+            else {
+                Alert.alert('Error', result.message || 'Invalid OTP');
+            }
+            console.log(result, "result otp...")
+        } catch (error) {
+            Alert.alert(`Internal Server Error.${error || error.message}`);
+        }
+    };
+
+    return (
+        <View style={styles.container}>
+            <StatusBar backgroundColor={Colors.screenBackground} barStyle="light-content" />
+            <View style={styles.card}>
+                <Text style={styles.title}>Verify OTP</Text>
+                <Text style={styles.subtitle}>Enter the OTP sent to your registered email or mobile number</Text>
+
+                <TextInput
+                    style={styles.input}
+                    placeholder="Enter 6-digit OTP"
+                    placeholderTextColor="#999"
+                    keyboardType="numeric"
+                    maxLength={6}
+                    value={otp}
+                    onChangeText={setOtp}
+                />
+
+                <TouchableOpacity style={styles.button} onPress={handleVerify}>
+                    <Text style={styles.buttonText}>Verify</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity>
+                    <Text style={styles.resendText}>Didn’t receive OTP? <Text style={styles.resendLink}>Resend</Text></Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+    );
+};
+
+export default VerifyOtp;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: Colors.screenBackground,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 20,
+    },
+    card: {
+        backgroundColor: Colors.sweetGreen,
+        width: '100%',
+        borderRadius: 12,
+        padding: 25,
+        elevation: 8,
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: Colors.primary,
+        textAlign: 'center',
+        marginBottom: 10,
+    },
+    subtitle: {
+        fontSize: 14,
+        color: '#666',
+        textAlign: 'center',
+        marginBottom: 25,
+    },
+    input: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 10,
+        padding: 12,
+        fontSize: 16,
+        color: '#333',
+        textAlign: 'center',
+        letterSpacing: 5,
+        marginBottom: 20,
+    },
+    button: {
+        backgroundColor: Colors.primary,
+        padding: 14,
+        borderRadius: 10,
+        alignItems: 'center',
+        marginBottom: 15,
+    },
+    buttonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 16,
+    },
+    resendText: {
+        textAlign: 'center',
+        color: '#444',
+    },
+    resendLink: {
+        color: Colors.primary,
+        fontWeight: 'bold',
+    },
+});

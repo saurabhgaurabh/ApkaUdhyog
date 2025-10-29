@@ -6,6 +6,82 @@ const { width } = Dimensions.get('window');
 
 
 const styles = StyleSheet.create({
+  onboardingContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  onboardingSlide: {
+    width: width,
+    alignItems: "center",
+    justifyContent: "center",
+    // paddingHorizontal: 20,
+  },
+  fullScreenImage: {
+    height: '100%',
+    width: '100%',
+    alignItems: "center",
+    // aspectRatio: 1/2
+  },
+
+  textContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign: "center",
+    top : 10
+  },
+
+  onboardingTitle: {
+    color: "#fff",
+    fontSize: 28,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 10,
+  },
+
+  onboardingDescription: {
+    color: Colors.primary,
+    fontSize: 16,
+    textAlign: "center",
+    lineHeight: 22,
+    paddingHorizontal: 20,
+  },
+
+  onboardingIndicatorContainer: {
+    flexDirection: "row",
+    position: "absolute",
+    bottom: 100,
+    alignSelf: "center",
+  },
+
+  onboardingDot: {
+    height: 10,
+    width: 10,
+    borderRadius: 10,
+    marginHorizontal: 6,
+  },
+
+  onboardingButton: {
+    backgroundColor: Colors.primary,
+    paddingVertical: 14,
+    paddingHorizontal: 50,
+    borderRadius: 30,
+    position: "absolute",
+    bottom: 40,
+    alignSelf: "center",
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: 3 },
+    shadowRadius: 4,
+    elevation: 4,
+  },
+
+  onboardingButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+
   loginContainer: {
     flex: 1,
     padding: 24,
@@ -17,6 +93,8 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     fontWeight: 'bold',
     textAlign: 'center',
+    color: Colors.primary,
+     letterSpacing: 0.9,
   },
   input: {
     marginBottom: 10,
@@ -25,15 +103,16 @@ const styles = StyleSheet.create({
   },
   LoginForgotText: {
     textAlign: 'right',
-    color: '#447bf3ff',
+    color:  Colors.primary,
     marginBottom: 16,
   },
   LoginButton: {
     marginVertical: 10,
-    backgroundColor: '#4d67a1ff',
+    backgroundColor: Colors.primary,
     paddingVertical: 12,
-    borderRadius: 5,
+    borderRadius: 10,
     borderWidth: 1,
+    borderColor: Colors.primary
   },
   LoginButtonText: {
     color: '#fff',
@@ -56,7 +135,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   registerText: {
-    color: '#2e6ef7',
+    color: Colors.primary,
     fontWeight: '600',
   },
   scrollContainer: {
@@ -64,7 +143,7 @@ const styles = StyleSheet.create({
     paddingTop: StatusBar.currentHeight || 40,
     paddingBottom: 20,
     paddingHorizontal: 20,
-    backgroundColor: '#fff' // Or use from your MainStyle
+    backgroundColor: Colors.screenBackground // Or use from your MainStyle
   },
   GradientText: {
     fontSize: 30,
