@@ -10,6 +10,7 @@ import { Provider as PaperProvider } from "react-native-paper";
 import SplashScreen from './SplashScreen';
 import Onboarding from './Onboarding ';
 import VerifyOtp from '../screens/Registration/VerifyOtp';
+import SettingScreen from '../screens/Header.js/SettingScreen';
 
 
 const splashRoutes = () => {
@@ -27,6 +28,7 @@ const splashRoutes = () => {
         <Stack.Screen name={NavigationStrings.TABROUTES} component={TabRoutes} options={{ headerShown: false }} />
         <Stack.Screen name="Registration" component={Registration} options={{ headerShown: false }} />
         <Stack.Screen name="VerifyOtp" component={VerifyOtp} options={{ headerShown: false }} />
+        {/* <Stack.Screen name="SettingScreen" component={SettingScreen} options={{ headerShown: false }} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   )

@@ -1,29 +1,29 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, Alert, ToastAndroid } from 'react-native';
 import Colors from '../../constants/color';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 const VerifyOtp = () => {
     const route = useRoute();
     const navigation = useNavigation();
     const { email, user_id } = route.params || {};
-    const [otp, setOtp] = useState('');
+    const [userOTP, setuserOTP] = useState('');
 
     const handleVerify = async () => {
         console.log("opening")
-        if (!otp) {
+        if (!userOTP) {
             Alert.alert('Error', 'Please enter OTP');
             return;
         }
-        console.log(otp, "otp")
+        console.log(userOTP, "userOTP")
         try {
-            let response = fetch(`https://b1920df43928.ngrok-free.app/api/users/v1/verify-user-otp`, {
+            let response = await fetch(`https://motion.patiramproduction.com/v1/verify_user_otp`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 },
-                 body: JSON.stringify({ otp, email, user_id }),
+                body: JSON.stringify({ userOTP, email, user_id }),
             });
             const result = await response.json();
             console.log(result, "result, verify otp...")
@@ -36,6 +36,7 @@ const VerifyOtp = () => {
             }
             console.log(result, "result otp...")
         } catch (error) {
+            console.log(error, "internal error")
             Alert.alert(`Internal Server Error.${error || error.message}`);
         }
     };
@@ -53,8 +54,10 @@ const VerifyOtp = () => {
                     placeholderTextColor="#999"
                     keyboardType="numeric"
                     maxLength={6}
-                    value={otp}
-                    onChangeText={setOtp}
+                    activeOutlineColor="#4CAF50"
+                    outlineColor="#7f8378ff"
+                    value={userOTP}
+                    onChangeText={setuserOTP}
                 />
 
                 <TouchableOpacity style={styles.button} onPress={handleVerify}>

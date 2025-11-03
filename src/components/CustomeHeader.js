@@ -1,6 +1,3 @@
-// React Native Custom Header like Vyapaar app
-// Left side: Logo + Username, Right side: Settings + Notification
-
 import React from 'react';
 import {
   View,
@@ -13,6 +10,8 @@ import {
 } from 'react-native';
 import ImagePath from '../constants/ImagePath';
 import Colors from '../constants/color';
+import { useNavigation } from '@react-navigation/native';
+
 
 export default function CustomHeader({
   username = "Patiram Production",
@@ -27,6 +26,7 @@ export default function CustomHeader({
     android: 35,
     default: 0,
   });
+  const navigation = useNavigation();
 
   return (
     <View style={[styles.container, { backgroundColor, paddingTop: topInset }]}>

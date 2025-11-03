@@ -36,50 +36,7 @@ const RegistrationScreen = () => {
   const handleChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
-  const gotoverify = () => { navigation.navigate('VerifyOtp') }
-
-  // const handleRegister = async () => {
-  //   const requiredFields = Object.keys(formData);
-  //   for (let field of requiredFields) {
-  //     if (!formData[field]) {
-  //       Alert.alert('Validation Error', `Please enter ${field.replace('_', ' ')}`);
-  //       return;
-  //     }
-  //   }
-
-  //   if (formData.password !== formData.confirm_password) {
-  //     Alert.alert('Error', 'Passwords do not match');
-  //     return;
-  //   }
-
-  //   try {
-  //     const baseUrl = ServerUrl();
-  //     const apiUrl = 'https://37224c0b64d9.ngrok-free.app/api/users/v1/motion-user-registration';
-  //     // const apiUrl = baseUrl + 'api/users/v1/motion-user-registration';
-  //     const response = await fetch(apiUrl, {
-  //       method: 'POST',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify(formData),
-  //     });
-
-  //     const text = await response.text();
-  //     console.log(text, 'Raw API response text:');
-
-  //     let data;
-  //     try {
-  //       data = JSON.parse(text);
-  //     } catch {
-  //       Alert.alert('Error', 'Invalid JSON response from server');
-  //       return;
-  //     }
-
-  //     if (data.status) Alert.alert('Success', data.message);
-  //     else Alert.alert('Error', data.message || 'Registration failed');
-  //   } catch (error) {
-  //     Alert.alert('Error', 'Something went wrong. Try again.');
-  //     console.log(error);
-  //   }
-  // };
+  // const gotoverify = () => { navigation.navigate('VerifyOtp') }
 
   const handleRegister = async () => {
     for (let key in formData) {
@@ -97,7 +54,7 @@ const RegistrationScreen = () => {
     try {
       const baseUrl = ServerUrl();
       // const apiUrl = baseUrl + 'api/users/v1/motion-user-registration';
-      const apiUrl = baseUrl + 'api/v1/motion-user-registration';
+      const apiUrl = baseUrl + 'v1/motion-user-registration';
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

@@ -11,9 +11,11 @@ const Login = () => {
   const handleEmail = (text) => { setState({ ...state, email: text }); };
   const handlePassword = (text) => { setState({ ...state, password: text }); };
   const hasEmailError = () => !state.email.includes('@') && state.email.length > 0;
-  const hasPasswordError = () => state.password.length > 0 && state.password.length < 6;
+  const hasPasswordError = () => state.password.length > 0 && state.password.length < 1;
 
-  const directLogin = () => { navigation.navigate('TabRoutes') };
+  const directLogin = () => {
+    navigation.navigate('TabRoutes');
+  }
   const handleLogin = async () => {
     const { email, password } = state;
     if (!email || !password) {
@@ -22,18 +24,16 @@ const Login = () => {
     }
     try {
       console.log('Sending request to API...');
-      let response = await fetch(`https://b1920df43928.ngrok-free.app/api/users/v1/user-login`, {
+      let response = await fetch(`https://motion.patiramproduction.com/v1/user_login`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
+        // credentials: 'include',  // ✅ this allows cookies/sessions
         body: JSON.stringify({ email, password }),
       });
-      console.log('Response status:', response);
       const text = await response.text();
-      console.log('Raw Response text:', text);
-
       let data;
       try {
         data = JSON.parse(text);
@@ -44,14 +44,11 @@ const Login = () => {
       }
       console.log('Response JSON:', data);
       if (response.ok && data.status) {
-        console.log('Login successful');
         navigation.navigate('TabRoutes');
       } else {
-        console.log('Login failed:', data.message || 'Unknown error');
         Alert.alert('Login Failed', data.message || 'Invalid credentials');
       }
     } catch (error) {
-      console.error('Error in fetch:', error.message);
       Alert.alert('Error yes', error.message);
     }
   };
@@ -93,6 +90,8 @@ const Login = () => {
             keyboardType="email-address"
             autoCapitalize="none"
             returnKeyLabel='next'
+            activeOutlineColor="#4CAF50"
+            outlineColor="#7f8378ff"
             style={styles.loginInput}
           />
           <HelperText type="error" visible={hasEmailError()}>
@@ -108,6 +107,8 @@ const Login = () => {
             secureTextEntry={false}
             keyboardType='default'
             returnKeyLabel='next'
+            activeOutlineColor="#4CAF50"
+            outlineColor="#7f8378ff"
             style={styles.loginInput}
           />
           <HelperText type="error" visible={hasPasswordError()}>

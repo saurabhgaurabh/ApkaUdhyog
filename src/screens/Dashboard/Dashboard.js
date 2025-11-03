@@ -7,11 +7,16 @@ import styles from '../../MainStyle'
 import { BarChart, LineChart, PieChart } from 'react-native-chart-kit'
 import { Card } from 'react-native-paper'
 import LinearGradient from 'react-native-linear-gradient'
+import { useNavigation } from '@react-navigation/native'
 
 const Dashboard = () => {
+    const navigation = useNavigation();
+    const goToSettings = () => {
+        navigation.navigate('SettingsScreen');
+    }
     return (
         <View style={{ flex: 1, backgroundColor: Colors.screenBackground, }}>
-            <CustomHeader />
+            <CustomHeader onSettingsPress={goToSettings}/>
             <ScrollView showsVerticalScrollIndicator={false} >
                 <View style={styles.dashTopBox}>
                     <TouchableOpacity style={styles.dashGetBoxes}>

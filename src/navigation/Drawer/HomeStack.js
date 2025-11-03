@@ -17,6 +17,8 @@ import PrintSale from '../../screens/Home/Sales/PrintSale';
 import ViewSales from '../../screens/Home/Sales/ViewSales';
 import ProductManufacturing from '../../screens/Home/Manufacture/ProductManufacturing';
 import ListProductManufacturing from '../../screens/Home/Manufacture/ListProductManufacturing';
+import ListDispatch from '../../screens/Home/ProductDispatch/ListDispatch';
+import AddDispatch from '../../screens/Home/ProductDispatch/AddDispatch';
 
 
 const HomeStack = ({ navigation }) => {
@@ -41,6 +43,8 @@ const HomeStack = ({ navigation }) => {
       <Stack.Screen name='ViewTasks' component={ViewTasks} />
       <Stack.Screen name='ProductManufacturing' component={ProductManufacturing} />
       <Stack.Screen name='ListProductManufacturing' component={ListProductManufacturing} />
+      <Stack.Screen name='ListDispatch' component={ListDispatch} />
+      <Stack.Screen name='AddDispatch' component={AddDispatch} />
     </Stack.Navigator>
   )
 }

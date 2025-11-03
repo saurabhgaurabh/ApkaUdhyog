@@ -165,7 +165,7 @@ const Home = () => {
               <TouchableOpacity style={styles.slide} activeOpacity={0.8} onPress={() => navigation.navigate('ViewTasks')} >
                 <Image source={ImagePath.dailyTask} resizeMode='cover' style={styles.image} />
               </TouchableOpacity>
-              <TouchableOpacity style={styles.slide} activeOpacity={0.8} onPress={() => alert("Go to Product Dispatch")} >
+              <TouchableOpacity style={styles.slide} activeOpacity={0.8} onPress={() => navigation.navigate('ListDispatch')} >
                 <Image source={ImagePath.productDispatch} resizeMode='cover' style={styles.image} />
               </TouchableOpacity>
               <TouchableOpacity style={styles.slide} activeOpacity={0.8} onPress={() => alert("Go to Payments")}>
