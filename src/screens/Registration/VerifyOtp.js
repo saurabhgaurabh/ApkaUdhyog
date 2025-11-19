@@ -15,9 +15,10 @@ const VerifyOtp = () => {
             Alert.alert('Error', 'Please enter OTP');
             return;
         }
-        console.log(userOTP, "userOTP")
+        console.log(userOTP, "userOTP...")
         try {
-            let response = await fetch(`https://motion.patiramproduction.com/v1/verify_user_otp`, {
+            let response = await fetch(`https://6d8ede03ee81.ngrok-free.app/api/users/v1/verify-user-otp`, {
+            // let response = await fetch(`https://motion.patiramproduction.com/v1/verify_user_otp`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -26,7 +27,6 @@ const VerifyOtp = () => {
                 body: JSON.stringify({ userOTP, email, user_id }),
             });
             const result = await response.json();
-            console.log(result, "result, verify otp...")
             if (result.status) {
                 ToastAndroid.show(`Continue with login`, ToastAndroid.SHORT);
                 navigation.navigate('Login');

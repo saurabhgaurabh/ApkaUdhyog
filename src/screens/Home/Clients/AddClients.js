@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, ScrollView, ToastAndroid } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SubHeader from '../../../components/SubHeader'
 import styles from '../../../MainStyle'
 import { TextInput } from 'react-native-paper'
@@ -8,9 +8,11 @@ import { ServerUrl } from '../../../services/ServerUrl'
 import NavigationStrings from '../../../constants/NavigationStrings'
 import { useDispatch } from 'react-redux'
 import { addClient } from '../../../redux/slices/AddClientsSlice'; // addClient is a reducer name
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const AddClients = () => { 
+const AddClients = () => {
+    const [userId, setUserId] = useState(null);
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const [state, setState] = useState({ organization_name: "", owner_name: "", mobile: "", email: "", gst: "", pan: "", address: "" })
@@ -21,13 +23,22 @@ const AddClients = () => {
     const handleGST = (text) => setState(prevState => ({ ...prevState, gst: text }));
     const handleAddress = (text) => setState(prevState => ({ ...prevState, address: text }));
     const handlePan = (text) => setState(prevState => ({ ...prevState, pan: text }));
-    const handleClients = async () => {
-        try {
-            const { organization_name, owner_name, mobile, email, gst, address, pan, } = state;
-            const clientData = { organization_name, owner_name, mobile, email, gst, address, pan, };
-            // console.log(clientData, "sending clientData");
 
-            let response = await fetch(`https://motion.patiramproduction.com/api/v1/motion-parties-registration`, {
+
+
+    const handleClients = async () => {       
+        try {
+            const storedUserId = await AsyncStorage.getItem('user_id');
+            console.log(storedUserId,"user.....id")
+            if (!storedUserId) {
+                ToastAndroid.show("User not found. Please log in again.", ToastAndroid.SHORT);
+                return;
+            }
+            const { organization_name, owner_name, mobile, email, gst, address, pan, } = state;
+            const clientData = { user_id: storedUserId, organization_name, owner_name, mobile, email, gst, address, pan, };
+            console.log(clientData, "sending clientData");
+
+            let response = await fetch(`https://6d8ede03ee81.ngrok-free.app/api/users/v1/motion-parties-registration`, {
                 method: "POST",
                 headers: {
                     'Accept': 'application/json',
@@ -37,10 +48,8 @@ const AddClients = () => {
             });
 
             const result = await response.json();
-            console.log(result.result, "client result");
-
+            console.log(result, "client result");
             if (result.status) {
-                // dispatch(addClient(result.result)); // addClient is a reducer name to add individual client
                 ToastAndroid.show("New Client Added Successfully.", ToastAndroid.SHORT);
                 navigation.navigate(NavigationStrings.LISTCLIENTS);
                 console.log(result, "result")

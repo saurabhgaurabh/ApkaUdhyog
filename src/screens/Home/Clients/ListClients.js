@@ -1,34 +1,43 @@
-import { 
-    View, 
-    Text, 
-    TouchableOpacity, 
-    ActivityIndicator, 
-    Image, 
-    Alert, 
-    ScrollView, 
-    RefreshControl 
+import {
+    View,
+    Text,
+    TouchableOpacity,
+    ActivityIndicator,
+    Image,
+    Alert,
+    ScrollView,
+    RefreshControl
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import CustomHeader from '../../../components/CustomeHeader';
 import styles from '../../../MainStyle';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable';
 import ImagePath from '../../../constants/ImagePath';
 import Colors from '../../../constants/color';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ListClients = () => {
     const navigation = useNavigation();
+    const [session, setSession] = useState({ user_id: null, otp_secret: null });
     const [clients, setClients] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
     const [loading, setLoading] = useState(true);
+    const route = useRoute();
+    const { user_id, otp_secret } = route.params || {};
 
-    // 🔠 Capitalize function
+    const getUserId = async () => {
+        const user_id = await AsyncStorage.getItem("user_id");
+        const otp_secret = await AsyncStorage.getItem("otp_secret");
+        console.log("Fetched user_id:", user_id, otp_secret);
+        return { user_id, otp_secret };
+    };
+
     const capitalizeFirst = (str) => {
         if (typeof str !== 'string') return '';
         return str.charAt(0).toUpperCase() + str.slice(1);
     };
 
-    // 🎨 Status colors
     const getStatusStyle = (status) => {
         switch ((status || '').toLowerCase()) {
             case 'pending':
@@ -42,34 +51,79 @@ const ListClients = () => {
         }
     };
 
-    // 📦 Fetch Clients
-    const fetchClients = async () => {
+    const fetchClients = async (uid) => {
         try {
+            console.log(" uid:", uid);
             if (!refreshing) setLoading(true);
-            const response = await fetch(`https://motion.patiramproduction.com/api/v1/motion-parties-registration-get`);
+            if (!uid) {
+                Alert.alert("Session Expired", "Please login again.");
+                console.log("Missing session: user_id, otp_secret", uid);
+                return;
+            }
+            const response = await fetch(
+                `https://6d8ede03ee81.ngrok-free.app/api/users/v1/motion-parties-registration-get?user_id=${uid}`,
+                // `https://motion.patiramproduction.com/api/v1/motion-parties-registration-get?user_id=${user_id}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
+
             const data = await response.json();
-            setClients(data?.result || []);
-            console.log("Fetched clients:", data?.result);
+
+            if (data.status) {
+                setClients(data.result?.result || []);
+            } else {
+                Alert.alert("No Data", data.message || "No clients found.");
+                setClients([]);
+            }
+
         } catch (err) {
             console.error("API error:", err);
-            Alert.alert("Error", "Failed to load clients.");
+            Alert.alert("Error", "Failed to load clients. Please try again later.");
         } finally {
             setRefreshing(false);
             setLoading(false);
         }
     };
 
+
     useEffect(() => {
-        fetchClients();
+        const loadSession = async () => {
+            const stored_user_id = await AsyncStorage.getItem("user_id");
+            const stored_otp_secret = await AsyncStorage.getItem("otp_secret");
+
+            console.log("Fetched from storage:", stored_user_id, stored_otp_secret);
+
+            if (!stored_user_id || !stored_otp_secret) {
+                Alert.alert("Session expired", "Please login again.");
+                navigation.replace("Login");
+                return;
+            }
+
+            setSession({
+                user_id: stored_user_id,
+                otp_secret: stored_otp_secret,
+            });
+
+            fetchClients(stored_user_id);
+        };
+
+        loadSession();
     }, []);
 
-    // 🔄 Pull to refresh handler
+
     const onRefresh = () => {
         setRefreshing(true);
-        fetchClients();
+        fetchClients(session.user_id);
+
     };
 
     return (
@@ -77,8 +131,8 @@ const ListClients = () => {
             <CustomHeader />
 
             <Animatable.View animation="slideInRight" duration={800} easing="ease-in-circ" style={{ height: 65 }}>
-                <TouchableOpacity 
-                    style={styles.purchaseButton} 
+                <TouchableOpacity
+                    style={styles.purchaseButton}
                     onPress={() => navigation.navigate('AddClients')}
                 >
                     <Text style={styles.purchaseButtonText}>{`👤  Add New Clients`}</Text>
@@ -103,16 +157,16 @@ const ListClients = () => {
                 >
                     {clients && Array.isArray(clients) && clients.length > 0 ? (
                         clients.map((client, index) => (
-                            <Animatable.View 
-                                key={index} 
-                                style={styles.clientItem} 
-                                animation="slideInUp" 
-                                duration={600} 
-                                easing="ease-in-circ" 
+                            <Animatable.View
+                                key={index}
+                                style={styles.clientItem}
+                                animation="slideInUp"
+                                duration={600}
+                                easing="ease-in-circ"
                                 delay={index * 200}
                             >
-                                <TouchableOpacity 
-                                    onPress={() => navigation.navigate('InfoClients', { client })} 
+                                <TouchableOpacity
+                                    onPress={() => navigation.navigate('InfoClients', { client })}
                                     style={styles.cardDealerBody}
                                     activeOpacity={0.9}
                                 >

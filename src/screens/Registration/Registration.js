@@ -9,7 +9,7 @@ import {
   SafeAreaView,
   Platform,
 } from 'react-native';
-import styles from '../../MainStyle'; // ✅ your existing style
+import styles from '../../MainStyle';
 import { ServerUrl } from '../../services/ServerUrl';
 import { Card, TextInput } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
@@ -36,7 +36,6 @@ const RegistrationScreen = () => {
   const handleChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
-  // const gotoverify = () => { navigation.navigate('VerifyOtp') }
 
   const handleRegister = async () => {
     for (let key in formData) {
@@ -50,35 +49,32 @@ const RegistrationScreen = () => {
       Alert.alert('Error', 'Passwords do not match');
       return;
     }
-
     try {
-      const baseUrl = ServerUrl();
-      // const apiUrl = baseUrl + 'api/users/v1/motion-user-registration';
-      const apiUrl = baseUrl + 'v1/motion-user-registration';
-      const response = await fetch(apiUrl, {
+      const response = await fetch(`https://6d8ede03ee81.ngrok-free.app/api/users/v1/motion-user-registration`, {
+        // const response = await fetch(`https://e2ec9be535f8.ngrok-free.app/api/users/v1/motion-user-registration`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'append': 'application/json',
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(formData),
       });
-
-      const result = await response.json();
-      console.log('Register Response:', result);
-
-      if (result.status) {
-        Alert.alert('Success', result.message);
-        // Navigate to VerifyOtp screen with email or user_id
+      const data = await response.json();
+      if (data.status) {
         navigation.navigate('VerifyOtp', {
+          userOTP: data.result.user_otp,
           email: formData.registration_email,
-          user_id: result.user_id, // if backend returns user_id
+          user_id: data.result.user_id
         });
+
       } else {
-        Alert.alert('Error', result.message || 'Registration failed');
+        Alert.alert(`User Error`)
       }
     } catch (error) {
-      console.error('Error:', error);
-      Alert.alert('Error', 'Something went wrong. Try again.');
+      Alert.alert(`Error', 'An error occurred during registration. Please try again.${error.message}`);
     }
   };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
@@ -151,7 +147,7 @@ const RegistrationScreen = () => {
               mode="outlined"
               value={formData.registration_email}
               onChangeText={(text) => handleChange('registration_email', text)}
-              keyboardType="default"
+              keyboardType="email-address"
               autoCapitalize="none"
               autoCorrect={false}
               activeOutlineColor="#4CAF50"
@@ -284,7 +280,7 @@ const RegistrationScreen = () => {
 
 
         {/* <TouchableOpacity onPress={gotoverify} style={styles.LoginButton}> */}
-          <TouchableOpacity onPress={handleRegister} style={styles.LoginButton}>
+        <TouchableOpacity onPress={handleRegister} style={styles.LoginButton}>
           <Text style={styles.LoginButtonText}>Register</Text>
         </TouchableOpacity>
       </ScrollView>

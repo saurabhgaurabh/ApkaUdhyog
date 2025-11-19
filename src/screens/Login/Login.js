@@ -1,57 +1,127 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform, Alert, StatusBar, Image } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform, Alert, StatusBar, Image, ToastAndroid } from 'react-native';
 import { TextInput, Button, Text, HelperText } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import styles from '../../MainStyle';
 import { ServerUrl } from '../../services/ServerUrl';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const Login = () => {
   const navigation = useNavigation();
-  const [state, setState] = useState({ email: "", password: "" });
-  const handleEmail = (text) => { setState({ ...state, email: text }); };
+  const [state, setState] = useState({ registration_email: "", password: "" });
+  const handleEmail = (text) => { setState({ ...state, registration_email: text }); };
   const handlePassword = (text) => { setState({ ...state, password: text }); };
-  const hasEmailError = () => !state.email.includes('@') && state.email.length > 0;
+  const hasEmailError = () => !state.registration_email.includes('@') && state.registration_email.length > 0;
   const hasPasswordError = () => state.password.length > 0 && state.password.length < 1;
 
   const directLogin = () => {
     navigation.navigate('TabRoutes');
   }
+  // const handleLogin = async () => {
+
+  //   const { registration_email, password } = state;
+  //   if (!registration_email || !password) {
+  //     Alert.alert('Validation Error', 'Please enter email and password');
+  //     return;
+  //   }
+  //   try {
+  //     console.log('Sending request to API...');
+  //     let response = await fetch(`https://e2ec9be535f8.ngrok-free.app/api/users/v1/user-login`, {
+  //     // let response = await fetch(`https://motion.patiramproduction.com/v1/user_login`, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Accept': 'application/json',
+  //         'Content-Type': 'application/json',
+  //       },
+  //       credentials: 'include',  // ✅ this allows cookies/sessions
+  //       body: JSON.stringify({ registration_email, password }),
+  //     });
+  //     const text = await response.text();
+  //     let data;
+  //     try {
+  //       data = JSON.parse(text);
+  //     } catch (e) {
+  //       // console.log('JSON parse error:', e);
+  //       Alert.alert('Error', 'Invalid JSON response from server');
+  //       return;
+  //     }
+  //     console.log('Response JSON:', data);
+  //     if (response.ok && data.status) {
+  //       const user_id = data.user?.user_id || data.user_id || data.data?.user_id;
+  //       const otp_secret = data.user?.otp_secret || data.otp_secret || data.data?.otp_secret;
+
+  //       if (user_id) {
+  //         await AsyncStorage.setItem('user_id', String(user_id));
+  //         await AsyncStorage.setItem('otp_secret', String(otp_secret));
+  //         console.log('User ID stored:', user_id, otp_secret);
+  //       } else {
+  //         ToastAndroid.show('Login successful.', ToastAndroid.LONG);
+  //       }
+
+  //       Alert.alert('Login Successful', data.message || 'You have logged in successfully.');
+  //       navigation.navigate('TabRoutes');
+  //     } else {
+  //       Alert.alert('Login Failed', data.message || 'Invalid credentials');
+  //     }
+  //   } catch (error) {
+  //     Alert.alert('Error yes', error.message);
+  //   }
+  // };
+
   const handleLogin = async () => {
-    const { email, password } = state;
-    if (!email || !password) {
+    const { registration_email, password } = state;
+
+    if (!registration_email || !password) {
       Alert.alert('Validation Error', 'Please enter email and password');
       return;
     }
+
     try {
       console.log('Sending request to API...');
-      let response = await fetch(`https://motion.patiramproduction.com/v1/user_login`, {
+
+      let response = await fetch(`https://6d8ede03ee81.ngrok-free.app/api/users/v1/user-login`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
-        // credentials: 'include',  // ✅ this allows cookies/sessions
-        body: JSON.stringify({ email, password }),
+        credentials: 'include',
+        body: JSON.stringify({ registration_email, password }),
       });
-      const text = await response.text();
-      let data;
-      try {
-        data = JSON.parse(text);
-      } catch (e) {
-        console.log('JSON parse error:', e);
-        Alert.alert('Error', 'Invalid JSON response from server');
+
+      const data = await response.json();
+      console.log('Response JSON:', data);
+      if (!response.ok || !data.status) {
+        Alert.alert('Login Failed', data.message || 'Invalid credentials');
         return;
       }
-      console.log('Response JSON:', data);
-      if (response.ok && data.status) {
-        navigation.navigate('TabRoutes');
+      const user_id = data?.result?.user_id?.toString();
+      const otp_secret = data?.result?.otp_secret?.toString();
+      // if (!otp_secret || otp_secret === "" || otp_secret === null) {
+      //   navigation.navigate("TabRoutes", {
+      //     registration_email,
+      //   });
+      //   return;
+      // }
+      if (user_id) {
+        await AsyncStorage.setItem("user_id", user_id);
+        await AsyncStorage.setItem("otp_secret", otp_secret);
+        console.log("User ID,  secret stored successfully:", user_id, otp_secret);
       } else {
-        Alert.alert('Login Failed', data.message || 'Invalid credentials');
+        console.log("User ID missing in response!");
       }
+
+      // console.log('User ID stored:', user_id);
+
+      Alert.alert('Login Successful', data.message || 'You have logged in successfully.');
+      navigation.navigate('TabRoutes');
+
     } catch (error) {
-      Alert.alert('Error yes', error.message);
+      Alert.alert('Error', error.message);
     }
   };
+
 
   const handleGoogleLogin = () => {
     console.log('Google login clicked');
@@ -119,8 +189,8 @@ const Login = () => {
             <Text style={styles.LoginForgotText}>Forgot Password?</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={directLogin} style={styles.LoginButton}>
-            {/* <TouchableOpacity onPress={handleLogin} style={styles.LoginButton}> */}
+          {/* <TouchableOpacity onPress={directLogin} style={styles.LoginButton}> */}
+          <TouchableOpacity onPress={handleLogin} style={styles.LoginButton}>
             <Text style={styles.LoginButtonText}>Login</Text>
           </TouchableOpacity>
 

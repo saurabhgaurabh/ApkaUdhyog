@@ -44,7 +44,7 @@ const Home = () => {
 
   return (
     <>
-      <CustomHeader backgroundColor="#ffffff" textColor="#8a4949ff" />
+      <CustomHeader backgroundColor="#ffffff" textColor="#8a4949ff" onSettingsPress={()=> ('SettingScreen')} />
       <View style={{ flex: 1, backgroundColor: '#ebebebff', gap: 10 }}>
         <View style={styles.FlexContainer}>
           <View style={styles.FlexItems}>

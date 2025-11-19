@@ -19,6 +19,7 @@ import ProductManufacturing from '../../screens/Home/Manufacture/ProductManufact
 import ListProductManufacturing from '../../screens/Home/Manufacture/ListProductManufacturing';
 import ListDispatch from '../../screens/Home/ProductDispatch/ListDispatch';
 import AddDispatch from '../../screens/Home/ProductDispatch/AddDispatch';
+import SettingScreen from '../../screens/Header.js/SettingScreen';
 
 
 const HomeStack = ({ navigation }) => {
@@ -45,6 +46,7 @@ const HomeStack = ({ navigation }) => {
       <Stack.Screen name='ListProductManufacturing' component={ListProductManufacturing} />
       <Stack.Screen name='ListDispatch' component={ListDispatch} />
       <Stack.Screen name='AddDispatch' component={AddDispatch} />
+      <Stack.Screen name='SettingScreen' component={SettingScreen} />
     </Stack.Navigator>
   )
 }

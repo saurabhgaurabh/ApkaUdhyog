@@ -16,17 +16,23 @@ import { useNavigation } from '@react-navigation/native';
 export default function CustomHeader({
   username = "Patiram Production",
   logo = ImagePath.user,
-  onSettingsPress,
-  onNotificationPress,
   backgroundColor = "#ffffff",
   textColor = "#4CAF50",
 }) {
+  const navigation = useNavigation();
+  const onSettingsPress = () => {
+    navigation.navigate('SettingScreen');
+  };
+  const onNotificationPress = () => {
+    navigation.navigate('Notification');
+  };
+
+
   const topInset = Platform.select({
     ios: 44,
     android: 35,
     default: 0,
   });
-  const navigation = useNavigation();
 
   return (
     <View style={[styles.container, { backgroundColor, paddingTop: topInset }]}>
