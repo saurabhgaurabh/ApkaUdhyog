@@ -80,7 +80,7 @@ const Login = () => {
     try {
       console.log('Sending request to API...');
 
-      let response = await fetch(`https://6d8ede03ee81.ngrok-free.app/api/users/v1/user-login`, {
+      let response = await fetch(`https://motion.patiramproduction.com/v1/user_login`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -98,23 +98,14 @@ const Login = () => {
       }
       const user_id = data?.result?.user_id?.toString();
       const otp_secret = data?.result?.otp_secret?.toString();
-      // if (!otp_secret || otp_secret === "" || otp_secret === null) {
-      //   navigation.navigate("TabRoutes", {
-      //     registration_email,
-      //   });
-      //   return;
-      // }
       if (user_id) {
         await AsyncStorage.setItem("user_id", user_id);
         await AsyncStorage.setItem("otp_secret", otp_secret);
         console.log("User ID,  secret stored successfully:", user_id, otp_secret);
       } else {
-        console.log("User ID missing in response!");
+        ToastAndroid.show("Login successful.", ToastAndroid.LONG);
       }
-
-      // console.log('User ID stored:', user_id);
-
-      Alert.alert('Login Successful', data.message || 'You have logged in successfully.');
+      ToastAndroid.show("Login successful.", ToastAndroid.LONG);
       navigation.navigate('TabRoutes');
 
     } catch (error) {

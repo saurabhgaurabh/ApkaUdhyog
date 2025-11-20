@@ -17,8 +17,7 @@ const VerifyOtp = () => {
         }
         console.log(userOTP, "userOTP...")
         try {
-            let response = await fetch(`https://6d8ede03ee81.ngrok-free.app/api/users/v1/verify-user-otp`, {
-            // let response = await fetch(`https://motion.patiramproduction.com/v1/verify_user_otp`, {
+            let response = await fetch(`https://motion.patiramproduction.com/v1/verify_user_otp`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',

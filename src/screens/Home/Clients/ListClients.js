@@ -29,7 +29,7 @@ const ListClients = () => {
     const getUserId = async () => {
         const user_id = await AsyncStorage.getItem("user_id");
         const otp_secret = await AsyncStorage.getItem("otp_secret");
-        console.log("Fetched user_id:", user_id, otp_secret);
+        // console.log("Fetched user_id:", user_id, otp_secret);
         return { user_id, otp_secret };
     };
 
@@ -53,7 +53,7 @@ const ListClients = () => {
 
     const fetchClients = async (uid) => {
         try {
-            console.log(" uid:", uid);
+            // console.log(" uid:", uid);
             if (!refreshing) setLoading(true);
             if (!uid) {
                 Alert.alert("Session Expired", "Please login again.");
@@ -61,27 +61,22 @@ const ListClients = () => {
                 return;
             }
             const response = await fetch(
-                `https://6d8ede03ee81.ngrok-free.app/api/users/v1/motion-parties-registration-get?user_id=${uid}`,
-                // `https://motion.patiramproduction.com/api/v1/motion-parties-registration-get?user_id=${user_id}`,
-                {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    }
+                `https://motion.patiramproduction.com/api/v1/motion-parties-registration-get?user_id=${uid}`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
                 }
+            }
             );
-
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-
             const data = await response.json();
-
             if (data.status) {
-                setClients(data.result?.result || []);
+                setClients(data?.result || []);
             } else {
-                Alert.alert("No Data", data.message || "No clients found.");
+                Alert.alert("No Data", data?.message || "No clients found.");
                 setClients([]);
             }
 

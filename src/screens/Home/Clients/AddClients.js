@@ -29,7 +29,6 @@ const AddClients = () => {
     const handleClients = async () => {       
         try {
             const storedUserId = await AsyncStorage.getItem('user_id');
-            console.log(storedUserId,"user.....id")
             if (!storedUserId) {
                 ToastAndroid.show("User not found. Please log in again.", ToastAndroid.SHORT);
                 return;
@@ -38,7 +37,7 @@ const AddClients = () => {
             const clientData = { user_id: storedUserId, organization_name, owner_name, mobile, email, gst, address, pan, };
             console.log(clientData, "sending clientData");
 
-            let response = await fetch(`https://6d8ede03ee81.ngrok-free.app/api/users/v1/motion-parties-registration`, {
+            let response = await fetch(`https://motion.patiramproduction.com/api/v1/motion-parties-registration`, {
                 method: "POST",
                 headers: {
                     'Accept': 'application/json',
@@ -52,7 +51,6 @@ const AddClients = () => {
             if (result.status) {
                 ToastAndroid.show("New Client Added Successfully.", ToastAndroid.SHORT);
                 navigation.navigate(NavigationStrings.LISTCLIENTS);
-                console.log(result, "result")
             } else {
                 ToastAndroid.show(result.message || "Something went wrong.", ToastAndroid.SHORT);
             }

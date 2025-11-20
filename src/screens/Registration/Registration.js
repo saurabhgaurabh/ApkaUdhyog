@@ -50,8 +50,7 @@ const RegistrationScreen = () => {
       return;
     }
     try {
-      const response = await fetch(`https://6d8ede03ee81.ngrok-free.app/api/users/v1/motion-user-registration`, {
-        // const response = await fetch(`https://e2ec9be535f8.ngrok-free.app/api/users/v1/motion-user-registration`, {
+      const response = await fetch(`https://motion.patiramproduction.com/v1/motion-user-registration`, {
         method: 'POST',
         headers: {
           'append': 'application/json',
