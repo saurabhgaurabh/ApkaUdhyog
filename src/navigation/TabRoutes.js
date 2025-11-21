@@ -1,4 +1,4 @@
-import { View, Text, Image, Dimensions, SafeAreaView, StatusBar } from 'react-native'
+import { View, Text, Image, Dimensions, SafeAreaView, StatusBar, BackHandler } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -15,6 +15,8 @@ const TabRoutes = () => {
   const iconSize = width * 0.07;
   const navigation = useNavigation();
   const Tab = createBottomTabNavigator();
+
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Tab.Navigator screenOptions={{

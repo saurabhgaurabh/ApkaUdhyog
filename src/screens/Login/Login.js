@@ -96,12 +96,11 @@ const Login = () => {
         Alert.alert('Login Failed', data.message || 'Invalid credentials');
         return;
       }
-      const user_id = data?.result?.user_id?.toString();
-      const otp_secret = data?.result?.otp_secret?.toString();
+      const user_id = data?.user?.user_id?.toString();
+      const otp_secret = data?.otp_secret?.toString();
       if (user_id) {
         await AsyncStorage.setItem("user_id", user_id);
         await AsyncStorage.setItem("otp_secret", otp_secret);
-        console.log("User ID,  secret stored successfully:", user_id, otp_secret);
       } else {
         ToastAndroid.show("Login successful.", ToastAndroid.LONG);
       }

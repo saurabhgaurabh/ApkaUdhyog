@@ -29,7 +29,7 @@ const ListClients = () => {
     const getUserId = async () => {
         const user_id = await AsyncStorage.getItem("user_id");
         const otp_secret = await AsyncStorage.getItem("otp_secret");
-        // console.log("Fetched user_id:", user_id, otp_secret);
+        console.log(user_id, otp_secret, '.....client')
         return { user_id, otp_secret };
     };
 
@@ -53,7 +53,6 @@ const ListClients = () => {
 
     const fetchClients = async (uid) => {
         try {
-            // console.log(" uid:", uid);
             if (!refreshing) setLoading(true);
             if (!uid) {
                 Alert.alert("Session Expired", "Please login again.");
@@ -95,7 +94,7 @@ const ListClients = () => {
             const stored_user_id = await AsyncStorage.getItem("user_id");
             const stored_otp_secret = await AsyncStorage.getItem("otp_secret");
 
-            console.log("Fetched from storage:", stored_user_id, stored_otp_secret);
+            console.log("Fetched from client storage:", stored_user_id, stored_otp_secret);
 
             if (!stored_user_id || !stored_otp_secret) {
                 Alert.alert("Session expired", "Please login again.");

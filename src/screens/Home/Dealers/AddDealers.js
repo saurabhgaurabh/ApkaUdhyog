@@ -11,6 +11,7 @@ import { addDealer, addMyDealers } from '../../../redux/slices/addDealerSlice'; 
 import { useDispatch } from 'react-redux';
 import ListDealers from './ListDealers';
 import SubHeader from '../../../components/SubHeader';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { addDealerData } from '../../redux/slices/addDealerSlice';
 
 
@@ -37,10 +38,15 @@ const AddDealers = () => {
     const handlePostalCode = (text) => setState(prevState => ({ ...prevState, postal_code: text }));
 
     const handleSubmit = async () => {
+        const storedUserId = await AsyncStorage.getItem('user_id');
+        if (!storedUserId) {
+            ToastAndroid.show("User not found. Please log in again.", ToastAndroid.SHORT);
+            return;
+        }
         const { dealer_name, dealer_GST, mobile_number, adhar_number, pan, dealing_product, email,
             country, state: addressState, city, address, postal_code } = state;
         const dealer_Code = Math.random().toString(36).substring(2, 9);
-        const dealerData = {
+        const dealerData = {user_id: storedUserId, 
             dealer_Code, dealer_name, dealer_GST, mobile_number, adhar_number, pan, dealing_product, email,
             country, state: addressState, city, address, postal_code
         };
@@ -62,7 +68,7 @@ const AddDealers = () => {
             ToastAndroid.show("Internal Error.", ToastAndroid.SHORT);
         }
     }
-  
+
     return (
         <>
             <View style={{ flex: 1 }}>

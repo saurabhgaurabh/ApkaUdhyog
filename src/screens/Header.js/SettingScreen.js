@@ -24,61 +24,6 @@ const SettingScreen = () => {
     { name: "Help & Support", icon: ImagePath.support, route: "Support" },
   ];
 
-  // const handleLogout = async () => {
-  //   try {
-  //     const user_id = await AsyncStorage.getItem("user_id");
-
-  //     if (!user_id) {
-  //       Alert.alert("Error", "No user logged in.");
-  //       return;
-  //     }
-
-  //     console.log("Logging out user:", user_id);
-
-  //     const response = await fetch(
-  //       "https://e2ec9be535f8.ngrok-free.app/api/users/v1/user-logout",
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Accept": "application/json",
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({ user_id }),
-  //       }
-  //     );
-
-  //     const text = await response.text();
-  //     console.log("Logout response:", text);
-
-  //     let data;
-  //     try {
-  //       data = JSON.parse(text);
-  //     } catch (e) {
-  //       Alert.alert("Error", "Invalid JSON from server.");
-  //       return;
-  //     }
-
-  //     if (response.ok && data.status) {
-
-  //       await AsyncStorage.multiRemove(["user_id", "otp_secret"]);
-
-  //       Alert.alert("Logout Successful", "You have been logged out.");
-
-  //       // 🔥 THE ONLY CORRECT WAY TO NAVIGATE AFTER LOGOUT
-  //       navigation.reset({
-  //         index: 0,
-  //         routes: [{ name: "Login" }],
-  //       });
-
-  //     } else {
-  //       Alert.alert("Logout Failed", data.message || "Something went wrong.");
-  //     }
-  //   } catch (error) {
-  //     Alert.alert("Error", error.message);
-  //   }
-  // };
-
-
   const handleLogout = async () => {
     try {
       await AsyncStorage.removeItem('user_id');

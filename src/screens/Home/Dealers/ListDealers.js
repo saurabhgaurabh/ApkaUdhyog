@@ -1,25 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Image, ToastAndroid, ActivityIndicator, RefreshControl  } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Image, ToastAndroid, ActivityIndicator, RefreshControl, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable';
 import CustomHeader from '../../../components/CustomeHeader';
 import styles from '../../../MainStyle';
 import Colors from '../../../constants/color';
 import ImagePath from '../../../constants/ImagePath';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const ListDealers = () => {
     const navigation = useNavigation();
     const [dealers, setDealers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
+    const [session, setSession] = useState({ user_id: null });
 
-    // 🔠 Capitalize first letter
+   
     const capitalizeFirst = (str) => {
         if (!str) return '';
         return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     };
 
-    // 🎨 Status styling
     const getStatusStyle = (status) => {
         switch ((status || '').toLowerCase()) {
             case 'pending':
@@ -32,13 +34,34 @@ const ListDealers = () => {
                 return { backgroundColor: '#E0E7FF', color: '#3B5BDB' };
         }
     };
+    useEffect(() => {
+        const loadSession = async () => {
+            const stored_user_id = await AsyncStorage.getItem("user_id");
+            console.log("Fetched Dealers from storage:", stored_user_id);
+            if (!stored_user_id) {
+                Alert.alert("Session expired", "Please login again.");
+                navigation.replace("Login");
+                return;
+            }
+            setSession({
+                user_id: stored_user_id,
+            });
 
-    // 📦 API fetch
-    const getDealers = async () => {
+            getDealers(stored_user_id);
+        };
+
+        loadSession();
+    }, []);
+
+    const getDealers = async (user_id) => {
         try {
-            if (!refreshing) setLoading(true); // Show loader only on first load
+            if (!refreshing) setLoading(true);
+            if (!user_id) {
+                Alert.alert("Session Expired", "Please login again.");
+                return;
+            }
             const response = await fetch(
-                `https://motion.patiramproduction.com/api/v1/motion-add-dealer-registration-get`
+                `https://motion.patiramproduction.com/api/v1/motion-add-dealer-registration-get?user_id=${user_id}`
             );
             const result = await response.json();
             setDealers(result?.result || []);
@@ -47,19 +70,16 @@ const ListDealers = () => {
             console.error('Error fetching dealers:', error);
         } finally {
             setLoading(false);
-            setRefreshing(false); // ✅ stop refreshing
+            setRefreshing(false); 
         }
     };
 
-    useEffect(() => {
-        getDealers();
-    }, []);
     const onRefresh = () => {
         setRefreshing(true);
-        getDealers();
+        getDealers(session.user_id);
     };
 
-    //  Dealer item UI
+
     const renderDealerItem = ({ item: dealer }) => (
         <TouchableOpacity
             onPress={() => navigation.navigate('DealersInfo', { dealer })}
@@ -96,8 +116,8 @@ const ListDealers = () => {
 
             {loading ? (
                 <ActivityIndicator size="large" color={Colors.primary} style={{ marginTop: 30 }} />
-             ) : dealers?.length > 0 ? (
-                 <FlatList
+            ) : dealers?.length > 0 ? (
+                <FlatList
                     data={dealers}
                     renderItem={renderDealerItem}
                     keyExtractor={(item, index) => item?.dealer_id?.toString() || index.toString()}
@@ -114,7 +134,7 @@ const ListDealers = () => {
                         />
                     }
                 />
-                    
+
             ) : (
                 <Text style={{ textAlign: 'center', marginTop: 20, color: '#999' }}>No dealers found.</Text>
             )}
