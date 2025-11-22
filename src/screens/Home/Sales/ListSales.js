@@ -6,18 +6,18 @@ import {
     TouchableOpacity,
     ToastAndroid,
     ActivityIndicator,
-    Image, RefreshControl
+    Image, RefreshControl,
+    Alert
 } from "react-native";
-import { Card, IconButton } from "react-native-paper";
+import { Card } from "react-native-paper";
 import styles from "../../../MainStyle";
 import Colors from "../../../constants/color";
 import { useNavigation } from "@react-navigation/native";
 import CustomHeader from "../../../components/CustomeHeader";
 import * as Animatable from "react-native-animatable";
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import ImagePath from "../../../constants/ImagePath";
 import NavigationStrings from "../../../constants/NavigationStrings";
-import { ServerUrl } from "../../../services/ServerUrl";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const ListSales = () => {
@@ -25,21 +25,64 @@ const ListSales = () => {
     const [sales, setSales] = useState([]);
     const [loading, setLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
+    const [session, setSession] = useState({ user_id: null, otp_secret: null });
 
-    // Fetch sales from API
-    const getSales = async () => {
-        setLoading(true);
+    useEffect(() => {
+        const loadSession = async () => {
+            const stored_user_id = await AsyncStorage.getItem("user_id");
+            const stored_otp_secret = await AsyncStorage.getItem("otp_secret");
+
+            console.log("Session:", stored_user_id, stored_otp_secret);
+
+            if (!stored_user_id || !stored_otp_secret) {
+                Alert.alert("Session expired", "Please login again.");
+                navigation.replace("Login");
+                return;
+            }
+
+            setSession({
+                user_id: stored_user_id,
+                otp_secret: stored_otp_secret,
+            });
+
+            getSales(stored_user_id);
+        };
+
+        loadSession();
+    }, []);
+
+
+    const getSales = async (uid) => {
         try {
             if (!refreshing) setLoading(true);
+            if (!uid) {
+                Alert.alert("Session Expired", "Please login again.");
+                console.log("Missing session: user_id", uid);
+                return;
+            }
+
+            console.log("Fetching sales for user_id:", uid);
+
             const response = await fetch(
-                `https://motion.patiramproduction.com/api/v1/motion-sales-get`
+                "https://motion.patiramproduction.com/api/v1/motion-sales-get",
+                {
+                    method: "POST",
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ user_id: uid }),
+                }
             );
+
             const result = await response.json();
-            console.log(result?.result?.result, "fetched sales");
+
+            console.log("Sales fetch result:", result);
+
             if (result.status === true) {
-                setSales(result?.result?.result || []);
+                setSales(result?.result || []);
             } else {
-                ToastAndroid.show("Failed to fetch sales.", ToastAndroid.SHORT);
+                ToastAndroid.show("Failed to fetch sales: " + (result.message || ""), ToastAndroid.SHORT);
             }
         } catch (error) {
             console.log("Error fetching sales:", error);
@@ -50,18 +93,14 @@ const ListSales = () => {
         }
     };
 
-    useEffect(() => {
-        getSales();
-    }, []);
 
-    // 🔄 Pull to refresh handler
     const onRefresh = () => {
         setRefreshing(true);
-        getSales();
+        getSales(session.user_id);
     };
 
     const getStatusStyle = (status) => {
-        switch ((status || "").toLowerCase()) {
+        switch ((status || "").toUpperCase()) {
             case "Paid":
                 return { backgroundColor: "#E5F9E0", color: "#3BA55D" };
             case "Unpaid":

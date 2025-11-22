@@ -4,8 +4,8 @@ import { DataTable, Divider } from 'react-native-paper';
 import SubHeader from '../../../components/SubHeader';
 import { useRoute } from '@react-navigation/native';
 import styles from '../../../MainStyle';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const API_URL = 'https://30e48ae68ae9.ngrok-free.app/api/users/v1/motion-sales-get';
 
 const ViewSales = () => {
     const route = useRoute();
@@ -13,16 +13,23 @@ const ViewSales = () => {
     const [salesData, setSalesData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [invoiceNumber, setInvoiceNumber] = useState("");
-    console.log(salesData, " sales")
 
-    // Fetch sales data from API
     const fetchSales = async () => {
         try {
             setLoading(true);
-            const response = await fetch(`https://motion.patiramproduction.com/api/v1/motion-sales-get`);
+            const user_id = await AsyncStorage.getItem("user_id");
+            const response = await fetch(`https://motion.patiramproduction.com/api/v1/motion-sales-get?user_id=${user_id}`, {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ user_id: user_id }),
+            }
+            );
             const result = await response.json();
             if (result.status) {
-                const sale = result.result?.result.find((s) => s.sale_id == saleId);
+                const sale = result?.result?.find((s) => s.sale_id == saleId);
                 if (sale) {
                     setSalesData(sale);
                     generateInvoiceNumber(sale.customer_name, sale.total_amount);
@@ -38,9 +45,8 @@ const ViewSales = () => {
             setLoading(false);
         }
     };
-    // Generate dynamic invoice number if API does not provide
     const generateInvoiceNumber = (name) => {
-        const prefix = name ? name.toUpperCase().replace(/\s+/g, '') : "CUST"; // remove spaces
+        const prefix = name ? name.toUpperCase().replace(/\s+/g, '') : "CUST"; 
         const date = new Date();
         const dateStr = `${date.getFullYear()}${(date.getMonth() + 1)
             .toString()

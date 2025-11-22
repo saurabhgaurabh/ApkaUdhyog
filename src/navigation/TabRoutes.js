@@ -1,5 +1,5 @@
-import { View, Text, Image, Dimensions, SafeAreaView, StatusBar, BackHandler } from 'react-native'
-import React from 'react'
+import { View, Text, Image, Dimensions, SafeAreaView, StatusBar, Alert, BackHandler } from 'react-native'
+import React, { useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeStack from './Drawer/HomeStack';
@@ -15,7 +15,17 @@ const TabRoutes = () => {
   const iconSize = width * 0.07;
   const navigation = useNavigation();
   const Tab = createBottomTabNavigator();
-
+  // useEffect(() => {
+  //   const backAction = () => {
+  //     Alert.alert("Hold on!", "Are you sure you want to Exit App?", [
+  //       { text: "Cancel", onPress: () => null, style: "cancel" },
+  //       { text: "YES", onPress: () => BackHandler.exitApp() }
+  //     ]);
+  //     return true;
+  //   };
+  //   const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction);
+  //   return () => backHandler.remove();
+  // }, []);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

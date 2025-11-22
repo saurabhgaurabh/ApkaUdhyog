@@ -8,8 +8,7 @@ import Share from 'react-native-share';
 import SubHeader from "../../../components/SubHeader";
 import RNFS from 'react-native-fs'
 import { ServerUrl } from "../../../services/ServerUrl";
-
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const InvoiceScreen = () => {
     const route = useRoute();
@@ -23,19 +22,49 @@ const InvoiceScreen = () => {
 
     const fetchInvoiceData = async () => {
         try {
-            const response = await fetch(`https://motion.patiramproduction.com/api/v1/motion-sales-get`);
+            const user_id = await AsyncStorage.getItem("user_id");
+            console.log("Fetched user_id from AsyncStorage:", user_id);
+
+            const url = `https://motion.patiramproduction.com/api/v1/motion-sales-get?user_id=${user_id}`;
+            console.log("Fetching URL:", url);
+
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ user_id: user_id }),
+            });
+            console.log("Response status:", response.status);
+
             const result = await response.json();
+            console.log("Response JSON:", result);
+
             if (result.status) {
-                const sale = result.result?.result.find((s) => s.sale_id == saleId);
+                const salesList = result?.result || [];
+                console.log("Sales list:", salesList);
+                const sale = salesList.find((s) => s.sale_id == saleId);
                 if (sale) {
+                    if (typeof sale.products === "string") {
+                        try {
+                            sale.products = JSON.parse(sale.products);
+                        } catch (e) {
+                            console.warn("Failed to parse products JSON", e);
+                            sale.products = [];
+                        }
+                    }
                     setSaleData(sale);
                     generateInvoiceNumber(sale.customer_name, sale.total_amount);
                 } else {
                     ToastAndroid.show("Invoice not found", ToastAndroid.SHORT);
                 }
+            } else {
+                console.log("Fetch failed with status false");
+                ToastAndroid.show("Invoice not found or fetch failed", ToastAndroid.SHORT);
             }
         } catch (error) {
-            console.log(error);
+            console.log("Error during fetchInvoiceData:", error);
             ToastAndroid.show("Failed to fetch invoice data", ToastAndroid.SHORT);
         }
     };

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Home from '../../screens/Home';
 import AddDealers from '../../screens/Home/Dealers/AddDealers';
@@ -20,11 +20,23 @@ import ListProductManufacturing from '../../screens/Home/Manufacture/ListProduct
 import ListDispatch from '../../screens/Home/ProductDispatch/ListDispatch';
 import AddDispatch from '../../screens/Home/ProductDispatch/AddDispatch';
 import SettingScreen from '../../screens/Header.js/SettingScreen';
-
+import { Alert, BackHandler } from 'react-native';
 
 const HomeStack = ({ navigation }) => {
 
   const Stack = createNativeStackNavigator();
+  // useEffect(() => {
+  //   const backAction = () => {
+  //     Alert.alert("Hold on!", "Are you sure you want to Exit App?", [
+  //       { text: "Cancel", onPress: () => null, style: "cancel" },
+  //       { text: "YES", onPress: () => BackHandler.exitApp() }
+  //     ]);
+  //     return true;
+  //   };
+  //   const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction);
+  //   return () => backHandler.remove();
+  // }, []);
+
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={Home} />

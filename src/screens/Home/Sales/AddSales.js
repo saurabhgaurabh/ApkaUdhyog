@@ -14,6 +14,7 @@ import SubHeader from "../../../components/SubHeader";
 import Colors from "../../../constants/color";
 import styles from "../../../MainStyle";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const AddSales = () => {
@@ -35,7 +36,6 @@ const AddSales = () => {
         const updatedProducts = [...products];
         updatedProducts[index][key] = value;
 
-        // Auto-calculate total for this product
         if (key === "quantity" || key === "price") {
             const qty = parseFloat(updatedProducts[index].quantity || 0);
             const price = parseFloat(updatedProducts[index].price || 0);
@@ -69,11 +69,17 @@ const AddSales = () => {
 
     const handleSubmit = async () => {
         try {
+            const storedUserId = await AsyncStorage.getItem('user_id');
+            if (!storedUserId) {
+                ToastAndroid.show("User not found. Please log in again.", ToastAndroid.SHORT);
+                return;
+            }
             if (!form.customer_name) {
                 return ToastAndroid.show("Customer Name is required", ToastAndroid.SHORT);
             }
 
             const saleData = {
+                user_id: storedUserId,
                 ...form,
                 products,
                 grand_total: grandTotal,
@@ -92,7 +98,7 @@ const AddSales = () => {
             );
 
             const result = await response.json();
-            // console.log(result, "........")
+            console.log(result, "........")
             if (result.status === true) {
                 ToastAndroid.show("Sale added successfully!", ToastAndroid.SHORT);
                 setForm({ customer_name: "", company: "", payment_status: "", remarks: "" });

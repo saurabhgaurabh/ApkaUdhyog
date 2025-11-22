@@ -19,19 +19,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ListClients = () => {
     const navigation = useNavigation();
-    const [session, setSession] = useState({ user_id: null, otp_secret: null });
+    const [session, setSession] = useState("");
     const [clients, setClients] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
     const [loading, setLoading] = useState(true);
     const route = useRoute();
     const { user_id, otp_secret } = route.params || {};
 
-    const getUserId = async () => {
-        const user_id = await AsyncStorage.getItem("user_id");
-        const otp_secret = await AsyncStorage.getItem("otp_secret");
-        console.log(user_id, otp_secret, '.....client')
-        return { user_id, otp_secret };
-    };
 
     const capitalizeFirst = (str) => {
         if (typeof str !== 'string') return '';
