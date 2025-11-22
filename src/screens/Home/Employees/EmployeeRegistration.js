@@ -5,6 +5,8 @@ import styles from '../../../MainStyle'
 import { TextInput } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native';
 import NavigationStrings from '../../../constants/NavigationStrings'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
 
 const EmployeeRegistration = () => {
   const navigation = useNavigation();
@@ -17,7 +19,6 @@ const EmployeeRegistration = () => {
     postal_code: ""
   });
 
-  // 🔹 Validation errors
   const [errors, setErrors] = useState({});
 
   const handleChange = (key, value) => {
@@ -51,6 +52,13 @@ const EmployeeRegistration = () => {
     }
 
     try {
+      const storedUserId = await AsyncStorage.getItem('user_id');
+      console.log(storedUserId, "storedUserId")
+      if (!storedUserId) {
+        ToastAndroid.show("User not found. Please log in again.", ToastAndroid.SHORT);
+        return;
+      }
+      const payload = { ...state, user_id: storedUserId };
       const response = await fetch(
         `https://motion.patiramproduction.com/api/v1/motion-employee-registration`,
         {
@@ -59,7 +67,7 @@ const EmployeeRegistration = () => {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(state),
+          body: JSON.stringify(payload),
         }
       );
 
@@ -68,7 +76,6 @@ const EmployeeRegistration = () => {
 
       if (response.ok) {
         ToastAndroid.show("Employee details submitted successfully.", ToastAndroid.SHORT);
-        Alert.alert("Success", "Employee details submitted successfully.");
         navigation.navigate(NavigationStrings.EMPLOYEELIST);
         setState({ employee_name: "", email: "", mobile: "", department: "", address: "", postal_code: "" });
       } else {

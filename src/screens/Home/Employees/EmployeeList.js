@@ -6,6 +6,8 @@ import { useNavigation } from '@react-navigation/native';
 import styles from '../../../MainStyle';
 import { Card, Divider } from "react-native-paper";
 import Colors from '../../../constants/color';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const EmployeeList = () => {
     const navigation = useNavigation();
@@ -16,12 +18,25 @@ const EmployeeList = () => {
     const [search, setSearch] = useState("");
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
+    const [session, setSession] = useState("");
 
-    const fetchEmployees = async () => {
+    const fetchEmployees = async (uid) => {
         try {
             setLoading(true);
+            if (!uid) {
+                Alert.alert("Session Expired", "Please login again.");
+                console.log("Missing session: user_id, otp_secret", uid);
+                return;
+            }
             const response = await fetch(
-                `https://motion.patiramproduction.com/api/v1/motion-employee-registration-get`
+                `https://motion.patiramproduction.com/api/v1/motion-employee-registration-get?user_id=${uid}`,{
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'           
+                },
+                body: JSON.stringify({ user_id: uid })
+            }
             );
             const result = await response.json();
             console.log(result?.result, ".............")
@@ -35,12 +50,33 @@ const EmployeeList = () => {
     };
 
     useEffect(() => {
-        fetchEmployees();
+        const loadSession = async () => {
+            const stored_user_id = await AsyncStorage.getItem("user_id");
+            const stored_otp_secret = await AsyncStorage.getItem("otp_secret");
+
+            console.log("Fetched from client storage:", stored_user_id, stored_otp_secret);
+
+            if (!stored_user_id || !stored_otp_secret) {
+                Alert.alert("Session expired", "Please login again.");
+                navigation.replace("Login");
+                return;
+            }
+
+            setSession({
+                user_id: stored_user_id,
+                otp_secret: stored_otp_secret,
+            });
+
+            fetchEmployees(stored_user_id);
+        };
+
+        loadSession();
     }, []);
+
 
     const onRefresh = async () => {
         setRefreshing(true);
-        await fetchEmployees();
+        await fetchEmployees(session.user_id);
         setRefreshing(false);
     };
 
@@ -103,16 +139,16 @@ const EmployeeList = () => {
                 <Text style={{ color: '#2563eb', fontWeight: 'bold' }}>View</Text>
             </TouchableOpacity>
             <TouchableOpacity style={{
-                flex: 0.8, alignItems: "center", paddingVertical: 4, backgroundColor: "#fee2e2", borderRadius: 6, marginHorizontal: 3,
-                //   onPress={} 
-            }}   >
-                <Text style={{ color: "#dc2626", fontWeight: "bold" }}>Delete</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={{
                 flex: 0.8, alignItems: "center", paddingVertical: 4, backgroundColor: "#e4fee2ff", borderRadius: 6, marginHorizontal: 3,
                 //   onPress={} 
             }}   >
                 <Text style={{ color: "#4CAF50", fontWeight: "bold" }}>Edit</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{
+                flex: 0.8, alignItems: "center", paddingVertical: 4, backgroundColor: "#fee2e2", borderRadius: 6, marginHorizontal: 3,
+                //   onPress={} 
+            }}   >
+                <Text style={{ color: "#dc2626", fontWeight: "bold" }}>Delete</Text>
             </TouchableOpacity>
         </View>
     );

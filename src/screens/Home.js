@@ -134,7 +134,7 @@ const Home = () => {
               <View style={styles.menuColumnCss} >
                 <Image source={ImagePath.employeeRegistration} style={{ width: 30, height: 30 }} resizeMode="cover" />
               </View>
-              <Text style={styles.menuCardHeading}  >Add/Register </Text>
+              <Text style={styles.menuCardHeading}  >Quick</Text>
               <Text style={styles.menuCardSubHeading}>Employee</Text>
             </TouchableOpacity>
             {/* <TouchableOpacity style={styles.homeCardInnerBody}>
