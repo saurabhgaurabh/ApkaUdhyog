@@ -53,7 +53,6 @@ const EmployeeRegistration = () => {
 
     try {
       const storedUserId = await AsyncStorage.getItem('user_id');
-      console.log(storedUserId, "storedUserId")
       if (!storedUserId) {
         ToastAndroid.show("User not found. Please log in again.", ToastAndroid.SHORT);
         return;

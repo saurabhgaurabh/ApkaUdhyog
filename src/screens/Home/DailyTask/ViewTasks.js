@@ -7,12 +7,15 @@ import {
     Modal,
     TouchableOpacity,
     ScrollView,
+    Alert,
 } from "react-native";
 import { Text, ActivityIndicator, Divider, Button, TextInput } from "react-native-paper";
 import SubHeader from "../../../components/SubHeader";
 import { useNavigation } from "@react-navigation/native";
 import styles from "../../../MainStyle";
 import Colors from "../../../constants/color";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 const ViewTasks = () => {
     const navigation = useNavigation();
@@ -22,15 +25,28 @@ const ViewTasks = () => {
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
     const [selectedRemark, setSelectedRemark] = useState(null);
+    const [session, setSession] = useState("");
 
-    const fetchTasks = async () => {
+    const fetchTasks = async (uid) => {
         try {
             setLoading(true);
+            if (!uid) {
+                Alert.alert("Session Expired", "Please login again.");
+                return;
+            }
             const response = await fetch(
-                `https://motion.patiramproduction.com/api/v1/motion-daily-tasks-get`
+                `https://motion.patiramproduction.com/api/v1/motion-daily-tasks-get?user_id=${uid}`,
+                {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ user_id: uid }),
+                }
             );
             const result = await response.json();
-            setTasks(result?.result?.result || []);
+            setTasks(result?.result || []);
             setFilteredTasks(result?.result?.result);
         } catch (error) {
             console.error("Error fetching tasks:", error.message);
@@ -39,13 +55,35 @@ const ViewTasks = () => {
         }
     };
 
+    // useEffect(() => {
+    //     fetchTasks();
+    // }, []);
+
     useEffect(() => {
-        fetchTasks();
+        const loadSession = async () => {
+            const stored_user_id = await AsyncStorage.getItem("user_id");
+            const stored_otp_secret = await AsyncStorage.getItem("otp_secret");
+
+            if (!stored_user_id || !stored_otp_secret) {
+                Alert.alert("Session expired", "Please login again.");
+                navigation.replace("Login");
+                return;
+            }
+
+            setSession({
+                user_id: stored_user_id,
+                otp_secret: stored_otp_secret,
+            });
+
+            fetchTasks(stored_user_id);
+        };
+
+        loadSession();
     }, []);
 
     const onRefresh = async () => {
         setRefreshing(true);
-        await fetchTasks();
+        await fetchTasks(session.user_id);
         setRefreshing(false);
     };
 
@@ -86,7 +124,7 @@ const ViewTasks = () => {
 
         return (
             <View style={[styles.tableRow, { backgroundColor: index % 2 === 0 ? "#f9fafb" : "#ffffff" },]}  >
-                <Text style={[styles.tableCell, {  }]}>{item?.task_id}.</Text>
+                <Text style={[styles.tableCell, {}]}>{item?.task_id}.</Text>
                 <Text style={[styles.tableCell, { flex: 1 }]}>{item?.employee_name}</Text>
                 <Text style={[styles.tableCell, { flex: 1.1, color: shiftColor, fontWeight: "600" },]}> {item?.shift}</Text>
                 <Text style={[styles.tableCell, { flex: 1 }]}>{item.total_hours || "-"}</Text>
@@ -109,7 +147,7 @@ const ViewTasks = () => {
                     value={searchQuery}
                     onChangeText={handleSearch}
                     style={styles.searchBar}
-                    // theme={{ roundness: 10 }}
+                // theme={{ roundness: 10 }}
                 />
                 {loading ? (
                     <View style={styles.loadingContainer}>
@@ -126,16 +164,16 @@ const ViewTasks = () => {
                             data={searchQuery ? filteredTasks : tasks}
                             renderItem={renderRow}
                             keyExtractor={(item, index) => index.toString()}
-                              refreshControl={
-                        <RefreshControl
-                            refreshing={refreshing}
-                            onRefresh={onRefresh}
-                            colors={[Colors.primary]}      // ✅ Spinner color (Android)
-                            tintColor={Colors.primary}     // ✅ Spinner color (iOS)
-                            title="Refreshing..."
-                            titleColor={Colors.primary}
-                        />
-                    }
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={refreshing}
+                                    onRefresh={onRefresh}
+                                    colors={[Colors.primary]}      // ✅ Spinner color (Android)
+                                    tintColor={Colors.primary}     // ✅ Spinner color (iOS)
+                                    title="Refreshing..."
+                                    titleColor={Colors.primary}
+                                />
+                            }
                             showsVerticalScrollIndicator={false}
                         />
                     </>

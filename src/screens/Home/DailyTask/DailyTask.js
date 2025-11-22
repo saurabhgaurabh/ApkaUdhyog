@@ -1,18 +1,35 @@
 import React from "react";
-import {  View, ScrollView, StyleSheet, TouchableOpacity, ToastAndroid, Alert,} from "react-native";
-import { TextInput, Card, Text,} from "react-native-paper";
+import { View, ScrollView, StyleSheet, TouchableOpacity, ToastAndroid, Alert, } from "react-native";
+import { TextInput, Card, Text, } from "react-native-paper";
 import SubHeader from "../../../components/SubHeader";
 import styles from "../../../MainStyle";
 import { useNavigation } from "@react-navigation/native";
 import { useForm, Controller } from "react-hook-form";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 const DailyTask = () => {
     const navigation = useNavigation();
-    const { control, handleSubmit,reset,formState: { errors },} = useForm({defaultValues: {
-         employee_name: "", shift: "", total_hours: "", remarks: "", },
+    const { control, handleSubmit, reset, formState: { errors }, } = useForm({
+        defaultValues: {
+            employee_name: "", shift: "", total_hours: "", remarks: "",
+        },
     });
     const onSubmit = async (data) => {
         try {
+            const storedUserId = await AsyncStorage.getItem('user_id');
+            console.log(storedUserId, "storedUserId");
+
+            if (!storedUserId) {
+                ToastAndroid.show("User not found. Please log in again.", ToastAndroid.SHORT);
+                return;
+            }
+
+            const payload = {
+                ...data,
+                user_id: storedUserId
+            };
+
             const response = await fetch(
                 "https://motion.patiramproduction.com/api/v1/motion-daily-tasks",
                 {
@@ -21,23 +38,27 @@ const DailyTask = () => {
                         Accept: "application/json",
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify(data),
+                    body: JSON.stringify(payload),   // ✅ FIX HERE
                 }
             );
-            const result = await response.json();
 
-            if (response.ok) {
+            const result = await response.json();
+            console.log(result, "result task");
+
+            if (result.status) {
                 ToastAndroid.show("✅ Task added successfully!", ToastAndroid.SHORT);
                 reset();
                 navigation.navigate("ViewTasks");
             } else {
                 Alert.alert("Error", result?.message || "Failed to add task.");
             }
+
         } catch (error) {
             console.error("Error adding task:", error);
             Alert.alert("Error", "Something went wrong. Please try again.");
         }
     };
+
 
     return (
         <View style={{ flex: 1, backgroundColor: "#f9fafb" }}>
@@ -167,7 +188,7 @@ const DailyTask = () => {
                         </View>
 
                         {/* Remarks */}
-                        <View style={localStyles.inputContainer}> 
+                        <View style={localStyles.inputContainer}>
                             <View
                                 style={[localStyles.colorBadge, { backgroundColor: "#6366f1" }]}
                             />

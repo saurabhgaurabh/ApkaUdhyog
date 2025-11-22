@@ -25,7 +25,6 @@ const EmployeeList = () => {
             setLoading(true);
             if (!uid) {
                 Alert.alert("Session Expired", "Please login again.");
-                console.log("Missing session: user_id, otp_secret", uid);
                 return;
             }
             const response = await fetch(
@@ -39,7 +38,6 @@ const EmployeeList = () => {
             }
             );
             const result = await response.json();
-            console.log(result?.result, ".............")
             setEmployees(result?.result || []);
             setFilteredEmployees(result?.result || []);
         } catch (error) {
@@ -53,8 +51,6 @@ const EmployeeList = () => {
         const loadSession = async () => {
             const stored_user_id = await AsyncStorage.getItem("user_id");
             const stored_otp_secret = await AsyncStorage.getItem("otp_secret");
-
-            console.log("Fetched from client storage:", stored_user_id, stored_otp_secret);
 
             if (!stored_user_id || !stored_otp_secret) {
                 Alert.alert("Session expired", "Please login again.");
