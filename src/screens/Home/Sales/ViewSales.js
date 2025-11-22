@@ -18,35 +18,56 @@ const ViewSales = () => {
         try {
             setLoading(true);
             const user_id = await AsyncStorage.getItem("user_id");
-            const response = await fetch(`https://motion.patiramproduction.com/api/v1/motion-sales-get?user_id=${user_id}`, {
-                method: "POST",
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ user_id: user_id }),
-            }
+
+            const response = await fetch(
+                `https://motion.patiramproduction.com/api/v1/motion-sales-get?user_id=${user_id}`,
+                {
+                    method: "POST",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ user_id: user_id }),
+                }
             );
+
             const result = await response.json();
+
             if (result.status) {
-                const sale = result?.result?.find((s) => s.sale_id == saleId);
+
+                let sale = result?.result?.find((s) => s.sale_id == saleId);
+
                 if (sale) {
+
+                    // ⭐ FIX: Convert products to array
+                    if (typeof sale.products === "string") {
+                        try {
+                            sale.products = JSON.parse(sale.products);
+                        } catch (e) {
+                            Alert.alert(`Data Error", "Failed to parse product data.${e}`);
+                            sale.products = [];
+                        }
+                    }
+
                     setSalesData(sale);
+
                     generateInvoiceNumber(sale.customer_name, sale.total_amount);
+
                 } else {
                     ToastAndroid.show("Invoice not found", ToastAndroid.SHORT);
                 }
             }
+
         } catch (error) {
-            console.log(error);
-            ToastAndroid.show("Failed to fetch invoice data", ToastAndroid.SHORT);
+            ToastAndroid.show(`Failed to fetch invoice data.${error.message}`, ToastAndroid.SHORT);
             setInvoiceNumber(generateInvoiceNumber());
         } finally {
             setLoading(false);
         }
     };
+
     const generateInvoiceNumber = (name) => {
-        const prefix = name ? name.toUpperCase().replace(/\s+/g, '') : "CUST"; 
+        const prefix = name ? name.toUpperCase().replace(/\s+/g, '') : "CUST";
         const date = new Date();
         const dateStr = `${date.getFullYear()}${(date.getMonth() + 1)
             .toString()
@@ -102,10 +123,9 @@ const ViewSales = () => {
                     </DataTable.Header>
 
                     <Divider style={{ marginVertical: 5 }} />
-
                     {/* Table Rows */}
-                    {Array.isArray(salesData.products) && salesData.products.length > 0 ? (
-                        salesData.products.map((prod, index) => (
+                    {Array.isArray(salesData?.products) && salesData?.products?.length > 0 ? (
+                        salesData?.products?.map((prod, index) => (
                             <DataTable.Row key={index} style={styles.viewtableRow}>
                                 <DataTable.Cell style={{ flex: 2, }}>{prod.product_name}</DataTable.Cell>
                                 <DataTable.Cell numeric >{prod.quantity}</DataTable.Cell>

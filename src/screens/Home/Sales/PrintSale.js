@@ -23,11 +23,7 @@ const InvoiceScreen = () => {
     const fetchInvoiceData = async () => {
         try {
             const user_id = await AsyncStorage.getItem("user_id");
-            console.log("Fetched user_id from AsyncStorage:", user_id);
-
             const url = `https://motion.patiramproduction.com/api/v1/motion-sales-get?user_id=${user_id}`;
-            console.log("Fetching URL:", url);
-
             const response = await fetch(url, {
                 method: "POST",
                 headers: {
@@ -36,14 +32,11 @@ const InvoiceScreen = () => {
                 },
                 body: JSON.stringify({ user_id: user_id }),
             });
-            console.log("Response status:", response.status);
 
             const result = await response.json();
-            console.log("Response JSON:", result);
 
             if (result.status) {
                 const salesList = result?.result || [];
-                console.log("Sales list:", salesList);
                 const sale = salesList.find((s) => s.sale_id == saleId);
                 if (sale) {
                     if (typeof sale.products === "string") {
@@ -60,11 +53,9 @@ const InvoiceScreen = () => {
                     ToastAndroid.show("Invoice not found", ToastAndroid.SHORT);
                 }
             } else {
-                console.log("Fetch failed with status false");
                 ToastAndroid.show("Invoice not found or fetch failed", ToastAndroid.SHORT);
             }
         } catch (error) {
-            console.log("Error during fetchInvoiceData:", error);
             ToastAndroid.show("Failed to fetch invoice data", ToastAndroid.SHORT);
         }
     };

@@ -32,8 +32,6 @@ const ListSales = () => {
             const stored_user_id = await AsyncStorage.getItem("user_id");
             const stored_otp_secret = await AsyncStorage.getItem("otp_secret");
 
-            console.log("Session:", stored_user_id, stored_otp_secret);
-
             if (!stored_user_id || !stored_otp_secret) {
                 Alert.alert("Session expired", "Please login again.");
                 navigation.replace("Login");
@@ -57,11 +55,8 @@ const ListSales = () => {
             if (!refreshing) setLoading(true);
             if (!uid) {
                 Alert.alert("Session Expired", "Please login again.");
-                console.log("Missing session: user_id", uid);
                 return;
             }
-
-            console.log("Fetching sales for user_id:", uid);
 
             const response = await fetch(
                 "https://motion.patiramproduction.com/api/v1/motion-sales-get",
@@ -77,11 +72,24 @@ const ListSales = () => {
 
             const result = await response.json();
 
-            console.log("Sales fetch result:", result);
-
             if (result.status === true) {
-                setSales(result?.result || []);
-            } else {
+
+                // Convert products string → array
+                const cleaned = (result?.result || []).map(item => {
+                    if (typeof item.products === "string") {
+                        try {
+                            item.products = JSON.parse(item.products);
+                        } catch (error) {
+                            console.log("JSON Parse Error:", error);
+                            item.products = [];
+                        }
+                    }
+                    return item;
+                });
+
+                setSales(cleaned);
+            }
+            else {
                 ToastAndroid.show("Failed to fetch sales: " + (result.message || ""), ToastAndroid.SHORT);
             }
         } catch (error) {
