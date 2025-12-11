@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { View, StyleSheet, ScrollView, KeyboardAvoidingView, Platform, Alert, TouchableOpacity } from "react-native"
+import { View, StyleSheet, ScrollView, KeyboardAvoidingView, Platform, Alert, TouchableOpacity, RefreshControl } from "react-native"
 import { TextInput, Text, Card, Button, HelperText, Menu, IconButton, Modal, Pressable } from "react-native-paper"
 import CustomHeader from "../../components/CustomeHeader"
 import styles from "../../MainStyle"
@@ -8,6 +8,7 @@ import { useNavigation } from "@react-navigation/native"
 import * as Animatable from 'react-native-animatable';
 import Colors from "../../constants/color"
 import { ServerUrl } from "../../services/ServerUrl"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 
 const ListPurchase = ({ items, handleDelete }) => {
@@ -15,6 +16,9 @@ const ListPurchase = ({ items, handleDelete }) => {
     const [purchaseItems, setPurchaseItems] = useState([]);
     const [menuVisibleId, setMenuVisibleId] = useState(null); // store the open menu's purchase_id
     const [menuVisible, setMenuVisible] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [session, setSession] = useState("");
 
     const toggleMenu = (id) => {
         setMenuVisibleId(menuVisibleId === id ? null : id);
@@ -32,9 +36,15 @@ const ListPurchase = ({ items, handleDelete }) => {
         }
     };
 
-    const purchaseGetApi = async () => {
+    const purchaseGetApi = async (uid) => {
+        if (!refreshing) setLoading(true);
+        if (!uid) {
+            Alert.alert("Session Expired", "Please login again.");
+            console.log("Missing session: user_id, otp_secret", uid);
+            return;
+        }
         try {
-            const response = await fetch(`https://motion.patiramproduction.com/api/v1/motion-purchase-row-material-get`, {
+            const response = await fetch(`https://motion.patiramproduction.com/api/v1/motion-purchase-row-material-get?user_id=${uid}`, {
                 method: 'get',
                 headers: {
                     'Accept': 'application/json',
@@ -43,16 +53,44 @@ const ListPurchase = ({ items, handleDelete }) => {
             });
             const data = await response.json();
             setPurchaseItems(data?.result);
-            console.log(data?.result, " ....purchaseItems")
+            console.log(data, " ....purchaseItems")
         } catch (error) {
             Alert.alert("Error fetching purchase items:", error.message);
             console.error("Error fetching purchase items:", error);
+        } finally {
+            setLoading(false);
+            setRefreshing(false);
         };
     };
 
     useEffect(() => {
-        purchaseGetApi();
+        const loadSession = async () => {
+            const stored_user_id = await AsyncStorage.getItem("user_id");
+            const stored_otp_secret = await AsyncStorage.getItem("otp_secret");
+
+            console.log("list purchase :", stored_user_id, stored_otp_secret);
+
+            if (!stored_user_id || !stored_otp_secret) {
+                Alert.alert("Session expired", "Please login again.");
+                navigation.replace("Login");
+                return;
+            }
+
+            setSession({
+                user_id: stored_user_id,
+                otp_secret: stored_otp_secret,
+            });
+
+            purchaseGetApi(stored_user_id);
+        };
+
+        loadSession();
     }, []);
+    const onRefresh = () => {
+        setRefreshing(true);
+        purchaseGetApi(session.user_id);
+
+    };
 
     return (
         <View style={{ flex: 1, backgroundColor: Colors.screenBackground, }}>
@@ -62,7 +100,18 @@ const ListPurchase = ({ items, handleDelete }) => {
                     <Text style={styles.purchaseButtonText}>{`Add New Purchase`}</Text>
                 </TouchableOpacity>
             </Animatable.View>
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView showsVerticalScrollIndicator={false}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                        colors={[Colors.primary]}
+                        tintColor={Colors.primary}
+                        title="Refreshing..."
+                        titleColor={Colors.primary}
+                    />
+                }>
+
                 {purchaseItems && Array.isArray(purchaseItems) && purchaseItems?.length > 0 ? (
                     purchaseItems?.map((items, index) => (
                         <TouchableOpacity key={index} style={styles.purchaseCardBody} activeOpacity={0.9}>

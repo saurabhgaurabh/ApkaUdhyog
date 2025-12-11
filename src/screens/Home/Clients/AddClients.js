@@ -7,7 +7,6 @@ import { useNavigation } from '@react-navigation/native'
 import { ServerUrl } from '../../../services/ServerUrl'
 import NavigationStrings from '../../../constants/NavigationStrings'
 import { useDispatch } from 'react-redux'
-import { addClient } from '../../../redux/slices/AddClientsSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 

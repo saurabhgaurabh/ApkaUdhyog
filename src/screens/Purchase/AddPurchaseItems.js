@@ -9,6 +9,7 @@ import CustomHeader from '../../components/CustomeHeader';
 import styles from '../../MainStyle';
 import { ServerUrl } from '../../services/ServerUrl';
 import PurchaseItems from './ListPurchase';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AddPurchaseItems = () => {
   const navigation = useNavigation();
@@ -72,51 +73,68 @@ const AddPurchaseItems = () => {
       pendingAmount: (total - paid).toString(),
     }));
   };
+const handleSubmit = async () => {
+  try {
+    const storedUserId = await AsyncStorage.getItem('user_id');
+    console.log("Stored User ID:", storedUserId);
 
-  const handleSubmit = async () => {
-    const {
-      dealer_name, postal_code, country, state: addressState, city, address, freight, paidAmount, pendingAmount, 
-      totalAmount, payment_status } = state;
-
-    if (!dealer_name || !city || products.some(p => !p.product_name)) {
-      ToastAndroid.show('Please fill all required fields.', ToastAndroid.SHORT);
+    if (!storedUserId) {
+      ToastAndroid.show("User not found. Please log in again.", ToastAndroid.SHORT);
       return;
     }
 
-    try {
-      const response = await fetch(`https://motion.patiramproduction.com/api/v1/motion-purchase-row-material-post`, {
-        method: 'POST',
-        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          dealer_name,
-          postal_code,
-          country,
-          state: addressState,
-          city,
-          address,
-          freight,
-          payment_status,
-          total_amount: totalAmount,
-          material_amount: paidAmount,
-          material_amount_pending: pendingAmount,
-          products, // important!
-        }),
-      });
+    const {
+      dealer_name, postal_code, country, state: addressState, city, address,
+      freight, paidAmount, pendingAmount, totalAmount, payment_status
+    } = state;
 
-      const result = await response.json();
+    const purchaseData = {
+      user_id: storedUserId,
+      dealer_name,
+      postal_code,
+      country,
+      state: addressState,
+      city,
+      address,
+      freight,
+      payment_status,
+      total_amount: totalAmount,
+      material_amount: paidAmount,
+      material_amount_pending: pendingAmount,
+      products,
+    };
 
-      if (result.status) {
-        ToastAndroid.show('Purchase added successfully!', ToastAndroid.SHORT);
-        // navigation.navigate('PurchaseItems');
-        navigation.navigate('ProductCategoryScreen');
-      } else {
-        ToastAndroid.show(result.message || 'Failed to insert data.', ToastAndroid.SHORT);
+    console.log("Submitting Purchase Data:", purchaseData);
+
+    const response = await fetch(
+      "https://motion.patiramproduction.com/api/v1/motion-purchase-row-material-post",
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(purchaseData),
       }
-    } catch (error) {
-      console.log('Error:', error);
-      ToastAndroid.show('Internal Server Error', ToastAndroid.SHORT);
+    );
+
+    const result = await response.json();
+    console.log("API Response:", result);
+
+    if (result.status) {
+      ToastAndroid.show("Purchase added successfully!", ToastAndroid.SHORT);
+      navigation.navigate("ListPurchase", {
+        screen: "ListPurchase",
+        params: { refresh: true },
+      });
+    } else {
+      ToastAndroid.show(result.message || "Failed to insert data.", ToastAndroid.SHORT);
     }
-  };
+  } catch (error) {
+    console.log("Error:", error);
+    ToastAndroid.show("Internal Server Error", ToastAndroid.SHORT);
+  }
+};
 
   return (
     <View style={{ flex: 1, backgroundColor: Colors.screenBackground }}>
@@ -178,13 +196,13 @@ const AddPurchaseItems = () => {
           <Card style={[styles.salescard, { marginTop: 10 }]}>
             <Card.Title title="Payment Status" titleStyle={styles.sectionTitle} />
             <Card.Content>
-              <TextInput label="Payment Status" placeholder='Paid/Unpaid/Pending' mode="outlined" value={state.payment_status}  onChangeText={text => setState({...state, payment_status: text})} style={styles.input} activeOutlineColor="#4CAF50" outlineColor="#7f8378ff" />
+              <TextInput label="Payment Status" placeholder='Paid/Unpaid/Pending' mode="outlined" value={state.payment_status} onChangeText={text => setState({ ...state, payment_status: text })} style={styles.input} activeOutlineColor="#4CAF50" outlineColor="#7f8378ff" />
             </Card.Content>
           </Card>
         </ScrollView>
       </KeyboardAvoidingView>
       <View style={styles.bottomButtonBody}>
-        <TouchableOpacity onPress={()=> navigation.navigate('ListPurchase')} style={styles.bottomButtonCancel}>
+        <TouchableOpacity onPress={() => navigation.navigate('ListPurchase')} style={styles.bottomButtonCancel}>
           <Text style={styles.bottomButtonText}>Cancel</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={handleSubmit} style={styles.bottomButtonColumnSubmit}>
