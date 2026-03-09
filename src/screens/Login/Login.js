@@ -18,56 +18,6 @@ const Login = () => {
   const directLogin = () => {
     navigation.navigate('TabRoutes');
   }
-  // const handleLogin = async () => {
-
-  //   const { registration_email, password } = state;
-  //   if (!registration_email || !password) {
-  //     Alert.alert('Validation Error', 'Please enter email and password');
-  //     return;
-  //   }
-  //   try {
-  //     console.log('Sending request to API...');
-  //     let response = await fetch(`https://e2ec9be535f8.ngrok-free.app/api/users/v1/user-login`, {
-  //     // let response = await fetch(`https://motion.patiramproduction.com/v1/user_login`, {
-  //       method: 'POST',
-  //       headers: {
-  //         'Accept': 'application/json',
-  //         'Content-Type': 'application/json',
-  //       },
-  //       credentials: 'include',  // ✅ this allows cookies/sessions
-  //       body: JSON.stringify({ registration_email, password }),
-  //     });
-  //     const text = await response.text();
-  //     let data;
-  //     try {
-  //       data = JSON.parse(text);
-  //     } catch (e) {
-  //       // console.log('JSON parse error:', e);
-  //       Alert.alert('Error', 'Invalid JSON response from server');
-  //       return;
-  //     }
-  //     console.log('Response JSON:', data);
-  //     if (response.ok && data.status) {
-  //       const user_id = data.user?.user_id || data.user_id || data.data?.user_id;
-  //       const otp_secret = data.user?.otp_secret || data.otp_secret || data.data?.otp_secret;
-
-  //       if (user_id) {
-  //         await AsyncStorage.setItem('user_id', String(user_id));
-  //         await AsyncStorage.setItem('otp_secret', String(otp_secret));
-  //         console.log('User ID stored:', user_id, otp_secret);
-  //       } else {
-  //         ToastAndroid.show('Login successful.', ToastAndroid.LONG);
-  //       }
-
-  //       Alert.alert('Login Successful', data.message || 'You have logged in successfully.');
-  //       navigation.navigate('TabRoutes');
-  //     } else {
-  //       Alert.alert('Login Failed', data.message || 'Invalid credentials');
-  //     }
-  //   } catch (error) {
-  //     Alert.alert('Error yes', error.message);
-  //   }
-  // };
 
   const handleLogin = async () => {
     const { registration_email, password } = state;
